@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="hexagonal" renderorder="right-down" width="20" height="20" tilewidth="64" tileheight="64" hexsidelength="0" staggeraxis="y" staggerindex="odd">
+ <tileset firstgid="1" name="t" tilewidth="64" tileheight="64">
+  <image source="hexagon.png" width="64" height="64"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYBzFo3gUj+JRPIpJxADrnAGR
+  </data>
+ </layer>
+</map>

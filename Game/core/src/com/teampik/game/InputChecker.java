@@ -10,6 +10,13 @@ import com.badlogic.gdx.InputProcessor;
 public class InputChecker implements InputProcessor
 {
 	
+	private MyGdxGame context;
+	
+	public InputChecker(MyGdxGame game){
+		
+		context = game;
+	}
+	
 	
 
 	@Override
@@ -25,6 +32,8 @@ public class InputChecker implements InputProcessor
 		case Gamestate.MAIN_MENU:
 			if (keycode == Input.Keys.ENTER){
 				Gamestate.MoveToGamestate(Gamestate.IN_GAME);
+				context.setScreen(context.inGameScreen);
+				
 			}
 			
 			break;
@@ -32,6 +41,7 @@ public class InputChecker implements InputProcessor
 		case Gamestate.IN_GAME:
 			if (keycode == Input.Keys.ESCAPE){
 				Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
+				context.setScreen(context.mainMenuScreen);
 			}
 			
 			break;
