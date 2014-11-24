@@ -5,8 +5,15 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.Vector;
+import com.badlogic.gdx.math.Vector2;
 
 public class InGameScreen implements Screen{
+	
+	
 	
 	
 	
@@ -23,6 +30,7 @@ public class InGameScreen implements Screen{
 		
 		context.batch.begin();
 		context.batch.draw(context.img2, 0, 0);
+		//context.font.draw(context.batch, coords.toString(), 200, 200);
 		context.batch.end();
 		
 		
@@ -31,8 +39,24 @@ public class InGameScreen implements Screen{
 		context.tiledMapRenderer.setView(context.camera);
 		context.tiledMapRenderer.render();
 		
+		TestTile t = (TestTile) context.tiledMap.getTileSets().getTile(1000);
+		TiledMapTileLayer layer = (TiledMapTileLayer) context.tiledMap.getLayers().get(0);
+		
+		TiledMapTile t2 = layer.getCell(10, 0).getTile();
+		
+//		Vector2 coords = CoordinateGenerator.GetCoord(t.getId());
 		
 		
+		
+		
+		
+	}
+	
+	
+	public void selectTile(int x, int y){
+		
+		Vector2 tileCoords = TestTile.getCoordsFromPoint(x, y, 32);
+		System.out.println(tileCoords.toString());
 	}
 
 	@Override

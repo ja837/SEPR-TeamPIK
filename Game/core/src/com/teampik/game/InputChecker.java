@@ -2,6 +2,7 @@ package com.teampik.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
 
 
@@ -21,7 +22,32 @@ public class InputChecker implements InputProcessor
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
+		
+		
+		switch (Gamestate.GetGamestate())
+		{
+		case Gamestate.MAIN_MENU:
+			
+			
+			break;
+			
+		case Gamestate.IN_GAME:
+			if (keycode == Input.Keys.W){
+				context.camera.translate(0, 30);
+			}
+			if (keycode == Input.Keys.A){
+				context.camera.translate(-30, 0);
+			}
+			if (keycode == Input.Keys.S){
+				context.camera.translate(0, -30);
+			}
+			if (keycode == Input.Keys.D){
+				context.camera.translate(30, 0);
+			}
+			
+			
+			break;
+		}
 		return false;
 	}
 
@@ -36,6 +62,7 @@ public class InputChecker implements InputProcessor
 				
 			}
 			
+			
 			break;
 			
 		case Gamestate.IN_GAME:
@@ -43,6 +70,7 @@ public class InputChecker implements InputProcessor
 				Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
 				context.setScreen(context.mainMenuScreen);
 			}
+			
 			
 			break;
 		}
@@ -59,6 +87,26 @@ public class InputChecker implements InputProcessor
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
+		
+		switch (Gamestate.GetGamestate())
+		{
+		case Gamestate.MAIN_MENU:
+			break;
+		case Gamestate.IN_GAME:
+			if (button == Buttons.LEFT){
+				context.inGameScreen.selectTile(screenX, screenY);
+			}
+			
+			
+			
+			
+			break;
+		}
+		
+		
+		
+		
+		
 		return false;
 	}
 
