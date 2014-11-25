@@ -26,16 +26,21 @@ public class MyGdxGame extends Game {
 	SpriteBatch batch;
 	Texture img;
 	Texture img2;
-	Texture hexagon;
+	TextureRegion trDefault;
+	TextureRegion trWater;
+	TextureRegion trLand;
 	
 	TiledMap tiledMap;
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
-    TextureRegion tr;
+    
     
     MainMenuScreen mainMenuScreen;
     InGameScreen inGameScreen;
     BitmapFont font;
+    
+    GameMap map;
+    Vector3 cameraInitPos;
 	
 	
 	@Override
@@ -43,7 +48,8 @@ public class MyGdxGame extends Game {
 		batch = new SpriteBatch();
 		img = new Texture("tempSplashscreen.png");
 		img2 = new Texture("tempInGame.png");
-		hexagon = new Texture("perfectHexagon.png");
+		
+		
 		font = new BitmapFont();
         font.setColor(Color.RED);
 		InputChecker inputProcessor = new InputChecker(this);
@@ -54,16 +60,20 @@ public class MyGdxGame extends Game {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
+        cameraInitPos = camera.position;
         //camera.zoom += 2;
         
         
         camera.update();
         
-        tiledMap = new TmxMapLoader().load("tempMap.tmx");
         
         
-        tr = new TextureRegion(hexagon);
-        tiledMapRenderer = new HexagonalTiledMapRenderer(createMap());
+        trDefault = new TextureRegion(new Texture("perfectHexagon.png"));
+        trWater = new TextureRegion(new Texture("perfectHexagonBlue.png"));
+        trLand = new TextureRegion(new Texture("perfectHexagonGreen.png"));
+        
+        map = GameMap.createMap(this, MapLayout.testLayout);
+        tiledMapRenderer = new HexagonalTiledMapRenderer(map);
 
         
         //camera.translate(0,427);
@@ -77,40 +87,7 @@ public class MyGdxGame extends Game {
 	}
 
 
-	private TiledMap createMap() {
-		
-		int width = 45;
-		int height = 30;
-		
-		TiledMap map = new TiledMap();
-		MapLayers layers = map.getLayers();
-
-		
-		TiledMapTileLayer layer1 = new TiledMapTileLayer(width, height, TestTile.radius * 2, 56); //Number of tiles in x direction, Number of tiles in y direction, pixel width of tile, pixel height of tile
-		
-		
-		for (int i = 0; i < width; i++){
-			for (int j = 0; j < height; j++){
-				Cell cell = new Cell();
-				
-				TestTile tile = new TestTile(tr); //radius of 32 pixels
-				tile.setId(CoordinateGenerator.GenerateTileID(i, j));
-				
-				
-				cell.setTile(tile);
-				
-				layer1.setCell(i, j, cell);
-				
-			}
-		}
-		
-
-		layers.add(layer1);
-		
-		return map;
-		
-		
-	}
+	
 
 	
 }

@@ -18,10 +18,10 @@ public class InGameScreen implements Screen{
 	
 	
 	
-	MyGdxGame context;
+	MyGdxGame game;
 	
 	public InGameScreen(MyGdxGame game){
-        this.context = game;
+        this.game = game;
         
 }
 
@@ -29,26 +29,16 @@ public class InGameScreen implements Screen{
 	public void render(float delta) {
 		// TODO Auto-generated method stub
 		
-		context.batch.begin();
-		context.batch.draw(context.img2, 0, 0);
+		game.batch.begin();
+		game.batch.draw(game.img2, 0, 0);
 		//context.font.draw(context.batch, coords.toString(), 200, 200);
-		context.batch.end();
+		game.batch.end();
 		
 		
 		
-		context.camera.update();
-		context.tiledMapRenderer.setView(context.camera);
-		context.tiledMapRenderer.render();
-		
-		TestTile t = (TestTile) context.tiledMap.getTileSets().getTile(1000);
-		
-		TiledMapTileLayer layer = (TiledMapTileLayer) context.tiledMap.getLayers().get(0);
-		TiledMapTile t2 = layer.getCell(10, 0).getTile();
-		
-//		Vector2 coords = CoordinateGenerator.GetCoord(t.getId());
-		
-		
-		
+		game.camera.update();
+		game.tiledMapRenderer.setView(game.camera);
+		game.tiledMapRenderer.render();
 		
 		
 	}
@@ -56,9 +46,9 @@ public class InGameScreen implements Screen{
 	
 	public void selectTile(int x, int y){
 		
-		Vector3 cameraPosition = context.camera.position;
+		Vector3 cameraPosition = game.camera.position;
 		
-		Vector2 tileCoords = TestTile.getCoordsFromPoint(x, y, cameraPosition);
+		Vector2 tileCoords = GameMap.getCoordsFromPoint(x, y, cameraPosition);
 		System.out.println(tileCoords.toString());
 		System.out.println("Mouse position : " + Integer.toString(x) + ", " + Integer.toString(y));
 		System.out.println("Camera position : " + cameraPosition.toString());
