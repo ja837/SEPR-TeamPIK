@@ -54,6 +54,7 @@ public class MyGdxGame extends Game {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
+        //camera.zoom += 2;
         
         
         camera.update();
@@ -78,15 +79,18 @@ public class MyGdxGame extends Game {
 
 	private TiledMap createMap() {
 		
+		int width = 45;
+		int height = 30;
+		
 		TiledMap map = new TiledMap();
 		MapLayers layers = map.getLayers();
 
 		
-		TiledMapTileLayer layer1 = new TiledMapTileLayer(20, 20, TestTile.radius * 2, 56); //Number of tiles in x direction, Number of tiles in y direction, pixel width of tile, pixel height of tile
+		TiledMapTileLayer layer1 = new TiledMapTileLayer(width, height, TestTile.radius * 2, 56); //Number of tiles in x direction, Number of tiles in y direction, pixel width of tile, pixel height of tile
 		
 		
-		for (int i = 0; i < 20; i++){
-			for (int j = 0; j < 20; j++){
+		for (int i = 0; i < width; i++){
+			for (int j = 0; j < height; j++){
 				Cell cell = new Cell();
 				
 				TestTile tile = new TestTile(tr); //radius of 32 pixels

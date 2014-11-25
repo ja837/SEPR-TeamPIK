@@ -58,7 +58,7 @@ public class InGameScreen implements Screen{
 		
 		Vector3 cameraPosition = context.camera.position;
 		
-		Vector2 tileCoords = TestTile.getCoordsFromPoint(x, Gdx.graphics.getHeight() - y, cameraPosition);
+		Vector2 tileCoords = TestTile.getCoordsFromPoint(x, y, cameraPosition);
 		System.out.println(tileCoords.toString());
 		System.out.println("Mouse position : " + Integer.toString(x) + ", " + Integer.toString(y));
 		System.out.println("Camera position : " + cameraPosition.toString());

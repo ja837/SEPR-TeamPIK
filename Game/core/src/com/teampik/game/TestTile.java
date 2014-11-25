@@ -1,5 +1,6 @@
 package com.teampik.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
@@ -25,23 +26,31 @@ public class TestTile extends StaticTiledMapTile {
 	
 	public static Vector2 getCoordsFromPoint(int mouseX, int mouseY, Vector3 camPos){
 		
+		int adjustedMouseY = Gdx.graphics.getHeight() - mouseY;
+		
 		
 		
 		
 		Vector2 coords = Vector2.Zero;
 		
-		int coordI = (int)Math.floor((float)mouseX/(float)side);
+		//Adjust for camera position.
+		int extraI2 = (int) (camPos.x - 640f) % side;	//These will be used for adjusting for camera postions not exactly lining up with hexagons
+		int extraJ2 = (int) (camPos.y - 360f) % height;
+		
+		int coordI = (int)Math.floor(((float)mouseX)/(float)side);
 		
 		//Adjust for camera position.
 		int extraI = (int) ((camPos.x - 640f) / side);
 		int extraJ = (int) ((camPos.y - 360f) / height);
+		
+		
 		
 		int coordIAdjusted = coordI + extraI;
 		
 		
         int insideTileX = mouseX - side*coordI;
 
-        int tempJ = mouseY - (((coordIAdjusted + 1) % 2) * height / 2);
+        int tempJ = adjustedMouseY - (((coordIAdjusted + 1) % 2) * height / 2);
         int coordJ = (int)Math.floor((float)tempJ/(float)height);
         int coordJAdjusted = coordJ + extraJ;
         int insideTileY = tempJ - height*coordJ;
@@ -54,9 +63,7 @@ public class TestTile extends StaticTiledMapTile {
         	coords.y = (coordJ + ((coordIAdjusted/* + extraJ*/) % 2) - ((insideTileY < height / 2) ? 1 : 0));
             
         }
-        
-        
-        
+                
         
         coords.x += extraI;
         coords.y += extraJ;

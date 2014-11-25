@@ -36,13 +36,13 @@ public class InputChecker implements InputProcessor
 				context.camera.translate(0, TestTile.height);
 			}
 			if (keycode == Input.Keys.A){
-				context.camera.translate(-TestTile.side, 0);
+				context.camera.translate(-TestTile.side, 0); //-TestTile.side
 			}
 			if (keycode == Input.Keys.S){
 				context.camera.translate(0, -TestTile.height);
 			}
 			if (keycode == Input.Keys.D){
-				context.camera.translate(TestTile.side, 0);
+				context.camera.translate(TestTile.side, 0); //TestTile.side
 			}
 			
 			if (keycode == Input.Keys.Q){
