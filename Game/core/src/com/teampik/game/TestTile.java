@@ -32,14 +32,18 @@ public class TestTile extends StaticTiledMapTile {
 		
 		int coordI = (int)Math.floor((float)mouseX/(float)side);
 		
-		//Adjust for camera position in x direction. Y adjustment is done when calculating coordJ
-		int extraX = (int) ((camPos.x - 640f) / side);
-		//int coordIAdjusted = coordI + extraX;
+		//Adjust for camera position.
+		int extraI = (int) ((camPos.x - 640f) / side);
+		int extraJ = (int) ((camPos.y - 360f) / height);
+		
+		int coordIAdjusted = coordI + extraI;
+		
 		
         int insideTileX = mouseX - side*coordI;
 
-        int tempJ = mouseY - (((coordI + 1) % 2) * height / 2);
+        int tempJ = mouseY - (((coordIAdjusted + 1) % 2) * height / 2);
         int coordJ = (int)Math.floor((float)tempJ/(float)height);
+        int coordJAdjusted = coordJ + extraJ;
         int insideTileY = tempJ - height*coordJ;
 
         if (insideTileX > Math.abs(radius / 2 - radius * insideTileY / height)) {
@@ -47,15 +51,15 @@ public class TestTile extends StaticTiledMapTile {
             coords.y = coordJ;
         } else {
         	coords.x = coordI - 1;
-        	coords.y = (coordJ + (coordI % 2) - ((insideTileY < height / 2) ? 1 : 0));
+        	coords.y = (coordJ + ((coordIAdjusted/* + extraJ*/) % 2) - ((insideTileY < height / 2) ? 1 : 0));
             
         }
         
         
         
-        int extraY = (int) ((camPos.y - 360f) / height);
-        coords.x += extraX;
-        //coords.y += extraY;
+        
+        coords.x += extraI;
+        coords.y += extraJ;
         
         return coords;
 		
