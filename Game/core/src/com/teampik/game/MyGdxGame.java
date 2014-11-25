@@ -1,6 +1,8 @@
 package com.teampik.game;
 
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -19,6 +21,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 
@@ -26,9 +29,13 @@ public class MyGdxGame extends Game {
 	SpriteBatch batch;
 	Texture img;
 	Texture img2;
+	
 	TextureRegion trDefault;
 	TextureRegion trWater;
 	TextureRegion trLand;
+	TextureRegion trTrack;
+	TextureRegion trZoo;
+	TextureRegion[] trBorders = new TextureRegion[6];
 	
 	TiledMap tiledMap;
     OrthographicCamera camera;
@@ -71,8 +78,27 @@ public class MyGdxGame extends Game {
         trDefault = new TextureRegion(new Texture("perfectHexagon.png"));
         trWater = new TextureRegion(new Texture("perfectHexagonBlue.png"));
         trLand = new TextureRegion(new Texture("perfectHexagonGreen.png"));
+        trTrack = new TextureRegion(new Texture("perfectHexagonGrey.png"));
+        trZoo = new TextureRegion(new Texture("perfectHexagonYellow.png"));
+        trBorders[Direction.NORTH] = new TextureRegion(new Texture("Borders/borderNorth.png"));
+        trBorders[Direction.NORTH_EAST] = new TextureRegion(new Texture("Borders/borderNorthEast.png"));
+        trBorders[Direction.SOUTH_EAST] = new TextureRegion(new Texture("Borders/borderSouthEast.png"));
+        trBorders[Direction.SOUTH] = new TextureRegion(new Texture("Borders/borderSouth.png"));
+        trBorders[Direction.SOUTH_WEST] = new TextureRegion(new Texture("Borders/borderSouthWest.png"));
+        trBorders[Direction.NORTH_WEST] = new TextureRegion(new Texture("Borders/borderNorthWest.png"));
         
-        map = GameMap.createMap(this, MapLayout.testLayout);
+        ArrayList<Vector2>[] listOfCoordsWithBorders = (ArrayList<Vector2>[]) new ArrayList[6];
+        for (int i = Direction.NORTH; i < Direction.NORTH_WEST; i++){
+        	listOfCoordsWithBorders[i] = new ArrayList<Vector2>();
+        }
+        
+        listOfCoordsWithBorders[Direction.NORTH].add(new Vector2(0,0));
+        listOfCoordsWithBorders[Direction.NORTH_EAST].add(new Vector2(0,0));
+        
+        
+        MapLayout m = new MapLayout(this, MapLayout.testLayout, listOfCoordsWithBorders, 45, 30);
+        
+        map = GameMap.createMap(this, m);
         tiledMapRenderer = new HexagonalTiledMapRenderer(map);
 
         

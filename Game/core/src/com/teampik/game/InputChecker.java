@@ -33,16 +33,16 @@ public class InputChecker implements InputProcessor
 			
 		case Gamestate.IN_GAME:
 			if (keycode == Input.Keys.W){
-				context.camera.translate(0, TestTile.height);
+				context.camera.translate(0, GameMap.tileHeight);
 			}
 			if (keycode == Input.Keys.A){
-				context.camera.translate(-TestTile.side, 0); //-TestTile.side
+				context.camera.translate(-GameMap.tileSide, 0); //-TestTile.side
 			}
 			if (keycode == Input.Keys.S){
-				context.camera.translate(0, -TestTile.height);
+				context.camera.translate(0, -GameMap.tileHeight);
 			}
 			if (keycode == Input.Keys.D){
-				context.camera.translate(TestTile.side, 0); //TestTile.side
+				context.camera.translate(GameMap.tileSide, 0); //TestTile.side
 			}
 			
 			if (keycode == Input.Keys.Q){
