@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class InGameScreen implements Screen{
 	
@@ -40,8 +41,8 @@ public class InGameScreen implements Screen{
 		context.tiledMapRenderer.render();
 		
 		TestTile t = (TestTile) context.tiledMap.getTileSets().getTile(1000);
-		TiledMapTileLayer layer = (TiledMapTileLayer) context.tiledMap.getLayers().get(0);
 		
+		TiledMapTileLayer layer = (TiledMapTileLayer) context.tiledMap.getLayers().get(0);
 		TiledMapTile t2 = layer.getCell(10, 0).getTile();
 		
 //		Vector2 coords = CoordinateGenerator.GetCoord(t.getId());
@@ -55,8 +56,12 @@ public class InGameScreen implements Screen{
 	
 	public void selectTile(int x, int y){
 		
-		Vector2 tileCoords = TestTile.getCoordsFromPoint(x, y, 32);
+		Vector3 cameraPosition = context.camera.position;
+		
+		Vector2 tileCoords = TestTile.getCoordsFromPoint(x, Gdx.graphics.getHeight() - y, cameraPosition);
 		System.out.println(tileCoords.toString());
+		System.out.println("Mouse position : " + Integer.toString(x) + ", " + Integer.toString(y));
+		System.out.println("Camera position : " + cameraPosition.toString());
 	}
 
 	@Override

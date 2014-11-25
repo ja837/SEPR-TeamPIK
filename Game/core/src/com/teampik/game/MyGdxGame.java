@@ -13,11 +13,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.Vector3;
 
 
 public class MyGdxGame extends Game {
@@ -52,6 +54,8 @@ public class MyGdxGame extends Game {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
+        
+        
         camera.update();
         
         tiledMap = new TmxMapLoader().load("tempMap.tmx");
@@ -59,6 +63,9 @@ public class MyGdxGame extends Game {
         
         tr = new TextureRegion(hexagon);
         tiledMapRenderer = new HexagonalTiledMapRenderer(createMap());
+
+        
+        //camera.translate(0,427);
         
         
         mainMenuScreen = new MainMenuScreen(this);
@@ -74,7 +81,9 @@ public class MyGdxGame extends Game {
 		TiledMap map = new TiledMap();
 		MapLayers layers = map.getLayers();
 
-		TiledMapTileLayer layer1 = new TiledMapTileLayer(20, 20, 64, 56); //Number of tiles in x direction, Number of tiles in y direction, pixel width of tile, pixel height of tile
+		
+		TiledMapTileLayer layer1 = new TiledMapTileLayer(20, 20, TestTile.radius * 2, 56); //Number of tiles in x direction, Number of tiles in y direction, pixel width of tile, pixel height of tile
+		
 		
 		for (int i = 0; i < 20; i++){
 			for (int j = 0; j < 20; j++){
@@ -83,8 +92,10 @@ public class MyGdxGame extends Game {
 				TestTile tile = new TestTile(tr); //radius of 32 pixels
 				tile.setId(CoordinateGenerator.GenerateTileID(i, j));
 				
+				
 				cell.setTile(tile);
-				layer1.setCell(i, 20 - j, cell);
+				
+				layer1.setCell(i, j, cell);
 				
 			}
 		}
