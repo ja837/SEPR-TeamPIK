@@ -42,6 +42,7 @@ public class MapLayout {
 	int tilesX;
 	int tilesY;
 	
+	//This constructor takes a layout and border list and converts them into tiles for use when creating the map.
 	public MapLayout(MyGdxGame game, int[][] layout, ArrayList<Vector2>[] listOfCoordsWithBorders, int tilesX, int tilesY)
 	{
 		this.borders = listOfCoordsWithBorders;

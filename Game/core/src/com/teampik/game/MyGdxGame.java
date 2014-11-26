@@ -27,6 +27,7 @@ import com.badlogic.gdx.math.Vector3;
 
 public class MyGdxGame extends Game {
 	SpriteBatch batch;
+	Texture imgLoading;
 	Texture img;
 	Texture img2;
 	
@@ -41,7 +42,7 @@ public class MyGdxGame extends Game {
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
     
-    
+    LoadingScreen loadingScreen;
     MainMenuScreen mainMenuScreen;
     InGameScreen inGameScreen;
     BitmapFont font;
@@ -53,8 +54,17 @@ public class MyGdxGame extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		imgLoading = new Texture("tempSplashscreenLoading.png");
 		img = new Texture("tempSplashscreen.png");
 		img2 = new Texture("tempInGame.png");
+		
+		
+		loadingScreen = new LoadingScreen(this);
+		mainMenuScreen = new MainMenuScreen(this);
+        inGameScreen = new InGameScreen(this);
+        
+        Gamestate.MoveToGamestate(Gamestate.LOADING);
+        setScreen(loadingScreen);
 		
 		
 		font = new BitmapFont();
@@ -98,10 +108,10 @@ public class MyGdxGame extends Game {
         
         //camera.translate(0,427);
         
-        
-        mainMenuScreen = new MainMenuScreen(this);
-        inGameScreen = new InGameScreen(this);
+        Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
         setScreen(mainMenuScreen);
+       
+        
         
         
 	}
