@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
@@ -49,9 +50,20 @@ public class InGameScreen implements Screen{
 		Vector3 cameraPosition = game.camera.position;
 		
 		Vector2 tileCoords = GameMap.getCoordsFromPoint(x, y, cameraPosition);
-		System.out.println(tileCoords.toString());
+		System.out.println("\n" + tileCoords.toString());
 		System.out.println("Mouse position : " + Integer.toString(x) + ", " + Integer.toString(y));
 		System.out.println("Camera position : " + cameraPosition.toString());
+		TiledMapTileLayer t = (TiledMapTileLayer) game.map.getLayers().get(0);
+		Cell c = t.getCell((int)tileCoords.x, (int)tileCoords.y);
+		if (c != null){
+			MapTile tile = (MapTile) c.getTile();
+			if (tile.borders[0] || tile.borders[1] || tile.borders[2] || tile.borders[3] || tile.borders[4] || tile.borders[5]){
+				System.out.println(tile.toString());
+			}
+			
+		}
+		
+		
 	}
 
 	@Override

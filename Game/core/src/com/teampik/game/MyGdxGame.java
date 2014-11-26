@@ -87,16 +87,10 @@ public class MyGdxGame extends Game {
         trBorders[Direction.SOUTH_WEST] = new TextureRegion(new Texture("Borders/borderSouthWest.png"));
         trBorders[Direction.NORTH_WEST] = new TextureRegion(new Texture("Borders/borderNorthWest.png"));
         
-        ArrayList<Vector2>[] listOfCoordsWithBorders = (ArrayList<Vector2>[]) new ArrayList[6];
-        for (int i = Direction.NORTH; i < Direction.NORTH_WEST; i++){
-        	listOfCoordsWithBorders[i] = new ArrayList<Vector2>();
-        }
         
-        listOfCoordsWithBorders[Direction.NORTH].add(new Vector2(0,0));
-        listOfCoordsWithBorders[Direction.NORTH_EAST].add(new Vector2(0,0));
+                
         
-        
-        MapLayout m = new MapLayout(this, MapLayout.testLayout, listOfCoordsWithBorders, 45, 30);
+        MapLayout m = new MapLayout(this, MapLayout.testLayout, GetTestBorderList(), 45, 30);
         
         map = GameMap.createMap(this, m);
         tiledMapRenderer = new HexagonalTiledMapRenderer(map);
@@ -110,6 +104,37 @@ public class MyGdxGame extends Game {
         setScreen(mainMenuScreen);
         
         
+	}
+	
+	private ArrayList<Vector2>[] GetTestBorderList(){
+		ArrayList<Vector2>[] listOfCoordsWithBorders = (ArrayList<Vector2>[]) new ArrayList[6];
+		
+		for (int i = Direction.NORTH; i <= Direction.NORTH_WEST; i++){
+        	listOfCoordsWithBorders[i] = new ArrayList<Vector2>();
+        }
+		
+		//Always add the opposite border, so if 0,0 has a border to the north, 0,1 must have a border to the south.
+		
+		listOfCoordsWithBorders[Direction.NORTH].add(new Vector2(0,0));
+		listOfCoordsWithBorders[Direction.SOUTH].add(new Vector2(0,1));
+		
+		listOfCoordsWithBorders[Direction.NORTH_EAST].add(new Vector2(0,0));
+		listOfCoordsWithBorders[Direction.SOUTH_WEST].add(new Vector2(1,1));
+		
+		listOfCoordsWithBorders[Direction.NORTH].add(new Vector2(9,8));
+		listOfCoordsWithBorders[Direction.SOUTH].add(new Vector2(9,9));
+		
+		listOfCoordsWithBorders[Direction.NORTH_WEST].add(new Vector2(9,9));
+		listOfCoordsWithBorders[Direction.SOUTH_EAST].add(new Vector2(8,9));
+		
+		listOfCoordsWithBorders[Direction.NORTH_EAST].add(new Vector2(9,8));
+		listOfCoordsWithBorders[Direction.SOUTH_WEST].add(new Vector2(10,8));
+		
+		
+        
+		
+		return listOfCoordsWithBorders;
+		
 	}
 
 

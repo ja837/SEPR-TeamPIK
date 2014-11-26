@@ -51,12 +51,13 @@ public class GameMap extends TiledMap{
 				
 				
 				//Have to swap i and j and then invert i to compensate for differences in how coordinates and array are indexed 
-				baseLayer.setCell(j, mapLayout.baseTileLayout.length - i - 1, cell);
+				//baseLayer.setCell(j, mapLayout.tiles.length - i - 1, cell);
+				baseLayer.setCell(i, j, cell);
 				
 			}
 		}
 		
-		for (int i = Direction.NORTH; i < Direction.NORTH_WEST; i++){
+		for (int i = Direction.NORTH; i <= Direction.NORTH_WEST; i++){
 			for (Vector2 coordinate : mapLayout.borders[i])
 			{
 				Cell cell = new Cell();

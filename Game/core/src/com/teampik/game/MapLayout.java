@@ -14,6 +14,7 @@ public class MapLayout {
 	public final static int ZOO  = 4000;
 	
 	public final static int[][] testLayout = new int[][]{
+		//Because arrays are indexed differently to libgdx's cells, this will appear 90 degrres rotated to the left.
 		{WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
 		{WATER, WATER, 	LAND, 	LAND, 	LAND, 	LAND, 	LAND, 	WATER, WATER, 	LAND, 	LAND, 	LAND, 	WATER},
 		{WATER, WATER, 	WATER, 	WATER, 	LAND, 	WATER, 	WATER, 	WATER, WATER, 	LAND, 	WATER, 	LAND, 	WATER},
@@ -57,8 +58,7 @@ public class MapLayout {
 		for (int i = 0; i < layout.length;i++){
 			for (int j = 0; j < layout[i].length; j++)
 			{
-				switch (layout[i][j]){
-				
+				switch (layout[i][j]){												
 				case WATER:
 					tiles[i][j] = new MapTile(game.trWater);
 					break;
@@ -74,6 +74,22 @@ public class MapLayout {
 				default:
 					tiles[i][j] = new MapTile(game.trDefault);
 					break;
+				}
+				
+				
+			}
+		}
+		
+		for (int i = 0; i < layout.length;i++){
+			for (int j = 0; j < layout[i].length; j++)
+			{
+				//Add borders to MapTile instance
+				for (int direction = Direction.NORTH; direction <= Direction.NORTH_WEST; direction++){
+					for (Vector2 v : listOfCoordsWithBorders[direction]){
+						if ((int)v.x == i && (int)v.y == j){
+							tiles[(int)v.x][(int)v.y].borders[direction] = true;
+						}
+					}
 				}
 			}
 		}

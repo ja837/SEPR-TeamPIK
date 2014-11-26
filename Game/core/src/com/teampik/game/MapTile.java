@@ -15,6 +15,21 @@ public class MapTile extends StaticTiledMapTile {
 
 		
 	}
+
+
+	@Override
+	public String toString() {
+		
+		return "MapTile with borders:"
+				+ "\nNorth - " + borders[Direction.NORTH] 
+				+ "\nNorth East - " + borders[Direction.NORTH_EAST] 
+				+ "\nSouth East - " + borders[Direction.SOUTH_EAST] 
+				+ "\nSouth - " + borders[Direction.SOUTH] 
+				+ "\nSouth West - " + borders[Direction.SOUTH_WEST] 
+				+ "\nNorth West - " + borders[Direction.NORTH_WEST]; 
+						
+
+	}
 	
 	
 	
