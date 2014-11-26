@@ -58,11 +58,17 @@ public class MyGdxGame extends Game {
 		img = new Texture("tempSplashscreen.png");
 		img2 = new Texture("tempInGame.png");
 		
+		loadingScreen = new LoadingScreen(this);
+		mainMenuScreen = new MainMenuScreen(this);
+        inGameScreen = new InGameScreen(this);
+        
+        Gamestate.MoveToGamestate(Gamestate.LOADING);
+        setScreen(loadingScreen);
+		
 		
 		LoadAssets();
 
-        
-        //camera.translate(0,427);
+       
         
         Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
         setScreen(mainMenuScreen);
@@ -73,12 +79,7 @@ public class MyGdxGame extends Game {
 	}
 
 	private void LoadAssets() {
-		loadingScreen = new LoadingScreen(this);
-		mainMenuScreen = new MainMenuScreen(this);
-        inGameScreen = new InGameScreen(this);
-        
-        Gamestate.MoveToGamestate(Gamestate.LOADING);
-        setScreen(loadingScreen);
+		
 		
 		
 		font = new BitmapFont();
@@ -114,12 +115,14 @@ public class MyGdxGame extends Game {
         
                 
         
-        MapLayout m = new MapLayout(this, MapLayout.testLayout, GetTestBorderList(), 45, 30);
+        MapLayout m = new MapLayout(this, GetTestTileLayout(), GetTestBorderList(), 45, 30);
         
         map = GameMap.createMap(this, m);
         tiledMapRenderer = new HexagonalTiledMapRenderer(map);
 	}
 	
+	
+	//Just an example list of borders
 	private ArrayList<Vector2>[] GetTestBorderList(){
 		ArrayList<Vector2>[] listOfCoordsWithBorders = (ArrayList<Vector2>[]) new ArrayList[6];
 		
@@ -150,8 +153,38 @@ public class MyGdxGame extends Game {
 		return listOfCoordsWithBorders;
 		
 	}
+	
+	//Example map layout.
+	private int[][] GetTestTileLayout(){
+		
+		int WATER = MapLayout.WATER;
+		int LAND = MapLayout.LAND;
+		int ZOO = MapLayout.ZOO;
+		int TRACK = MapLayout.TRACK;
+		
+	
+		//Because arrays are indexed differently to libgdx's cells, this will appear 90 degrres rotated to the left.
+		return new int[][]{
+		{WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
+		{WATER, WATER, 	LAND, 	LAND, 	LAND, 	LAND, 	LAND, 	WATER, WATER, 	LAND, 	LAND, 	LAND, 	WATER},
+		{WATER, WATER, 	WATER, 	WATER, 	LAND, 	WATER, 	WATER, 	WATER, WATER, 	LAND, 	WATER, 	LAND, 	WATER},
+		{WATER, WATER, 	WATER, 	WATER, 	LAND, 	WATER, 	WATER, 	WATER, WATER, 	LAND, 	LAND, 	LAND, 	WATER},
+		{WATER, WATER, 	WATER, 	WATER, 	LAND, 	WATER, 	WATER, 	WATER, WATER, 	LAND, 	WATER, 	LAND, 	WATER},
+		{WATER,	WATER, 	LAND, 	LAND, 	LAND, 	WATER, 	WATER, 	WATER, WATER, 	LAND, 	WATER, 	LAND, 	WATER},
+		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
+		{WATER, WATER, 	WATER, 	WATER,	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
+		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
+		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
+		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	ZOO, 	TRACK, TRACK, 	TRACK, 	TRACK, 	WATER, 	WATER},
+		{WATER, WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	TRACK, 	WATER, 	WATER},
+		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	ZOO, 	WATER, 	WATER},
+		{WATER, WATER, 	WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
+		
+		
+	};
+	
 
-
+	}
 	
 
 	

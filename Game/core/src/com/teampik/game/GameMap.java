@@ -81,54 +81,54 @@ public class GameMap extends TiledMap{
 		
 		
 	}
-	
-public static Vector2 getCoordsFromPoint(int mouseX, int mouseY, Vector3 camPos){
-		
+
+	public static Vector2 getCoordsFromPoint(int mouseX, int mouseY, Vector3 camPos){
+
 		int adjustedMouseY = Gdx.graphics.getHeight() - mouseY;
-		
+
 		int halfScreenWidth = Gdx.graphics.getWidth() / 2;
 		int halfSscreenHeight = Gdx.graphics.getHeight() / 2;
-		
-		
+
+
 		Vector2 coords = Vector2.Zero;
-		
+
 		//Adjust for camera position.
 		int extraI2 = (int) (camPos.x - halfScreenWidth) % tileSide;	//These will be used for adjusting for camera positions not exactly lining up with hexagons
 		int extraJ2 = (int) (camPos.y - halfSscreenHeight) % tileHeight;	//Not used yet.
-		
+
 		int coordI = (int)Math.floor(((float)mouseX)/(float)tileSide);
-		
+
 		//Adjust for camera position.
 		int extraI = (int) ((camPos.x - /*camInitPos.x*/ halfScreenWidth) / tileSide);
 		int extraJ = (int) ((camPos.y - /*camInitPos.y*/ halfSscreenHeight) / tileHeight);
-		
-		
-		
+
+
+
 		int coordIAdjusted = coordI + extraI;
-		
-		
-        int insideTileX = mouseX - tileSide*coordI;
 
-        int tempJ = adjustedMouseY - (((coordIAdjusted + 1) % 2) * tileHeight / 2);
-        int coordJ = (int)Math.floor((float)tempJ/(float)tileHeight);
-        int coordJAdjusted = coordJ + extraJ;
-        int insideTileY = tempJ - tileHeight*coordJ;
 
-        if (insideTileX > Math.abs(tileRadius / 2 - tileRadius * insideTileY / tileHeight)) {
-            coords.x = coordI;
-            coords.y = coordJ;
-        } else {
-        	coords.x = coordI - 1;
-        	coords.y = (coordJ + ((coordIAdjusted/* + extraJ*/) % 2) - ((insideTileY < tileHeight / 2) ? 1 : 0));
-            
-        }
-                
-        
-        coords.x += extraI;
-        coords.y += extraJ;
-        
-        return coords;
-		
+		int insideTileX = mouseX - tileSide*coordI;
+
+		int tempJ = adjustedMouseY - (((coordIAdjusted + 1) % 2) * tileHeight / 2);
+		int coordJ = (int)Math.floor((float)tempJ/(float)tileHeight);
+		int coordJAdjusted = coordJ + extraJ;
+		int insideTileY = tempJ - tileHeight*coordJ;
+
+		if (insideTileX > Math.abs(tileRadius / 2 - tileRadius * insideTileY / tileHeight)) {
+			coords.x = coordI;
+			coords.y = coordJ;
+		} else {
+			coords.x = coordI - 1;
+			coords.y = (coordJ + ((coordIAdjusted/* + extraJ*/) % 2) - ((insideTileY < tileHeight / 2) ? 1 : 0));
+
+		}
+
+
+		coords.x += extraI;
+		coords.y += extraJ;
+
+		return coords;
+
 	}
 
 }
