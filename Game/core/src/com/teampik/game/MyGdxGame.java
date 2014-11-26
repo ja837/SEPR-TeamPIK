@@ -59,6 +59,20 @@ public class MyGdxGame extends Game {
 		img2 = new Texture("tempInGame.png");
 		
 		
+		LoadAssets();
+
+        
+        //camera.translate(0,427);
+        
+        Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
+        setScreen(mainMenuScreen);
+       
+        
+        
+        
+	}
+
+	private void LoadAssets() {
 		loadingScreen = new LoadingScreen(this);
 		mainMenuScreen = new MainMenuScreen(this);
         inGameScreen = new InGameScreen(this);
@@ -104,16 +118,6 @@ public class MyGdxGame extends Game {
         
         map = GameMap.createMap(this, m);
         tiledMapRenderer = new HexagonalTiledMapRenderer(map);
-
-        
-        //camera.translate(0,427);
-        
-        Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
-        setScreen(mainMenuScreen);
-       
-        
-        
-        
 	}
 	
 	private ArrayList<Vector2>[] GetTestBorderList(){
