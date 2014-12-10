@@ -34,7 +34,9 @@ public class MapLayout {
 		this.tilesX = tilesX;
 		this.tilesY = tilesY;
 		
-		int[][] rotated = rotateCW(layout);
+		
+		//Have to rotate layout because arrays are indexed differently to libgdx's maps.
+		layout = rotateCW(layout);
 		
 		tiles = new MapTile[layout.length][];
 		
