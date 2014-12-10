@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Vector3;
 
 public class GameMap extends TiledMap{
 	
+	//Current Layer index: 0 = base, 1-6 = borders, 7 track, 8 zoo
+	
 	MyGdxGame game;
 	MapLayout mapLayout;
 	
@@ -40,6 +42,8 @@ public class GameMap extends TiledMap{
 			borderLayers[i] = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
 		}
 		
+		TiledMapTileLayer trackLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
+		TiledMapTileLayer zooLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
 		
 		//Base Tiles (Land, water etc.)
 		for (int i = 0; i < mapLayout.tiles.length; i++){
@@ -50,8 +54,9 @@ public class GameMap extends TiledMap{
 				cell.setTile(mapLayout.tiles[i][j]);
 				
 				
-				//Have to swap i and j and then invert i to compensate for differences in how coordinates and array are indexed 
-				//baseLayer.setCell(j, mapLayout.tiles.length - i - 1, cell);
+				//Unused -->			//Have to swap i and j and then invert i to compensate for differences in how coordinates and array are indexed 
+										//baseLayer.setCell(j, mapLayout.tiles.length - i - 1, cell);
+				
 				baseLayer.setCell(i, j, cell);
 				
 			}
@@ -65,16 +70,29 @@ public class GameMap extends TiledMap{
 				borderLayers[i].setCell((int) coordinate.x,  (int) coordinate.y, cell);
 			}
 		}
+		
+		for (Vector2 coordinate : mapLayout.trackCoords){
+			Cell cell = new Cell();
+			cell.setTile(new MapTile(game.trTrack));
+			trackLayer.setCell((int) coordinate.x,  (int) coordinate.y, cell);
+		}
+		
+		for (Vector2 coordinate : mapLayout.zooCoords){
+			Cell cell = new Cell();
+			cell.setTile(new MapTile(game.trZoo));
+			zooLayer.setCell((int) coordinate.x,  (int) coordinate.y, cell);
+		}
 			
 			
 		
 		
-
-		layers.add(baseLayer);
-		
+		//Add all the layers.
+		layers.add(baseLayer);		
 		for (int i = 0; i < borderLayers.length;i++){
 			layers.add(borderLayers[i]);
-		}
+		}		
+		layers.add(trackLayer);
+		layers.add(zooLayer);
 		
 		
 		return map;
@@ -130,5 +148,18 @@ public class GameMap extends TiledMap{
 		return coords;
 
 	}
+	
+	public MapTile getTile(int x, int y, int layerIndex){
+		MapTile tile = null;
+		TiledMapTileLayer t = (TiledMapTileLayer) game.map.getLayers().get(layerIndex);
+		Cell c = t.getCell(x, y);
+		if (c != null){
+			tile = (MapTile) c.getTile();	
+		}
+		
+		return tile;
+	}
+	
+	
 
 }

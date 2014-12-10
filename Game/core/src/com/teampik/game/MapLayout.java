@@ -15,6 +15,8 @@ public class MapLayout {
 	
 	
 	ArrayList<Vector2>[] borders;
+	ArrayList<Vector2> trackCoords;
+	ArrayList<Vector2> zooCoords;
 	int[][] baseTileLayout;
 	
 	MapTile[][] tiles;
@@ -23,12 +25,16 @@ public class MapLayout {
 	int tilesY;
 	
 	//This constructor takes a layout and border list and converts them into tiles for use when creating the map.
-	public MapLayout(MyGdxGame game, int[][] layout, ArrayList<Vector2>[] listOfCoordsWithBorders, int tilesX, int tilesY)
+	public MapLayout(MyGdxGame game, int[][] layout, ArrayList<Vector2>[] listOfCoordsWithBorders, ArrayList<Vector2> trackCoords, ArrayList<Vector2> zooCoords, int tilesX, int tilesY)
 	{
 		this.borders = listOfCoordsWithBorders;
+		this.trackCoords = trackCoords;
+		this.zooCoords = zooCoords;
 		this.baseTileLayout = layout;
 		this.tilesX = tilesX;
 		this.tilesY = tilesY;
+		
+		int[][] rotated = rotateCW(layout);
 		
 		tiles = new MapTile[layout.length][];
 		
@@ -45,13 +51,7 @@ public class MapLayout {
 					break;
 				case LAND:
 					tiles[i][j] = new MapTile(game.trLand);
-					break;
-				case TRACK:
-					tiles[i][j] = new MapTile(game.trTrack);
-					break;
-				case ZOO:
-					tiles[i][j] = new MapTile(game.trZoo);
-					break;
+					break;				
 				default:
 					tiles[i][j] = new MapTile(game.trDefault);
 					break;
@@ -61,6 +61,8 @@ public class MapLayout {
 			}
 		}
 		
+		
+		//This is obviously inefficient (looping through twice). Will sort out later.
 		for (int i = 0; i < layout.length;i++){
 			for (int j = 0; j < layout[i].length; j++)
 			{
@@ -74,6 +76,20 @@ public class MapLayout {
 				}
 			}
 		}
+		
+		
+	}
+	
+	private static int[][] rotateCW(int[][] mat) {
+	    final int M = mat.length;
+	    final int N = mat[0].length;
+	    int[][] ret = new int[N][M];
+	    for (int r = 0; r < M; r++) {
+	        for (int c = 0; c < N; c++) {
+	            ret[c][M-1-r] = mat[r][c];
+	        }
+	    }
+	    return ret;
 	}
 	
 

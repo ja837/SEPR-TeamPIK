@@ -103,8 +103,8 @@ public class MyGdxGame extends Game {
         trDefault = new TextureRegion(new Texture("perfectHexagon.png"));
         trWater = new TextureRegion(new Texture("perfectHexagonBlue.png"));
         trLand = new TextureRegion(new Texture("perfectHexagonGreen.png"));
-        trTrack = new TextureRegion(new Texture("perfectHexagonGrey.png"));
-        trZoo = new TextureRegion(new Texture("perfectHexagonYellow.png"));
+        trTrack = new TextureRegion(new Texture("track.png"));
+        trZoo = new TextureRegion(new Texture("zoo.png"));
         trBorders[Direction.NORTH] = new TextureRegion(new Texture("Borders/borderNorth.png"));
         trBorders[Direction.NORTH_EAST] = new TextureRegion(new Texture("Borders/borderNorthEast.png"));
         trBorders[Direction.SOUTH_EAST] = new TextureRegion(new Texture("Borders/borderSouthEast.png"));
@@ -115,7 +115,7 @@ public class MyGdxGame extends Game {
         
                 
         
-        MapLayout m = new MapLayout(this, GetTestTileLayout(), GetTestBorderList(), 45, 30);
+        MapLayout m = new MapLayout(this, GetTestTileLayout(), GetTestBorderList(), GetTestTrackList(), GetTestZooList(), 45, 30);
         
         map = GameMap.createMap(this, m);
         tiledMapRenderer = new HexagonalTiledMapRenderer(map);
@@ -163,7 +163,7 @@ public class MyGdxGame extends Game {
 		int TRACK = MapLayout.TRACK;
 		
 	
-		//Because arrays are indexed differently to libgdx's cells, this will appear 90 degrres rotated to the left.
+		//Because arrays are indexed differently to libgdx's cells, this will appear 90 degrees rotated to the left.
 		return new int[][]{
 		{WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
 		{WATER, WATER, 	LAND, 	LAND, 	LAND, 	LAND, 	LAND, 	WATER, WATER, 	LAND, 	LAND, 	LAND, 	WATER},
@@ -175,15 +175,30 @@ public class MyGdxGame extends Game {
 		{WATER, WATER, 	WATER, 	WATER,	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
 		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
 		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
-		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	ZOO, 	TRACK, TRACK, 	TRACK, 	TRACK, 	WATER, 	WATER},
-		{WATER, WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	TRACK, 	WATER, 	WATER},
-		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	ZOO, 	WATER, 	WATER},
-		{WATER, WATER, 	WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
-		
-		
-	};
+		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	LAND, 	LAND,  LAND, 	LAND, 	LAND, 	WATER, 	WATER},
+		{WATER, WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	LAND, 	WATER, 	WATER},
+		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	LAND, 	WATER, 	WATER},
+		{WATER, WATER, 	WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},	
+		};
+	}
 	
-
+	
+	private ArrayList<Vector2> GetTestTrackList(){
+		ArrayList<Vector2> trackCoords = new ArrayList<Vector2>();
+		
+		trackCoords.add(new Vector2(2,2));
+		
+		return trackCoords;
+		
+	}
+	
+	private ArrayList<Vector2> GetTestZooList(){
+		ArrayList<Vector2> zooCoords = new ArrayList<Vector2>();
+		
+		zooCoords.add(new Vector2(0,3));
+		
+		return zooCoords;
+		
 	}
 	
 

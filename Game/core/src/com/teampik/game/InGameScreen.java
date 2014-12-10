@@ -16,9 +16,6 @@ import com.badlogic.gdx.math.Vector3;
 public class InGameScreen implements Screen{
 	
 	
-	
-	
-	
 	MyGdxGame game;
 	
 	public InGameScreen(MyGdxGame game){
@@ -34,9 +31,7 @@ public class InGameScreen implements Screen{
 		game.batch.draw(game.img2, 0, 0);
 		//context.font.draw(context.batch, coords.toString(), 200, 200);
 		game.batch.end();
-		
-		
-		
+			
 		game.camera.update();
 		game.tiledMapRenderer.setView(game.camera);
 		game.tiledMapRenderer.render();
@@ -50,19 +45,17 @@ public class InGameScreen implements Screen{
 		Vector3 cameraPosition = game.camera.position;
 		
 		Vector2 tileCoords = GameMap.getCoordsFromPoint(x, y, cameraPosition);
+		
+		MapTile tile = game.map.getTile((int)tileCoords.x, (int)tileCoords.y, 0);
+		
+		//Debug, outputs tile info to console.
 		System.out.println("\n" + tileCoords.toString());
 		System.out.println("Mouse position : " + Integer.toString(x) + ", " + Integer.toString(y));
-		System.out.println("Camera position : " + cameraPosition.toString());
-		TiledMapTileLayer t = (TiledMapTileLayer) game.map.getLayers().get(0);
-		Cell c = t.getCell((int)tileCoords.x, (int)tileCoords.y);
-		if (c != null){
-			MapTile tile = (MapTile) c.getTile();
-			if (tile.borders[0] || tile.borders[1] || tile.borders[2] || tile.borders[3] || tile.borders[4] || tile.borders[5]){
-				System.out.println(tile.toString());
-			}
-			
-		}
-		
+		System.out.println("Camera position : " + cameraPosition.toString());		
+				
+		if (tile.borders[0] || tile.borders[1] || tile.borders[2] || tile.borders[3] || tile.borders[4] || tile.borders[5]){
+			System.out.println(tile.toString());
+		}			
 		
 	}
 
