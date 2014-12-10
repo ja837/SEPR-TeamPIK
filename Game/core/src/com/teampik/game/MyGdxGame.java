@@ -132,14 +132,20 @@ public class MyGdxGame extends Game {
 		
 		//Always add the opposite border, so if 0,0 has a border to the north, 0,1 must have a border to the south.
 		
-		listOfCoordsWithBorders[Direction.NORTH].add(new Vector2(0,0));
-		listOfCoordsWithBorders[Direction.SOUTH].add(new Vector2(0,1));
+		listOfCoordsWithBorders[Direction.SOUTH].add(new Vector2(9,8));
+		listOfCoordsWithBorders[Direction.NORTH].add(new Vector2(9,7));
 		
-		listOfCoordsWithBorders[Direction.NORTH_EAST].add(new Vector2(0,0));
-		listOfCoordsWithBorders[Direction.SOUTH_WEST].add(new Vector2(1,1));
+		listOfCoordsWithBorders[Direction.SOUTH_EAST].add(new Vector2(9,8));
+		listOfCoordsWithBorders[Direction.NORTH_WEST].add(new Vector2(10,7));
 		
-		listOfCoordsWithBorders[Direction.NORTH].add(new Vector2(9,8));
-		listOfCoordsWithBorders[Direction.SOUTH].add(new Vector2(9,9));
+		listOfCoordsWithBorders[Direction.SOUTH_WEST].add(new Vector2(9,8));
+		listOfCoordsWithBorders[Direction.NORTH_EAST].add(new Vector2(8,7));
+		
+		listOfCoordsWithBorders[Direction.SOUTH_WEST].add(new Vector2(9,9));
+		listOfCoordsWithBorders[Direction.NORTH_EAST].add(new Vector2(8,8));
+		
+		listOfCoordsWithBorders[Direction.NORTH_WEST].add(new Vector2(9,8));
+		listOfCoordsWithBorders[Direction.SOUTH_EAST].add(new Vector2(8,8));
 		
 		listOfCoordsWithBorders[Direction.NORTH_WEST].add(new Vector2(9,9));
 		listOfCoordsWithBorders[Direction.SOUTH_EAST].add(new Vector2(8,9));
@@ -175,9 +181,9 @@ public class MyGdxGame extends Game {
 		{WATER, WATER, 	WATER, 	WATER,	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
 		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
 		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
-		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	LAND, 	LAND,  LAND, 	LAND, 	LAND, 	WATER, 	WATER},
-		{WATER, WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	LAND, 	WATER, 	WATER},
-		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	LAND, 	WATER, 	WATER},
+		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
+		{WATER, WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
+		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},
 		{WATER, WATER, 	WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER},	
 		};
 	}
@@ -186,7 +192,11 @@ public class MyGdxGame extends Game {
 	private ArrayList<Vector2> GetTestTrackList(){
 		ArrayList<Vector2> trackCoords = new ArrayList<Vector2>();
 		
-		trackCoords.add(new Vector2(2,2));
+		trackCoords.add(new Vector2(5,11));
+		trackCoords.add(new Vector2(6,11));
+		trackCoords.add(new Vector2(7,11));
+		trackCoords.add(new Vector2(8,11));
+		trackCoords.add(new Vector2(9,11));
 		
 		return trackCoords;
 		
@@ -195,7 +205,8 @@ public class MyGdxGame extends Game {
 	private ArrayList<Vector2> GetTestZooList(){
 		ArrayList<Vector2> zooCoords = new ArrayList<Vector2>();
 		
-		zooCoords.add(new Vector2(0,3));
+		zooCoords.add(new Vector2(10,10));
+		zooCoords.add(new Vector2(4,11));
 		
 		return zooCoords;
 		

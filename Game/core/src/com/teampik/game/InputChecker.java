@@ -104,8 +104,7 @@ public class InputChecker implements InputProcessor
 				context.inGameScreen.selectTile(screenX, screenY);
 			}
 			
-			
-			
+						
 			
 			break;
 		}
