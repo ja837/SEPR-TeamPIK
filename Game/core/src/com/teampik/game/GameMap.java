@@ -101,8 +101,7 @@ public class GameMap extends TiledMap{
 	}
 
 	public static Vector2 getCoordsFromPoint(int mouseX, int mouseY, Vector3 camPos){
-
-		int adjustedMouseY = Gdx.graphics.getHeight() - mouseY;
+		
 
 		int halfScreenWidth = Gdx.graphics.getWidth() / 2;
 		int halfSscreenHeight = Gdx.graphics.getHeight() / 2;
@@ -113,19 +112,24 @@ public class GameMap extends TiledMap{
 		//Adjust for camera position.
 		int extraI2 = (int) (camPos.x - halfScreenWidth) % tileSide;	//These will be used for adjusting for camera positions not exactly lining up with hexagons
 		int extraJ2 = (int) (camPos.y - halfSscreenHeight) % tileHeight;	//Not used yet.
+		
+		int adjustedMouseX = mouseX + extraI2;
+		int adjustedMouseY = Gdx.graphics.getHeight() - mouseY + extraJ2;
+		
+		
 
-		int coordI = (int)Math.floor(((float)mouseX)/(float)tileSide);
+		int coordI = (int)Math.floor(((float)adjustedMouseX) /(float)tileSide);
 
 		//Adjust for camera position.
-		int extraI = (int) ((camPos.x - /*camInitPos.x*/ halfScreenWidth) / tileSide);
-		int extraJ = (int) ((camPos.y - /*camInitPos.y*/ halfSscreenHeight) / tileHeight);
+		int extraI = (int) ((camPos.x -  halfScreenWidth) / tileSide);
+		int extraJ = (int) ((camPos.y -  halfSscreenHeight) / tileHeight);
 
 
 
 		int coordIAdjusted = coordI + extraI;
 
 
-		int insideTileX = mouseX - tileSide*coordI;
+		int insideTileX = adjustedMouseX - tileSide*coordI;
 
 		int tempJ = adjustedMouseY - (((coordIAdjusted + 1) % 2) * tileHeight / 2);
 		int coordJ = (int)Math.floor((float)tempJ/(float)tileHeight);
@@ -137,7 +141,7 @@ public class GameMap extends TiledMap{
 			coords.y = coordJ;
 		} else {
 			coords.x = coordI - 1;
-			coords.y = (coordJ + ((coordIAdjusted/* + extraJ*/) % 2) - ((insideTileY < tileHeight / 2) ? 1 : 0));
+			coords.y = (coordJ + ((coordIAdjusted + 1) % 2) - ((insideTileY < tileHeight / 2) ? 1 : 0));
 
 		}
 
