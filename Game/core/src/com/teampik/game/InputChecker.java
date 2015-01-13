@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.input.GestureDetector.GestureListener;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 
 
@@ -11,11 +14,16 @@ import com.badlogic.gdx.InputProcessor;
 public class InputChecker implements InputProcessor
 {
 	
-	private MyGdxGame context;
+	private MyGdxGame game;
+	
+	private final Vector3 current = new Vector3();
+	private final Vector3 mouse = new Vector3();
+	private final Vector3 delta = new Vector3();
+	private final Vector3 last = new Vector3(-1, -1, -1);
 	
 	public InputChecker(MyGdxGame game){
 		
-		context = game;
+		this.game = game;
 	}
 	
 	
@@ -33,23 +41,23 @@ public class InputChecker implements InputProcessor
 			
 		case Gamestate.IN_GAME:
 			if (keycode == Input.Keys.W){
-				context.camera.translate(0, 10); //GameMap.tileHeight
+				game.camera.translate(0, 10); //GameMap.tileHeight
 			}
 			if (keycode == Input.Keys.A){
-				context.camera.translate(-10, 0); //-GameMap.tileSide
+				game.camera.translate(-10, 0); //-GameMap.tileSide
 			}
 			if (keycode == Input.Keys.S){
-				context.camera.translate(0, -10); //-GameMap.tileHeight
+				game.camera.translate(0, -10); //-GameMap.tileHeight
 			}
 			if (keycode == Input.Keys.D){
-				context.camera.translate(10, 0); //GameMap.tileSide
+				game.camera.translate(10, 0); //GameMap.tileSide
 			}
 			
 			if (keycode == Input.Keys.Q){
-				context.camera.translate(0, 1);
+				game.camera.translate(0, 1);
 			}
 			if (keycode == Input.Keys.E){
-				context.camera.translate(0, -1);
+				game.camera.translate(0, -1);
 			}
 			
 			
@@ -65,7 +73,7 @@ public class InputChecker implements InputProcessor
 		case Gamestate.MAIN_MENU:
 			if (keycode == Input.Keys.ENTER){
 				Gamestate.MoveToGamestate(Gamestate.IN_GAME);
-				context.setScreen(context.inGameScreen);
+				game.setScreen(game.inGameScreen);
 				
 			}
 			
@@ -75,7 +83,7 @@ public class InputChecker implements InputProcessor
 		case Gamestate.IN_GAME:
 			if (keycode == Input.Keys.ESCAPE){
 				Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
-				context.setScreen(context.mainMenuScreen);
+				game.setScreen(game.mainMenuScreen);
 			}
 			
 			
@@ -101,7 +109,7 @@ public class InputChecker implements InputProcessor
 			break;
 		case Gamestate.IN_GAME:
 			if (button == Buttons.LEFT){
-				context.inGameScreen.selectTile(screenX, screenY);
+				game.inGameScreen.selectTile(screenX, screenY);
 			}
 			
 						
@@ -118,19 +126,51 @@ public class InputChecker implements InputProcessor
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
+		switch (Gamestate.GetGamestate())
+		{
+		case Gamestate.MAIN_MENU:
+			break;
+		case Gamestate.IN_GAME:
+			if (button == Buttons.LEFT){
+				last.set(-1, -1, -1);
+			}
+			
+						
+			
+			break;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
+		
+		
+		switch (Gamestate.GetGamestate())
+		{
+		case Gamestate.MAIN_MENU:
+			break;
+		case Gamestate.IN_GAME:
+			
+			game.camera.unproject(current.set(screenX, screenY, 0));
+			
+			if (!(last.x == -1 && last.y == -1 && last.z == -1)) {
+			      game.camera.unproject(delta.set(last.x, last.y, 0));
+			      delta.sub(current);
+			      game.camera.position.add(delta.x, delta.y, 0);
+			    }
+			    last.set(screenX, screenY, 0);
+						
+			
+			break;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -140,6 +180,9 @@ public class InputChecker implements InputProcessor
 		return false;
 	}
 
+
+
+	
 	
 
 	

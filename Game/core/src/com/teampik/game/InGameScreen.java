@@ -53,9 +53,13 @@ public class InGameScreen implements Screen{
 		System.out.println("Mouse position : " + Integer.toString(x) + ", " + Integer.toString(y));
 		System.out.println("Camera position : " + cameraPosition.toString());		
 				
-		if (tile.borders[0] || tile.borders[1] || tile.borders[2] || tile.borders[3] || tile.borders[4] || tile.borders[5]){
-			System.out.println(tile.toString());
-		}			
+		if (tile != null){
+			if (tile.borders[0] || tile.borders[1] || tile.borders[2] || tile.borders[3] || tile.borders[4] || tile.borders[5]){
+				System.out.println(tile.toString());
+			}	
+		}
+			
+					
 		
 	}
 
