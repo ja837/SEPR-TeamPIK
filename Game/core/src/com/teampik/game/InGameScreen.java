@@ -119,7 +119,15 @@ public class InGameScreen implements Screen{
 			Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);	
 			game.setScreen(game.mainMenuScreen);}
 		else {
-			turnCount++;}
+			turnCount++;
+			for (Goal g : player.getAllGoals()){
+				g.goalTurnCount++;
+			}
+			
+			}
+		
+		Goal goal = Goal.createRandomGoal();
+		
 		
 		System.out.println(""+ turnCount);
 		return player;
