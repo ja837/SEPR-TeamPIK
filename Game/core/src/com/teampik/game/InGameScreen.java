@@ -12,8 +12,12 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
@@ -29,6 +33,8 @@ public class InGameScreen implements Screen{
 	Skin skin;
 	Stage stage;
 	
+	private Label lblPlayer;
+	
 	
 	MyGdxGame game;
 	
@@ -36,6 +42,30 @@ public class InGameScreen implements Screen{
         this.game = game;
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
         stage = new Stage();
+        
+        
+        lblPlayer = new Label("Player " + currentState + "'s turn", skin);
+        lblPlayer.setPosition(Gdx.graphics.getWidth() - 200f, Gdx.graphics.getHeight() - 20f);
+        lblPlayer.setWidth(200f);
+        lblPlayer.setHeight(20f);
+        
+        final TextButton button = new TextButton("End Turn", skin, "default");
+        
+        button.setWidth(200f);
+        button.setHeight(20f);
+        button.setPosition(Gdx.graphics.getWidth() - 200f, 20f);
+        
+        button.addListener(new ClickListener(){
+            @Override 
+            public void clicked(InputEvent event, float x, float y){
+            	currentState = endOfTurnProcessing;
+            }
+        });
+        
+        stage.addActor(button);
+        stage.addActor(lblPlayer);
+        
+        game.inputMultiplexer.addProcessor(stage);
         
 }
 
@@ -54,6 +84,7 @@ public class InGameScreen implements Screen{
 		
 		
 		game.batch.begin();
+		stage.draw();
 		switch (currentState){
 		case endOfTurnProcessing:
 			game.batch.draw(game.endOfTurn, 0 ,0);
@@ -82,6 +113,13 @@ public class InGameScreen implements Screen{
 		}
 		game.batch.end();
 		
+		
+		RefreshUI();
+		
+	}
+	
+	public void RefreshUI(){
+		lblPlayer.setText("Player " + currentState + "'s turn");
 	}
 	
 	

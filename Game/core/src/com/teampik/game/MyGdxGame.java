@@ -59,6 +59,8 @@ public class MyGdxGame extends Game {
     
     Player player1;
     Player player2;
+    
+    InputMultiplexer inputMultiplexer = new InputMultiplexer();
 	
 	
 	@Override
@@ -97,7 +99,6 @@ public class MyGdxGame extends Game {
         
 		InputChecker inputProcessor = new InputChecker(this);
 		
-		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		
         inputMultiplexer.addProcessor(inputProcessor);
         
