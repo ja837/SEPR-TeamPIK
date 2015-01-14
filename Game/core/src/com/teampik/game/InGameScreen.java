@@ -33,43 +33,28 @@ public class InGameScreen implements Screen{
 	public static int turnLimit = 50;
 
 	
-	Skin skin;
-	Stage stage;
-
 	
-	private Label lblPlayer;
+	InGameUI ui = new InGameUI();
+
 	
 	
 	MyGdxGame game;
 	
 	public InGameScreen(MyGdxGame game){
         this.game = game;
-        skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-        stage = new Stage();
         
+        ui = new InGameUI();
         
-        lblPlayer = new Label("Player " + currentState + "'s turn", skin);
-        lblPlayer.setPosition(Gdx.graphics.getWidth() - 200f, Gdx.graphics.getHeight() - 20f);
-        lblPlayer.setWidth(200f);
-        lblPlayer.setHeight(20f);
-        
-        final TextButton button = new TextButton("End Turn", skin, "default");
-        
-        button.setWidth(200f);
-        button.setHeight(20f);
-        button.setPosition(Gdx.graphics.getWidth() - 200f, 20f);
-        
-        button.addListener(new ClickListener(){
+        ui.btnEndTurn.addListener(new ClickListener(){
             @Override 
             public void clicked(InputEvent event, float x, float y){
             	currentState = endOfTurnProcessing;
             }
         });
         
-        stage.addActor(button);
-        stage.addActor(lblPlayer);
         
-        game.inputMultiplexer.addProcessor(stage);
+        
+        game.inputMultiplexer.addProcessor(ui.stage);
         
 }
 
@@ -88,7 +73,7 @@ public class InGameScreen implements Screen{
 		
 		
 		game.batch.begin();
-		stage.draw();
+		ui.stage.draw();
 		switch (currentState){
 		case endOfTurnProcessing:
 			game.batch.draw(game.endOfTurn, 0 ,0);
@@ -120,7 +105,7 @@ public class InGameScreen implements Screen{
 	}
 	
 	public void RefreshUI(){
-		lblPlayer.setText("Player " + currentState + "'s turn");
+		ui.lblPlayer.setText("Player " + currentState + "'s turn");
 	}
 	
 	public Player ProcessEndOfTurn(Player player){ //End of turn processing returns new instance of player
