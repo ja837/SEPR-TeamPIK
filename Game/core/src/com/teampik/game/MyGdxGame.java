@@ -55,6 +55,9 @@ public class MyGdxGame extends Game {
     
     GameMap map;
     Vector3 cameraInitPos;
+    
+    Player player1;
+    Player player2;
 	
 	
 	@Override
@@ -130,6 +133,9 @@ public class MyGdxGame extends Game {
         
         map = GameMap.createMap(this, m);
         tiledMapRenderer = new HexagonalTiledMapRenderer(map);
+        
+        player1 = new Player();
+        player2 = new Player();
 	}
 	
 	

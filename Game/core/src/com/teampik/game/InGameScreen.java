@@ -52,10 +52,12 @@ public class InGameScreen implements Screen{
 		switch (currentState){
 		case endOfTurnProcessing:
 			game.batch.draw(game.endOfTurn, 0 ,0);
+						
+			/*Region End of turn processing to be done here.
 			
-			//End of turn processing to be done here.
 			
 			
+			//EndRegion*/
 			
 			if (turnCount % 2 == 0){
 				currentState = player2Turn;
@@ -120,10 +122,6 @@ public class InGameScreen implements Screen{
 		}
 		
 
-		
-		
-			
-					
 		
 	}
 
