@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Player {
 	
-	public static String playerName = "default";
+	public String playerName = "default";
 	
 	ArrayList<Goal> goals = new ArrayList<Goal>();
 	
