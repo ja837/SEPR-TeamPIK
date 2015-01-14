@@ -59,6 +59,18 @@ public class InputChecker implements InputProcessor
 			if (keycode == Input.Keys.E){
 				game.camera.translate(0, -1);
 			}
+			if (keycode == Input.Keys.ENTER){
+				switch (game.inGameScreen.currentState){
+				case (InGameScreen.player1Turn):
+					game.inGameScreen.currentState = game.inGameScreen.endOfTurnProcessing;
+					break;
+				
+				case (InGameScreen.player2Turn):
+					game.inGameScreen.currentState = game.inGameScreen.endOfTurnProcessing;
+					break;
+				}
+			}
+			
 			
 			
 			break;

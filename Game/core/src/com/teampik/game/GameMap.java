@@ -121,7 +121,7 @@ public class GameMap extends TiledMap{
 		Vector3 camPos = camera.position;
 		float zoom = camera.zoom;
 		
-		
+		Vector2 coords = Vector2.Zero; // This is our final coordinate.
 		
 		int halfScreenWidth = Gdx.graphics.getWidth() / 2;		//Find middle of the screen. This is the default camera position.
 		int halfScreenHeight = Gdx.graphics.getHeight() / 2;
@@ -131,15 +131,17 @@ public class GameMap extends TiledMap{
 		int tileRadiusAdjusted = (int) (tileRadius / zoom);
 		
 		
-		
+		//When we zoom, our effective 0,0 coordinate is moved from he bottom left corner of the screen. This is used to help with the recalculation.
 		double hexSidesToXEdge = (double) halfScreenWidth / tileSide;
 		double hexHeightsToYEdge = (double) halfScreenHeight / tileHeight;
 		
-		double zeroCoordinateX = halfScreenWidth - (hexSidesToXEdge * tileSideAdjusted); //When we zoom, our effective 0,0 coordinate is moved.
+		double zeroCoordinateX = halfScreenWidth - (hexSidesToXEdge * tileSideAdjusted); 
 		double zeroCoordinateY = halfScreenHeight - (hexHeightsToYEdge * tileHeightAdjusted);
 
 
-		Vector2 coords = Vector2.Zero;
+		//Adjust for camera position (there may be tiles off screen).
+		int extraI = (int) ((camPos.x -  halfScreenWidth) / tileSideAdjusted);
+		int extraJ = (int) ((camPos.y -  halfScreenHeight) / tileHeightAdjusted);
 
 		//Adjust for uneven camera position (doesn't line up directly with hexagon edges).
 		int extraI2 = (int) (camPos.x - halfScreenWidth) % tileSideAdjusted;	
@@ -149,20 +151,17 @@ public class GameMap extends TiledMap{
 		int adjustedMouseY = Gdx.graphics.getHeight() - mouseY + extraJ2;
 		
 		
-
+		//x coordinate of Square box that the user clicked on in relation to screen.
 		int coordI = (int)Math.floor(((float)adjustedMouseX - zeroCoordinateX)/(float)tileSideAdjusted);
 
-		//Adjust for camera position (there may be tiles off screen).
-		int extraI = (int) ((camPos.x -  halfScreenWidth) / tileSideAdjusted);
-		int extraJ = (int) ((camPos.y -  halfScreenHeight) / tileHeightAdjusted);
-
-
-
+	
+		//x coordinate of Square box that user clicked on in relation to the world.
 		int coordIAdjusted = coordI + extraI;
 
-
+		//Where inside the square box user clicked in x direction
 		int insideTileX = adjustedMouseX - tileSideAdjusted*coordI;
 
+		//Use mouse position and x coordinates to work our which 
 		int tempJ = adjustedMouseY - (((coordIAdjusted + 1) % 2) * tileHeightAdjusted / 2);
 		int coordJ = (int)Math.floor(((float)tempJ - zeroCoordinateY)/(float)tileHeightAdjusted);
 		int coordJAdjusted = coordJ + extraJ;

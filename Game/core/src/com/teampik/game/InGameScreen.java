@@ -12,8 +12,19 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 
 public class InGameScreen implements Screen{
+	
+	final static int endOfTurnProcessing = 0;
+	final static int player1Turn = 1;
+	final static int player2Turn = 2;
+	
+	public static int currentState = endOfTurnProcessing;
+	public static int turnCount = 1;
+	
+	
 	
 	
 	MyGdxGame game;
@@ -36,6 +47,33 @@ public class InGameScreen implements Screen{
 		game.tiledMapRenderer.setView(game.camera);
 		game.tiledMapRenderer.render();
 		
+		
+		game.batch.begin();
+		switch (currentState){
+		case endOfTurnProcessing:
+			game.batch.draw(game.endOfTurn, 0 ,0);
+			
+			//End of turn processing to be done here.
+			
+			
+			
+			if (turnCount % 2 == 0){
+				currentState = player2Turn;
+				turnCount++;
+			}
+			else{
+				currentState = player1Turn;
+				turnCount++;
+			}
+			break;
+		case player1Turn:
+			game.batch.draw(game.player1Turn, 0 ,0);
+			break;
+		case player2Turn:
+			game.batch.draw(game.player2Turn, 0 ,0);
+			break;
+		}
+		game.batch.end();
 		
 	}
 	

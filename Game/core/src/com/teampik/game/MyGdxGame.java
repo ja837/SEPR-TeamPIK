@@ -31,6 +31,10 @@ public class MyGdxGame extends Game {
 	Texture img;
 	Texture img2;
 	
+	Texture player1Turn;
+	Texture player2Turn;
+	Texture endOfTurn;
+	
 	TextureRegion trDefault;
 	TextureRegion trWater;
 	TextureRegion trLand;
@@ -99,6 +103,10 @@ public class MyGdxGame extends Game {
         
         
         camera.update();
+        
+        player1Turn = new Texture("Turns/player1.png");
+        player2Turn = new Texture("Turns/player2.png");
+        endOfTurn = new Texture("Turns/endofturn.png");
         
         
         
