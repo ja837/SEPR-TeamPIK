@@ -27,8 +27,6 @@ public class InGameScreen implements Screen{
 	public static int turnCount = 1;
 
 	public static int turnLimit = 50;
-	public static Player player1 = new Player();
-	public static Player player2 = new Player();
 
 	
 	Skin skin;
@@ -64,20 +62,17 @@ public class InGameScreen implements Screen{
 		case endOfTurnProcessing:
 			game.batch.draw(game.endOfTurn, 0 ,0);
 						
-			/*Region End of turn processing to be done here.
+			//Region End of turn processing to be done here.
 			
-			
-			
-			//EndRegion*/
-			
-			if (turnCount % 2 == 0){
-				player1 = ProcessEndOfTurn(player1);
-				currentState = player2Turn;
-			}
-			else{
-				player2 = ProcessEndOfTurn(player2);
-				currentState = player1Turn;
-			}
+				if (turnCount % 2 == 0){
+					game.player1 = ProcessEndOfTurn(game.player1);
+					currentState = player2Turn;
+				}
+				else{
+					game.player2 = ProcessEndOfTurn(game.player2);
+					currentState = player1Turn;
+				}
+			//EndRegion
 			break;
 		case player1Turn:
 			game.batch.draw(game.player1Turn, 0 ,0);
