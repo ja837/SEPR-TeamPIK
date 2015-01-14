@@ -26,7 +26,6 @@ public class InGameScreen implements Screen{
 	final static int endOfTurnProcessing = 0;
 	final static int player1Turn = 1;
 	final static int player2Turn = 2;
-	
 	public static int currentState = endOfTurnProcessing;
 	public static int turnCount = 1;
 
@@ -61,6 +60,9 @@ public class InGameScreen implements Screen{
 	@Override
 	public void render(float delta) {
 		// TODO Auto-generated method stub
+		game.player1.changeName(game.mainMenuScreen.tf.getText()); //Assigns Names from menu text boxes to Players 
+		game.player2.changeName(game.mainMenuScreen.tf2.getText());
+		
 		
 		game.batch.begin();
 		game.batch.draw(game.img2, 0, 0);

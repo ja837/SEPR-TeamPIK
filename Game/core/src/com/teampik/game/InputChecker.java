@@ -118,6 +118,10 @@ public class InputChecker implements InputProcessor
 		switch (Gamestate.GetGamestate())
 		{
 		case Gamestate.MAIN_MENU:
+			if (button == Buttons.LEFT){
+				Gamestate.MoveToGamestate(Gamestate.IN_GAME);
+				game.setScreen(game.inGameScreen);
+			}
 			break;
 		case Gamestate.IN_GAME:
 			if (button == Buttons.LEFT){
