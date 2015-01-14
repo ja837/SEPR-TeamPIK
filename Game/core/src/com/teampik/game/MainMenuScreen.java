@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 
 public class MainMenuScreen implements Screen{
-	
+	//Menu GUI
 	Skin skin;
 	Stage stage;
 	
@@ -30,8 +30,8 @@ public class MainMenuScreen implements Screen{
                       
 
         
-        tf = new TextField("", skin);
-        tf2 = new TextField("", skin);
+        tf = new TextField("Collin Runciman", skin);
+        tf2 = new TextField("Paul Cairns", skin);
         
         tf.setPosition(0, 0);
         tf.setWidth(200f);
