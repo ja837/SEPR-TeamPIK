@@ -12,6 +12,8 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
@@ -24,13 +26,16 @@ public class InGameScreen implements Screen{
 	public static int currentState = endOfTurnProcessing;
 	public static int turnCount = 1;
 	
-	
+	Skin skin;
+	Stage stage;
 	
 	
 	MyGdxGame game;
 	
 	public InGameScreen(MyGdxGame game){
         this.game = game;
+        skin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        stage = new Stage();
         
 }
 
