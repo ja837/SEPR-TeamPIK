@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -55,6 +56,9 @@ public class MyGdxGame extends Game {
     
     GameMap map;
     Vector3 cameraInitPos;
+    
+    Player player1;
+    Player player2;
 	
 	
 	@Override
@@ -90,8 +94,14 @@ public class MyGdxGame extends Game {
 		
 		font = new BitmapFont();
         font.setColor(Color.RED);
+        
 		InputChecker inputProcessor = new InputChecker(this);
-		Gdx.input.setInputProcessor(inputProcessor);
+		
+		InputMultiplexer inputMultiplexer = new InputMultiplexer();
+		
+        inputMultiplexer.addProcessor(inputProcessor);
+        
+		Gdx.input.setInputProcessor(inputMultiplexer);
 		
 		float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -99,7 +109,7 @@ public class MyGdxGame extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
         cameraInitPos = camera.position;
-        //camera.zoom += 2;
+        
         
         
         camera.update();
@@ -130,6 +140,9 @@ public class MyGdxGame extends Game {
         
         map = GameMap.createMap(this, m);
         tiledMapRenderer = new HexagonalTiledMapRenderer(map);
+        
+        player1 = new Player();
+        player2 = new Player();
 	}
 	
 	

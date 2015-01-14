@@ -12,6 +12,8 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
@@ -23,15 +25,23 @@ public class InGameScreen implements Screen{
 	
 	public static int currentState = endOfTurnProcessing;
 	public static int turnCount = 1;
+
 	public static int turnLimit = 50;
 	public static Player player1 = new Player();
 	public static Player player2 = new Player();
+
+	
+	Skin skin;
+	Stage stage;
+
 	
 	
 	MyGdxGame game;
 	
 	public InGameScreen(MyGdxGame game){
         this.game = game;
+        skin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        stage = new Stage();
         
 }
 
@@ -53,10 +63,12 @@ public class InGameScreen implements Screen{
 		switch (currentState){
 		case endOfTurnProcessing:
 			game.batch.draw(game.endOfTurn, 0 ,0);
+						
+			/*Region End of turn processing to be done here.
 			
-			//End of turn processing to be done here.
 			
 			
+			//EndRegion*/
 			
 			if (turnCount % 2 == 0){
 				player1 = ProcessEndOfTurn(player1);
@@ -133,10 +145,6 @@ public class InGameScreen implements Screen{
 		}
 		
 
-		
-		
-			
-					
 		
 	}
 
