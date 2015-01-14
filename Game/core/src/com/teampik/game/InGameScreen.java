@@ -44,7 +44,8 @@ public class InGameScreen implements Screen{
 		
 		Vector3 cameraPosition = game.camera.position;
 		
-		Vector2 tileCoords = GameMap.getCoordsFromPoint(x, y, cameraPosition);
+		
+		Vector2 tileCoords = GameMap.getCoordsFromPoint(x, y, game.camera);
 		
 		MapTile tile = game.map.getTile((int)tileCoords.x, (int)tileCoords.y, 0);
 		
@@ -58,6 +59,10 @@ public class InGameScreen implements Screen{
 				System.out.println(tile.toString());
 			}	
 		}
+		
+
+		
+		
 			
 					
 		

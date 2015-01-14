@@ -3,6 +3,8 @@ package com.teampik.game;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -100,48 +102,64 @@ public class GameMap extends TiledMap{
 		
 	}
 
-	public static Vector2 getCoordsFromPoint(int mouseX, int mouseY, Vector3 camPos){
+	public static Vector2 getCoordsFromPoint(int mouseX, int mouseY, OrthographicCamera camera){
 		
-
-		int halfScreenWidth = Gdx.graphics.getWidth() / 2;
-		int halfSscreenHeight = Gdx.graphics.getHeight() / 2;
+		Vector3 camPos = camera.position;
+		float zoom = camera.zoom;
+		
+		
+		
+		int halfScreenWidth = Gdx.graphics.getWidth() / 2;		//Find middle of the screen. This is the default camera position.
+		int halfScreenHeight = Gdx.graphics.getHeight() / 2;
+		
+		int tileSideAdjusted = (int) ( tileSide / zoom);
+		int tileHeightAdjusted = (int) (tileHeight / zoom);		//Adjust the tile geometry values according to the zoom
+		int tileRadiusAdjusted = (int) (tileRadius / zoom);
+		
+		
+		
+		double hexSidesToXEdge = (double) halfScreenWidth / tileSide;
+		double hexHeightsToYEdge = (double) halfScreenHeight / tileHeight;
+		
+		double zeroCoordinateX = halfScreenWidth - (hexSidesToXEdge * tileSideAdjusted); //When we zoom, our effective 0,0 coordinate is moved.
+		double zeroCoordinateY = halfScreenHeight - (hexHeightsToYEdge * tileHeightAdjusted);
 
 
 		Vector2 coords = Vector2.Zero;
 
-		//Adjust for camera position.
-		int extraI2 = (int) (camPos.x - halfScreenWidth) % tileSide;	//These will be used for adjusting for camera positions not exactly lining up with hexagons
-		int extraJ2 = (int) (camPos.y - halfSscreenHeight) % tileHeight;	//Not used yet.
+		//Adjust for uneven camera position (doesn't line up directly with hexagon edges).
+		int extraI2 = (int) (camPos.x - halfScreenWidth) % tileSideAdjusted;	
+		int extraJ2 = (int) (camPos.y - halfScreenHeight) % tileHeightAdjusted;	
 		
 		int adjustedMouseX = mouseX + extraI2;
 		int adjustedMouseY = Gdx.graphics.getHeight() - mouseY + extraJ2;
 		
 		
 
-		int coordI = (int)Math.floor(((float)adjustedMouseX) /(float)tileSide);
+		int coordI = (int)Math.floor(((float)adjustedMouseX - zeroCoordinateX)/(float)tileSideAdjusted);
 
-		//Adjust for camera position.
-		int extraI = (int) ((camPos.x -  halfScreenWidth) / tileSide);
-		int extraJ = (int) ((camPos.y -  halfSscreenHeight) / tileHeight);
+		//Adjust for camera position (there may be tiles off screen).
+		int extraI = (int) ((camPos.x -  halfScreenWidth) / tileSideAdjusted);
+		int extraJ = (int) ((camPos.y -  halfScreenHeight) / tileHeightAdjusted);
 
 
 
 		int coordIAdjusted = coordI + extraI;
 
 
-		int insideTileX = adjustedMouseX - tileSide*coordI;
+		int insideTileX = adjustedMouseX - tileSideAdjusted*coordI;
 
-		int tempJ = adjustedMouseY - (((coordIAdjusted + 1) % 2) * tileHeight / 2);
-		int coordJ = (int)Math.floor((float)tempJ/(float)tileHeight);
+		int tempJ = adjustedMouseY - (((coordIAdjusted + 1) % 2) * tileHeightAdjusted / 2);
+		int coordJ = (int)Math.floor(((float)tempJ - zeroCoordinateY)/(float)tileHeightAdjusted);
 		int coordJAdjusted = coordJ + extraJ;
-		int insideTileY = tempJ - tileHeight*coordJ;
+		int insideTileY = tempJ - tileHeightAdjusted*coordJ;
 
-		if (insideTileX > Math.abs(tileRadius / 2 - tileRadius * insideTileY / tileHeight)) {
+		if (insideTileX > Math.abs(tileRadiusAdjusted / 2 - tileRadiusAdjusted * insideTileY / tileHeightAdjusted)) {
 			coords.x = coordI;
 			coords.y = coordJ;
 		} else {
 			coords.x = coordI - 1;
-			coords.y = (coordJ + ((coordIAdjusted + 1) % 2) - ((insideTileY < tileHeight / 2) ? 1 : 0));
+			coords.y = (coordJ + ((coordIAdjusted + 1) % 2) - ((insideTileY < tileHeightAdjusted / 2) ? 1 : 0));
 
 		}
 

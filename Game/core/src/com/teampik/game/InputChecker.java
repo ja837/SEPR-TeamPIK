@@ -176,7 +176,28 @@ public class InputChecker implements InputProcessor
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
+		
+		switch (Gamestate.GetGamestate())
+		{
+		case Gamestate.MAIN_MENU:
+			break;
+		case Gamestate.IN_GAME:
+			
+			if (amount > 0 && game.camera.zoom < 1.5) {
+				game.camera.zoom += 0.1f;
+			}
+
+	        //Zoom in
+			if (amount < 0 && game.camera.zoom > 0.5) {
+				game.camera.zoom -= 0.1f;
+			}
+			
+						
+			
+			break;
+		}
+
+		
 		return false;
 	}
 
