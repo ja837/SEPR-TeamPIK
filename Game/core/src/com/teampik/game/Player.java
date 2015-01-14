@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Player {
 	
+	public static String playerName = "default";
+	
 	ArrayList<Goal> goals = new ArrayList<Goal>();
 	
 	
@@ -19,4 +21,7 @@ public class Player {
 		return goals.get(index);
 	}
 
+	public void changeName(String newName){
+		playerName = newName;
+	}
 }

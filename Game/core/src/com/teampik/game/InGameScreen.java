@@ -29,9 +29,13 @@ public class InGameScreen implements Screen{
 	
 	public static int currentState = endOfTurnProcessing;
 	public static int turnCount = 1;
+
+	public static int turnLimit = 50;
+
 	
 	Skin skin;
 	Stage stage;
+
 	
 	private Label lblPlayer;
 	
@@ -89,20 +93,17 @@ public class InGameScreen implements Screen{
 		case endOfTurnProcessing:
 			game.batch.draw(game.endOfTurn, 0 ,0);
 						
-			/*Region End of turn processing to be done here.
+			//Region End of turn processing to be done here.
 			
-			
-			
-			//EndRegion*/
-			
-			if (turnCount % 2 == 0){
-				currentState = player2Turn;
-				turnCount++;
-			}
-			else{
-				currentState = player1Turn;
-				turnCount++;
-			}
+				if (turnCount % 2 == 0){
+					game.player1 = ProcessEndOfTurn(game.player1);
+					currentState = player2Turn;
+				}
+				else{
+					game.player2 = ProcessEndOfTurn(game.player2);
+					currentState = player1Turn;
+				}
+			//EndRegion
 			break;
 		case player1Turn:
 			game.batch.draw(game.player1Turn, 0 ,0);
@@ -120,6 +121,18 @@ public class InGameScreen implements Screen{
 	
 	public void RefreshUI(){
 		lblPlayer.setText("Player " + currentState + "'s turn");
+	}
+	
+	public Player ProcessEndOfTurn(Player player){ //End of turn processing returns new instance of player
+		if (turnCount == turnLimit){
+			turnCount = 1;
+			Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);	
+			game.setScreen(game.mainMenuScreen);}
+		else {
+			turnCount++;}
+		
+		System.out.println(""+ turnCount);
+		return player;
 	}
 	
 	
@@ -204,5 +217,5 @@ public class InGameScreen implements Screen{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }
