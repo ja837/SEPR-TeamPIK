@@ -51,9 +51,11 @@ public class InGameScreen implements Screen{
 		
 		
 		//Visibly select the tile.
-		if (!(game.currentlySelectedTile.x < 0))
+		Cell toBeRemoved = selectedLayer.getCell((int)game.currentlySelectedTile.x, (int) game.currentlySelectedTile.y);
+		
+		if (toBeRemoved != null)
 		{
-			selectedLayer.getCell((int)game.currentlySelectedTile.x, (int) game.currentlySelectedTile.y).setTile(null);
+			toBeRemoved.setTile(null);
 		}
 			
 		
