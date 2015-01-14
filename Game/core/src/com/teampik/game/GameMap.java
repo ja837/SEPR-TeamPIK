@@ -14,6 +14,14 @@ import com.badlogic.gdx.math.Vector3;
 
 public class GameMap extends TiledMap{
 	
+	final static int baseLayerIndex = 0;
+	final static int borderLayerIndex[] = {1,2,3,4,5,6};
+	final static int trackLayerIndex = 7;
+	final static int zooLayerIndex = 8;
+	final static int itemLayerIndex = 9;
+	final static int trainLayerIndex = 10;
+	final static int selectedTileLayerIndex = 11;
+	
 	//Current Layer index: 0 = base, 1-6 = borders, 7 track, 8 zoo
 	
 	MyGdxGame game;
@@ -86,7 +94,9 @@ public class GameMap extends TiledMap{
 		}
 			
 			
-		
+		TiledMapTileLayer itemLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
+		TiledMapTileLayer trainLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
+		TiledMapTileLayer selectedTileLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
 		
 		//Add all the layers.
 		layers.add(baseLayer);		
@@ -95,6 +105,10 @@ public class GameMap extends TiledMap{
 		}		
 		layers.add(trackLayer);
 		layers.add(zooLayer);
+		
+		layers.add(itemLayer);
+		layers.add(trainLayer);
+		layers.add(selectedTileLayer);
 		
 		
 		return map;

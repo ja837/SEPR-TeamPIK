@@ -36,7 +36,9 @@ public class MyGdxGame extends Game {
 	TextureRegion trLand;
 	TextureRegion trTrack;
 	TextureRegion trZoo;
+	TextureRegion trSelected;
 	TextureRegion[] trBorders = new TextureRegion[6];
+	Vector2 currentlySelectedTile = new Vector2(-1,-1);
 	
 	TiledMap tiledMap;
     OrthographicCamera camera;
@@ -105,6 +107,7 @@ public class MyGdxGame extends Game {
         trLand = new TextureRegion(new Texture("perfectHexagonGreen.png"));
         trTrack = new TextureRegion(new Texture("track.png"));
         trZoo = new TextureRegion(new Texture("zoo.png"));
+        trSelected = new TextureRegion(new Texture("perfectHexagonSelected.png"));
         trBorders[Direction.NORTH] = new TextureRegion(new Texture("Borders/borderNorth.png"));
         trBorders[Direction.NORTH_EAST] = new TextureRegion(new Texture("Borders/borderNorthEast.png"));
         trBorders[Direction.SOUTH_EAST] = new TextureRegion(new Texture("Borders/borderSouthEast.png"));

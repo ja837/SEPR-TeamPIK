@@ -47,6 +47,25 @@ public class InGameScreen implements Screen{
 		
 		Vector2 tileCoords = GameMap.getCoordsFromPoint(x, y, game.camera);
 		
+		TiledMapTileLayer selectedLayer = (TiledMapTileLayer) game.map.getLayers().get(GameMap.selectedTileLayerIndex);
+		
+		
+		//Visibly select the tile.
+		if (!(game.currentlySelectedTile.x < 0))
+		{
+			selectedLayer.getCell((int)game.currentlySelectedTile.x, (int) game.currentlySelectedTile.y).setTile(null);
+		}
+			
+		
+		
+		Cell cell = new Cell();
+		cell.setTile(new MapTile(game.trSelected));		
+		selectedLayer.setCell((int) tileCoords.x,  (int) tileCoords.y, cell);
+		
+		game.currentlySelectedTile = tileCoords.cpy();
+		
+		
+		
 		MapTile tile = game.map.getTile((int)tileCoords.x, (int)tileCoords.y, 0);
 		
 		//Debug, outputs tile info to console.
