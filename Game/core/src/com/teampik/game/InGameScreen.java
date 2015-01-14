@@ -23,8 +23,9 @@ public class InGameScreen implements Screen{
 	
 	public static int currentState = endOfTurnProcessing;
 	public static int turnCount = 1;
-	
-	
+	public static int turnLimit = 50;
+	public static Player player1 = new Player();
+	public static Player player2 = new Player();
 	
 	
 	MyGdxGame game;
@@ -58,12 +59,12 @@ public class InGameScreen implements Screen{
 			
 			
 			if (turnCount % 2 == 0){
+				player1 = ProcessEndOfTurn(player1);
 				currentState = player2Turn;
-				turnCount++;
 			}
 			else{
+				player2 = ProcessEndOfTurn(player2);
 				currentState = player1Turn;
-				turnCount++;
 			}
 			break;
 		case player1Turn:
@@ -75,6 +76,18 @@ public class InGameScreen implements Screen{
 		}
 		game.batch.end();
 		
+	}
+	
+	public Player ProcessEndOfTurn(Player player){ //End of turn processing returns new instance of player
+		if (turnCount == turnLimit){
+			turnCount = 1;
+			Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);	
+			game.setScreen(game.mainMenuScreen);}
+		else {
+			turnCount++;}
+		
+		System.out.println(""+ turnCount);
+		return player;
 	}
 	
 	
@@ -163,5 +176,5 @@ public class InGameScreen implements Screen{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }
