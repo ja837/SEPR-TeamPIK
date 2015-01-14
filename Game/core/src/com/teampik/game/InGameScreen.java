@@ -86,7 +86,7 @@ public class InGameScreen implements Screen{
 		game.tiledMapRenderer.setView(game.camera);
 		game.tiledMapRenderer.render();
 		
-		
+		Player currentPlayer = game.player1;
 		game.batch.begin();
 		stage.draw();
 		switch (currentState){
@@ -107,20 +107,23 @@ public class InGameScreen implements Screen{
 			break;
 		case player1Turn:
 			game.batch.draw(game.player1Turn, 0 ,0);
+			currentPlayer = game.player1;
+			
 			break;
 		case player2Turn:
 			game.batch.draw(game.player2Turn, 0 ,0);
+			currentPlayer = game.player2;
+		
 			break;
 		}
 		game.batch.end();
 		
-		
-		RefreshUI();
+		RefreshUI(currentPlayer.playerName);
 		
 	}
 	
-	public void RefreshUI(){
-		lblPlayer.setText("Player " + currentState + "'s turn");
+	public void RefreshUI(String playerName){
+		lblPlayer.setText(playerName + "'s (Player " + currentState + "'s) turn");
 	}
 	
 	public Player ProcessEndOfTurn(Player player){ //End of turn processing returns new instance of player
