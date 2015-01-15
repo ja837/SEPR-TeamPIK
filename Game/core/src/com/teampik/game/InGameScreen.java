@@ -1,5 +1,7 @@
 package com.teampik.game;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -62,6 +64,9 @@ public class InGameScreen implements Screen{
 		Gamestate.MoveToGamestate(Gamestate.IN_GAME);
 		game.setScreen(game.inGameScreen);
 		turnCount = 1;
+		
+		game.player1.changeName(game.mainMenuScreen.tf.getText()); //Assigns Names from menu text boxes to Players 
+		game.player2.changeName(game.mainMenuScreen.tf2.getText());
 		
 	}
 
@@ -126,7 +131,20 @@ public class InGameScreen implements Screen{
 			Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);	
 			game.setScreen(game.mainMenuScreen);}
 		else {
-			turnCount++;}
+			turnCount++;
+			for (Goal g : player.getAllGoals()){
+				g.goalTurnCount++;
+			}
+			
+			}
+		
+		Random rdm = new Random();
+		int ranNumber = rdm.nextInt(4);
+		Goal g = new Goal(ranNumber);
+		player.addGoal(g);
+		
+		
+		
 
 		System.out.println(""+ turnCount);
 		

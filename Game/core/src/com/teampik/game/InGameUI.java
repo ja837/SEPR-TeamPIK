@@ -20,7 +20,7 @@ public class InGameUI{
         
         
         lblPlayer = new Label("", skin);
-        lblPlayer.setPosition(Gdx.graphics.getWidth() - 200f, Gdx.graphics.getHeight() - 20f);
+        lblPlayer.setPosition(Gdx.graphics.getWidth() - 300f, Gdx.graphics.getHeight() - 20f);
         lblPlayer.setWidth(200f);
         lblPlayer.setHeight(20f);
         
@@ -32,5 +32,7 @@ public class InGameUI{
         stage.addActor(btnEndTurn);
         stage.addActor(lblPlayer);
 	}
+	private String txtVal;
+
 
 }

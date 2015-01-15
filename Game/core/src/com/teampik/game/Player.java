@@ -10,9 +10,14 @@ public class Player {
 	
 	
 	public void addGoal(Goal goal){
-		goals.add(goal);
+		//0 for basic; 1 for easy; 2 for med; 3 for hard
+		if (goals.size() < 3){
+			goals.add(new Goal(1));
+			
+		}
 	}
-	
+
+
 	public ArrayList<Goal> getAllGoals(){
 		return goals;
 	}
