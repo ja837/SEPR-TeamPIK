@@ -1,5 +1,7 @@
 package com.teampik.game;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -128,7 +130,11 @@ public class InGameScreen implements Screen{
 			
 			}
 		
-		Goal goal = Goal.createRandomGoal();
+		Random rdm = new Random();
+		int ranNumber = rdm.nextInt(4);
+		Goal g = new Goal(ranNumber);
+		player.addGoal(g);
+		
 		
 		
 		System.out.println(""+ turnCount);
