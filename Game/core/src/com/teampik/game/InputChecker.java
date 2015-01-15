@@ -59,16 +59,8 @@ public class InputChecker implements InputProcessor
 			if (keycode == Input.Keys.E){
 				game.camera.translate(0, -1);
 			}
-			if (keycode == Input.Keys.SPACE){
-				switch (game.inGameScreen.currentState){
-				case (InGameScreen.player1Turn):
-					game.inGameScreen.currentState = game.inGameScreen.endOfTurnProcessing;
-					break;
-				
-				case (InGameScreen.player2Turn):
-					game.inGameScreen.currentState = game.inGameScreen.endOfTurnProcessing;
-					break;
-				}
+			if (keycode == Input.Keys.ESCAPE){
+				game.mainMenuScreen.SwitchToMainMenuScreen();
 			}
 			
 			
@@ -87,9 +79,7 @@ public class InputChecker implements InputProcessor
 			break;
 			
 		case Gamestate.IN_GAME:
-			if (keycode == Input.Keys.ESCAPE){
-				game.mainMenuScreen.SwitchToMainMenuScreen();
-			}
+			
 			
 			
 			break;
@@ -111,9 +101,7 @@ public class InputChecker implements InputProcessor
 		switch (Gamestate.GetGamestate())
 		{
 		case Gamestate.MAIN_MENU:
-			if (button == Buttons.LEFT){
-				game.inGameScreen.SwitchToInGameScreen();
-			}
+			
 			break;
 		case Gamestate.IN_GAME:
 			if (button == Buttons.LEFT){
