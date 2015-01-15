@@ -31,4 +31,8 @@ public class Player {
 	public void changeName(String newName){
 		playerName = newName;
 	}
+	
+	public void discardGoal(Goal g){
+		//to do
+	}
 }

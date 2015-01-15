@@ -83,19 +83,12 @@ public class InputChecker implements InputProcessor
 		switch (Gamestate.GetGamestate())
 		{
 		case Gamestate.MAIN_MENU:
-			if (keycode == Input.Keys.ENTER){
-				Gamestate.MoveToGamestate(Gamestate.IN_GAME);
-				game.setScreen(game.inGameScreen);
-				
-			}
-			
-			
+									
 			break;
 			
 		case Gamestate.IN_GAME:
 			if (keycode == Input.Keys.ESCAPE){
-				Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
-				game.setScreen(game.mainMenuScreen);
+				game.mainMenuScreen.SwitchToMainMenuScreen();
 			}
 			
 			
@@ -119,8 +112,7 @@ public class InputChecker implements InputProcessor
 		{
 		case Gamestate.MAIN_MENU:
 			if (button == Buttons.LEFT){
-				Gamestate.MoveToGamestate(Gamestate.IN_GAME);
-				game.setScreen(game.inGameScreen);
+				game.inGameScreen.SwitchToInGameScreen();
 			}
 			break;
 		case Gamestate.IN_GAME:
@@ -199,6 +191,9 @@ public class InputChecker implements InputProcessor
 			break;
 		case Gamestate.IN_GAME:
 			
+			
+			
+			/* Have to disable this because its not working.
 			if (amount > 0 && game.camera.zoom < 1.5) {
 				game.camera.zoom += 0.1f;
 			}
@@ -206,7 +201,7 @@ public class InputChecker implements InputProcessor
 	        //Zoom in
 			if (amount < 0 && game.camera.zoom > 0.5) {
 				game.camera.zoom -= 0.1f;
-			}
+			}*/
 			
 						
 			
