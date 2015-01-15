@@ -11,11 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 
 public class MainMenuScreen implements Screen{
-<<<<<<< HEAD
 
-=======
 	//Menu GUI
->>>>>>> fe0c9fed9c1cd7f64999ceec15f8056532110264
+
 	Skin skin;
 	Stage stage;
 
@@ -27,7 +25,7 @@ public class MainMenuScreen implements Screen{
 	String txtVal2;
 
 	public MainMenuScreen(MyGdxGame game){
-<<<<<<< HEAD
+
 		this.game = game;
 
 		skin = new Skin(Gdx.files.internal("data/uiskin.json"));
@@ -80,53 +78,7 @@ public class MainMenuScreen implements Screen{
 		
 
 	}
-=======
-        this.context = game;
-        
-        skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-        stage = new Stage();
-                      
 
-        
-        tf = new TextField("Collin Runciman", skin);
-        tf2 = new TextField("Paul Cairns", skin);
-        
-        tf.setPosition(0, 0);
-        tf.setWidth(200f);
-        tf.setHeight(20f);
-        
-        
-
-        tf.setTextFieldListener(new TextFieldListener() {
-
-        	@Override
-        	public void keyTyped(TextField textField, char key) {
-        		txtVal= textField.getText();
-        	}
-        });
-
-        
-        tf2.setPosition(Gdx.graphics.getWidth()- 200, 0);
-        tf2.setWidth(200f);
-        tf2.setHeight(20f);
-        
-        tf2.setTextFieldListener(new TextFieldListener() {
-
-        	@Override
-        	public void keyTyped(TextField textField, char key) {
-        		txtVal2= textField.getText();
-        	}
-        });
-        
-        stage.addActor(tf);
-        stage.addActor(tf2);
-        
-        
-        game.inputMultiplexer.addProcessor(stage);
-        
-        
-}
->>>>>>> fe0c9fed9c1cd7f64999ceec15f8056532110264
 
 	@Override
 	public void render(float delta) {
