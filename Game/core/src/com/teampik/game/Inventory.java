@@ -2,7 +2,7 @@ package com.teampik.game;
 
 import java.util.ArrayList;
 
-public class Inventory extends Player {
+public class Inventory {
 	//Trains
 	ArrayList<Train> trains = new ArrayList<Train>();
 
