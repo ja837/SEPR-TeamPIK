@@ -10,8 +10,12 @@ public class MapLayout {
 	
 	public final static int WATER = 1000;
 	public final static int LAND = 2000;
-	public final static int TRACK = 3000;
-	public final static int ZOO  = 4000;
+	public final static int SNOW = 3000;
+	public final static int MOUNTAIN = 4000;
+	public final static int FORREST = 5000;
+	public final static int DESERT = 6000;
+	public final static int TRACK = 7000;
+	public final static int ZOO  = 8000;
 	
 	
 	ArrayList<Vector2>[] borders;

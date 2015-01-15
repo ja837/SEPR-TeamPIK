@@ -155,69 +155,144 @@ public class MyGdxGame extends Game {
 	
 	//Just an example list of borders
 	private ArrayList<Vector2>[] GetTestBorderList(){
-		ArrayList<Vector2>[] listOfCoordsWithBorders = (ArrayList<Vector2>[]) new ArrayList[6];
+		ArrayList<Vector2>[] lstBorderCoords = (ArrayList<Vector2>[]) new ArrayList[6];
 		
 		for (int i = Direction.NORTH; i <= Direction.NORTH_WEST; i++){
-        	listOfCoordsWithBorders[i] = new ArrayList<Vector2>();
+        	lstBorderCoords[i] = new ArrayList<Vector2>();
         }
 		
-		//Always add the opposite border, so if 0,0 has a border to the north, 0,1 must have a border to the south.
+		// NORTH borders
+		lstBorderCoords[Direction.NORTH].add(new Vector2(9,7));
 		
-		listOfCoordsWithBorders[Direction.SOUTH].add(new Vector2(9,8));
-		listOfCoordsWithBorders[Direction.NORTH].add(new Vector2(9,7));
+		// SOUTH borders
+		for (Vector2 v : lstBorderCoords[Direction.NORTH]){
+			if ((int)v.y != 29) {
+				lstBorderCoords[Direction.SOUTH].add(new Vector2((int)v.x,(int)v.y+1));
+			}
+        }
 		
-		listOfCoordsWithBorders[Direction.SOUTH_EAST].add(new Vector2(9,8));
-		listOfCoordsWithBorders[Direction.NORTH_WEST].add(new Vector2(10,7));
+		// NORTHWEST borders
+		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(1,1));
+		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(1,2));
+		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(2,1));
+		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(2,2));
 		
-		listOfCoordsWithBorders[Direction.SOUTH_WEST].add(new Vector2(9,8));
-		listOfCoordsWithBorders[Direction.NORTH_EAST].add(new Vector2(8,7));
+		// SOUTHEAST borders
+		for (Vector2 v : lstBorderCoords[Direction.SOUTH_EAST]){
+			if ((int)v.x > 0 && (int)v.y < 29) {
+				if ((int)v.x/2 == 0) {
+					if ((int)v.y/2 == 0) {
+						lstBorderCoords[Direction.SOUTH_EAST].add(new Vector2((int)v.x+1,(int)v.y+1));
+					} else {
+						lstBorderCoords[Direction.SOUTH_EAST].add(new Vector2((int)v.x+1,(int)v.y-1));
+					}
+				} else {
+					lstBorderCoords[Direction.SOUTH_EAST].add(new Vector2((int)v.x+1,(int)v.y+1));
+				}
+			}
+        }
 		
-		listOfCoordsWithBorders[Direction.SOUTH_WEST].add(new Vector2(9,9));
-		listOfCoordsWithBorders[Direction.NORTH_EAST].add(new Vector2(8,8));
+		// NORTHEAST borders
+		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(1,1));
+		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(1,2));
+		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(2,1));
+		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(2,2));
+				
+		// SOUTHWEST borders
+		for (Vector2 v : lstBorderCoords[Direction.NORTH_EAST]){
+			if ((int)v.x < 44 && (int)v.y < 29) {
+				if ((int)v.x/2 == 0) {
+					if ((int)v.y/2 == 0) {
+						lstBorderCoords[Direction.SOUTH_WEST].add(new Vector2((int)v.x+1,(int)v.y+1));
+					} else {
+						lstBorderCoords[Direction.SOUTH_WEST].add(new Vector2((int)v.x+1,(int)v.y-1));
+					}
+				} else {
+					lstBorderCoords[Direction.SOUTH_WEST].add(new Vector2((int)v.x+1,(int)v.y+1));
+				}
+			}
+		}
 		
-		listOfCoordsWithBorders[Direction.NORTH_WEST].add(new Vector2(9,8));
-		listOfCoordsWithBorders[Direction.SOUTH_EAST].add(new Vector2(8,8));
 		
-		listOfCoordsWithBorders[Direction.NORTH_WEST].add(new Vector2(9,9));
-		listOfCoordsWithBorders[Direction.SOUTH_EAST].add(new Vector2(8,9));
 		
-		listOfCoordsWithBorders[Direction.NORTH_EAST].add(new Vector2(9,8));
-		listOfCoordsWithBorders[Direction.SOUTH_WEST].add(new Vector2(10,8));
 		
 		
         
 		
-		return listOfCoordsWithBorders;
+		return lstBorderCoords;
 		
 	}
 	
 	//Example map layout.
 	private int[][] GetTestTileLayout(){
 		
-		int WATER = MapLayout.WATER;
-		int LAND = MapLayout.LAND;
-		int ZOO = MapLayout.ZOO;
-		int TRACK = MapLayout.TRACK;
+		int w = MapLayout.WATER;
+		int l = MapLayout.LAND;
+		int z = MapLayout.ZOO;
+		int t = MapLayout.TRACK;
+		int s = MapLayout.SNOW;
+		int d = MapLayout.DESERT;
+		int f = MapLayout.FORREST;
+		int m = MapLayout.MOUNTAIN;
 		
-	
-		//Because arrays are indexed differently to libgdx's cells, this will appear 90 degrees rotated to the left.
-		return new int[][]{
-		{WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, LAND},
-		{WATER, WATER, 	LAND, 	LAND, 	LAND, 	LAND, 	LAND, 	WATER, WATER, 	LAND, 	LAND, 	LAND, 	WATER, LAND},
-		{WATER, WATER, 	WATER, 	WATER, 	LAND, 	WATER, 	WATER, 	WATER, WATER, 	LAND, 	WATER, 	LAND, 	WATER, LAND},
-		{WATER, WATER, 	WATER, 	WATER, 	LAND, 	WATER, 	WATER, 	WATER, WATER, 	LAND, 	LAND, 	LAND, 	WATER, LAND},
-		{WATER, WATER, 	WATER, 	WATER, 	LAND, 	WATER, 	WATER, 	WATER, WATER, 	LAND, 	WATER, 	LAND, 	WATER, LAND},
-		{WATER,	WATER, 	LAND, 	LAND, 	LAND, 	WATER, 	WATER, 	WATER, WATER, 	LAND, 	WATER, 	LAND, 	WATER, LAND},
-		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, LAND},
-		{WATER, WATER, 	WATER, 	WATER,	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, LAND},
-		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, LAND},
-		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, LAND},
-		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, LAND},
-		{WATER, WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, LAND},
-		{WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, LAND},
-		{WATER, WATER, 	WATER,	WATER, 	WATER, 	WATER, 	WATER, 	WATER, WATER, 	WATER, 	WATER, 	WATER, 	WATER, LAND},	
-		};
+		int[][] layout = new int[30][45];
+		
+		// j = 0 : far lefthand column
+		// i = 0 : top row
+		
+		// initially cover entire map with water
+		for (int i = 0; i < 30; i++) {
+			for (int j = 0; j < 45; j ++){
+				layout[i][j] = w;
+			}
+		}
+		
+		// j = 0
+		for (int i = 24; i < 27; i++) {layout[i][0] = l;}
+		// j = 1
+		for (int i = 22; i < 27; i++) {layout[i][1] = l;}
+		// j = 2
+		for (int i = 18; i < 28; i++) {layout[i][2] = l;}
+		// j = 3
+		for (int i = 17; i < 27; i++) {layout[i][3] = l;}
+		// j = 4
+		for (int i = 19; i < 28; i++) {layout[i][4] = l;}
+		// j = 5
+		for (int i = 18; i < 27; i++) {layout[i][5] = l;}
+		// j = 6
+		for (int i = 6; i < 7; i++) {layout[i][6] = l;}
+		for (int i = 19; i < 28; i++) {layout[i][6] = l;}
+		// j = 7
+		for (int i = 5; i < 7; i++) {layout[i][7] = l;}
+		for (int i = 20; i < 27; i++) {layout[i][7] = l;}
+		// j = 8
+		for (int i = 0; i < 23; i++) {layout[i][8] = w;}
+		for (int i = 20; i < 30; i++) {layout[i][8] = w;}
+		// j = 9
+		for (int i = 0; i < 21; i++) {layout[i][9] = w;}
+		for (int i = 26; i < 30; i++) {layout[i][9] = w;}
+		// j = 10
+		for (int i = 0; i < 18; i++) {layout[i][10] = w;}
+		for (int i = 28; i < 30; i++) {layout[i][10] = w;}
+		// j = 11
+		for (int i = 0; i < 18; i++) {layout[i][11] = w;}
+		for (int i = 28; i < 30; i++) {layout[i][11] = w;}
+		// j = 12
+		for (int i = 0; i < 23; i++) {layout[i][12] = w;}
+		for (int i = 26; i < 30; i++) {layout[i][12] = w;}
+		// j = 13
+		for (int i = 0; i < 21; i++) {layout[i][13] = w;}
+		for (int i = 26; i < 30; i++) {layout[i][13] = w;}
+		// j = 14
+		for (int i = 0; i < 18; i++) {layout[i][14] = w;}
+		for (int i = 28; i < 30; i++) {layout[i][14] = w;}
+		// j = 15
+		for (int i = 0; i < 18; i++) {layout[i][15] = w;}
+		for (int i = 28; i < 30; i++) {layout[i][15] = w;}
+		
+		return layout;
 	}
+		
 	
 	
 	private ArrayList<Vector2> GetTestTrackList(){

@@ -131,7 +131,7 @@ public class GameMap extends TiledMap{
 		int tileRadiusAdjusted = (int) (tileRadius / zoom);
 		
 		
-		//When we zoom, our effective 0,0 coordinate is moved from he bottom left corner of the screen. This is used to help with the recalculation.
+		//When we zoom, our effective 0,0 coordinate is moved from the bottom left corner of the screen. This is used to help with the recalculation.
 		double hexSidesToXEdge = (double) halfScreenWidth / tileSide;
 		double hexHeightsToYEdge = (double) halfScreenHeight / tileHeight;
 		
