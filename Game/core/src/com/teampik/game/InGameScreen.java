@@ -104,6 +104,7 @@ public class InGameScreen implements Screen{
 			break;
 		case player1Turn:
 			game.batch.draw(game.player1Turn, 0 ,0);
+			//game.batch.draw(game.labelBackgroundRed,Gdx.graphics.getWidth() - 260f, Gdx.graphics.getHeight() - 20f); //Player 1 is Red
 			currentPlayer = game.player1;
 
 			break;

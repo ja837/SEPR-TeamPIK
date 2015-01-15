@@ -32,6 +32,9 @@ public class MyGdxGame extends Game {
 	Texture img;
 	Texture img2;
 	
+	Texture labelBackgroundRed;
+	Texture labelBackgroundBlue;
+	
 	Texture player1Turn;
 	Texture player2Turn;
 	Texture endOfTurn;
@@ -59,6 +62,7 @@ public class MyGdxGame extends Game {
     
     Player player1;
     Player player2;
+ 
     
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 	
@@ -134,6 +138,8 @@ public class MyGdxGame extends Game {
         trBorders[Direction.SOUTH_WEST] = new TextureRegion(new Texture("Borders/borderSouthWest.png"));
         trBorders[Direction.NORTH_WEST] = new TextureRegion(new Texture("Borders/borderNorthWest.png"));
         
+        labelBackgroundRed = new Texture("RED.png");
+        labelBackgroundBlue = new Texture("BLUE.png");
         
                 
         

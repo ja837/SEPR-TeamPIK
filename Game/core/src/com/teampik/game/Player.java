@@ -5,8 +5,10 @@ import java.util.ArrayList;
 public class Player {
 	
 	public String playerName = "default";
+    
+	Inventory inventory;
 	
-	ArrayList<Goal> goals = new ArrayList<Goal>();
+    ArrayList<Goal> goals = new ArrayList<Goal>();
 	
 	
 	public void addGoal(Goal goal){

@@ -33,8 +33,8 @@ public class MainMenuScreen implements Screen{
 
 
 
-		tf = new TextField("", skin);
-		tf2 = new TextField("", skin);
+		tf = new TextField("Collin Ruiciman", skin);
+		tf2 = new TextField("Paul Cairns", skin);
 
 		tf.setPosition(0, 0);
 		tf.setWidth(200f);
