@@ -12,7 +12,7 @@ public class MapLayout {
 	public final static int LAND = 2000;
 	public final static int SNOW = 3000;
 	public final static int MOUNTAIN = 4000;
-	public final static int FORREST = 5000;
+	public final static int FOREST = 5000;
 	public final static int DESERT = 6000;
 	public final static int TRACK = 7000;
 	public final static int ZOO  = 8000;
@@ -61,7 +61,19 @@ public class MapLayout {
 					break;
 				case LAND:
 					tiles[i][j] = new MapTile(game.trLand);
-					break;				
+					break;
+				case SNOW:
+					tiles[i][j] = new MapTile(game.trSnow);
+					break;
+				case MOUNTAIN:
+					tiles[i][j] = new MapTile(game.trMountain);
+					break;	
+				case DESERT:
+					tiles[i][j] = new MapTile(game.trDesert);
+					break;	
+				case FOREST:
+					tiles[i][j] = new MapTile(game.trForest);
+					break;	
 				default:
 					tiles[i][j] = new MapTile(game.trDefault);
 					break;
