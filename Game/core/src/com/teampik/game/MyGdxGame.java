@@ -29,15 +29,12 @@ import com.badlogic.gdx.math.Vector3;
 public class MyGdxGame extends Game {
 	SpriteBatch batch;
 	Texture imgLoading;
-	Texture img;
-	Texture img2;
+	Texture imgMainMenu;
+	Texture imgInGame;
 	
 	Texture labelBackgroundRed;
 	Texture labelBackgroundBlue;
 	
-	Texture player1Turn;
-	Texture player2Turn;
-	Texture endOfTurn;
 	
 	TextureRegion trDefault;
 	TextureRegion trWater;
@@ -71,8 +68,11 @@ public class MyGdxGame extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		imgLoading = new Texture("tempSplashscreenLoading.png");
-		img = new Texture("tempSplashscreen.png");
-		img2 = new Texture("tempInGame.png");
+		imgMainMenu = new Texture("GUI/MainMenu/background.png");
+		imgInGame = new Texture("tempInGame.png");
+		
+		InputChecker inputProcessor = new InputChecker(this);		
+        inputMultiplexer.addProcessor(inputProcessor);
 		
 		loadingScreen = new LoadingScreen(this);
 		mainMenuScreen = new MainMenuScreen(this);
@@ -89,22 +89,15 @@ public class MyGdxGame extends Game {
         Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
         setScreen(mainMenuScreen);
        
-        
-        
-        
+            
 	}
 
 	private void LoadAssets() {
-		
-		
-		
+						
 		font = new BitmapFont();
         font.setColor(Color.RED);
         
-		InputChecker inputProcessor = new InputChecker(this);
 		
-		
-        inputMultiplexer.addProcessor(inputProcessor);
         
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		
@@ -118,16 +111,11 @@ public class MyGdxGame extends Game {
         
         
         camera.update();
+         
         
-        player1Turn = new Texture("Turns/player1.png");
-        player2Turn = new Texture("Turns/player2.png");
-        endOfTurn = new Texture("Turns/endofturn.png");
-        
-        
-        
-        trDefault = new TextureRegion(new Texture("perfectHexagon.png"));
-        trWater = new TextureRegion(new Texture("perfectHexagonBlue.png"));
-        trLand = new TextureRegion(new Texture("perfectHexagonGreen.png"));
+        trDefault = new TextureRegion(new Texture("Tiles/lava1.png"));
+        trWater = new TextureRegion(new Texture("Tiles/water1.png"));
+        trLand = new TextureRegion(new Texture("Tiles/land.png"));
         trTrack = new TextureRegion(new Texture("track.png"));
         trZoo = new TextureRegion(new Texture("zoo.png"));
         trSelected = new TextureRegion(new Texture("perfectHexagonSelected.png"));

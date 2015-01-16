@@ -32,7 +32,7 @@ public class InGameUI{
         stage.addActor(btnEndTurn);
         stage.addActor(lblPlayer);
 	}
-	private String txtVal;
+	
 
 
 }

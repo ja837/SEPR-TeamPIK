@@ -42,12 +42,16 @@ public class MapLayout {
 		//Have to rotate layout because arrays are indexed differently to libgdx's maps.
 		layout = rotateCW(layout);
 		
+		
+		//2d array of maptiles
 		tiles = new MapTile[layout.length][];
 		
+		//initialise maptile array
 		for (int i =0;i < layout.length; i++){
 			tiles[i] = new MapTile[layout[i].length];
 		}
 		
+		//for each value in the layout array, put a tile in the tile array.
 		for (int i = 0; i < layout.length;i++){
 			for (int j = 0; j < layout[i].length; j++)
 			{
@@ -72,7 +76,7 @@ public class MapLayout {
 		for (int i = 0; i < layout.length;i++){
 			for (int j = 0; j < layout[i].length; j++)
 			{
-				//Add borders to MapTile instance
+				//Add borders to MapTile instance. Tell the tiles that they have borders.
 				for (int direction = Direction.NORTH; direction <= Direction.NORTH_WEST; direction++){
 					for (Vector2 v : listOfCoordsWithBorders[direction]){
 						if ((int)v.x == i && (int)v.y == j){

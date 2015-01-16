@@ -24,19 +24,22 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
 public class InGameScreen implements Screen{
+	
+	Player currentPlayer;
 
 	final static int endOfTurnProcessing = 0;
 	final static int player1Turn = 1;
 	final static int player2Turn = 2;
 
-	public static int currentState = endOfTurnProcessing;
-	public static int turnCount = 1;
+	public int currentState = endOfTurnProcessing;
+	public int turnCount = 1;
 
-	public static int turnLimit = 50;
+	public int turnLimit = 50;
 
 
 
-	InGameUI ui = new InGameUI();
+	InGameUI UI = new InGameUI();
+	
 
 
 
@@ -44,19 +47,24 @@ public class InGameScreen implements Screen{
 
 	public InGameScreen(MyGdxGame game){
 		this.game = game;
+		currentPlayer = game.player1;
+		
 
-		ui = new InGameUI();
-
-		ui.btnEndTurn.addListener(new ClickListener(){
+		UI = new InGameUI();
+		
+		
+		//Button listener added here so we take change state easily.
+		UI.btnEndTurn.addListener(new ClickListener(){
 			@Override 
 			public void clicked(InputEvent event, float x, float y){
 				currentState = endOfTurnProcessing;
 			}
 		});
 
+		
 
 
-		game.inputMultiplexer.addProcessor(ui.stage);
+		game.inputMultiplexer.addProcessor(UI.stage);
 
 	}
 	
@@ -65,8 +73,10 @@ public class InGameScreen implements Screen{
 		game.setScreen(game.inGameScreen);
 		turnCount = 1;
 		
-		game.player1.changeName(game.mainMenuScreen.tf.getText()); //Assigns Names from menu text boxes to Players 
-		game.player2.changeName(game.mainMenuScreen.tf2.getText());
+		currentPlayer = game.player1;
+		
+		game.player1.changeName(game.mainMenuScreen.UI.tfPlayer1Name.getText()); //Assigns Names from menu text boxes to Players 
+		game.player2.changeName(game.mainMenuScreen.UI.tfPlayer2Name.getText());
 		
 	}
 
@@ -75,7 +85,7 @@ public class InGameScreen implements Screen{
 		// TODO Auto-generated method stub
 
 		game.batch.begin();
-		game.batch.draw(game.img2, 0, 0);
+		game.batch.draw(game.imgInGame, 0, 0);
 		//context.font.draw(context.batch, coords.toString(), 200, 200);
 		game.batch.end();
 
@@ -83,14 +93,12 @@ public class InGameScreen implements Screen{
 		game.tiledMapRenderer.setView(game.camera);
 		game.tiledMapRenderer.render();
 
-		Player currentPlayer = game.player1;
+		
 		game.batch.begin();
-		ui.stage.draw();
+		UI.stage.draw();
 		switch (currentState){
-		case endOfTurnProcessing:
-			game.batch.draw(game.endOfTurn, 0 ,0);
-
-			//Region End of turn processing to be done here.
+		case endOfTurnProcessing:			
+			//End of turn processing to be done here.
 
 			if (turnCount % 2 == 0){
 				ProcessEndOfTurn(game.player1);
@@ -103,42 +111,46 @@ public class InGameScreen implements Screen{
 			//EndRegion
 			break;
 		case player1Turn:
-			game.batch.draw(game.player1Turn, 0 ,0);
 			//game.batch.draw(game.labelBackgroundRed,Gdx.graphics.getWidth() - 260f, Gdx.graphics.getHeight() - 20f); //Player 1 is Red
+
 			currentPlayer = game.player1;
 
 			break;
 		case player2Turn:
-			game.batch.draw(game.player2Turn, 0 ,0);
+			
 			currentPlayer = game.player2;
 
 			break;
 		}
 		game.batch.end();
 
-		RefreshUI(currentPlayer.playerName);
+		RefreshUI();
 
 	}
 
-
-	public void RefreshUI(String playerName){
-		ui.lblPlayer.setText(playerName + "'s (Player " + currentState + "'s) turn");
+	//Refresh the UI
+	public void RefreshUI(){
+		UI.lblPlayer.setText(currentPlayer.playerName + "'s (Player " + currentState + "'s) turn");
 
 	}
 
 	public void ProcessEndOfTurn(Player player){ //End of turn processing returns new instance of player
-		if (turnCount == turnLimit){
-			turnCount = 1;
-			Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);	
-			game.setScreen(game.mainMenuScreen);}
+		
+		System.out.println("Turn " + (turnCount - 1) + " just ended. Turn " + turnCount + " is now starting.");
+		
+		if (turnCount == turnLimit){			
+			game.mainMenuScreen.SwitchToMainMenuScreen();
+		}
 		else {
 			turnCount++;
+			
 			for (Goal g : player.getAllGoals()){
 				g.goalTurnCount++;
 			}
 			
-			}
+		}
 		
+		//Create and give a goal to the next player.
 		Random rdm = new Random();
 		int ranNumber = rdm.nextInt(4);
 		Goal g = new Goal(ranNumber);
@@ -147,7 +159,7 @@ public class InGameScreen implements Screen{
 		
 		
 
-		System.out.println(""+ turnCount);
+		
 		
 	}
 
@@ -187,6 +199,8 @@ public class InGameScreen implements Screen{
 		System.out.println("Mouse position : " + Integer.toString(x) + ", " + Integer.toString(y));
 		System.out.println("Camera position : " + cameraPosition.toString());		
 
+		
+		//If the tile has a border then display that info, otherwise don't
 		if (tile != null){
 			if (tile.borders[0] || tile.borders[1] || tile.borders[2] || tile.borders[3] || tile.borders[4] || tile.borders[5]){
 				System.out.println(tile.toString());

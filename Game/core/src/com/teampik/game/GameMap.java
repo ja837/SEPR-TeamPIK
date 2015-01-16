@@ -22,7 +22,6 @@ public class GameMap extends TiledMap{
 	final static int trainLayerIndex = 10;
 	final static int selectedTileLayerIndex = 11;
 	
-	//Current Layer index: 0 = base, 1-6 = borders, 7 track, 8 zoo
 	
 	MyGdxGame game;
 	MapLayout mapLayout;
@@ -59,14 +58,8 @@ public class GameMap extends TiledMap{
 		for (int i = 0; i < mapLayout.tiles.length; i++){
 			for (int j = 0; j < mapLayout.tiles[i].length; j++){
 				Cell cell = new Cell();
-				
-						
 				cell.setTile(mapLayout.tiles[i][j]);
-				
-				
-				//Unused -->			//Have to swap i and j and then invert i to compensate for differences in how coordinates and array are indexed 
-										//baseLayer.setCell(j, mapLayout.tiles.length - i - 1, cell);
-				
+			
 				baseLayer.setCell(i, j, cell);
 				
 			}
@@ -115,7 +108,14 @@ public class GameMap extends TiledMap{
 		
 		
 	}
-
+	
+	/**
+	 * 
+	 * @param mouseX Position of mouse in x direction
+	 * @param mouseY Position of mouse in x direction
+	 * @param camera camera object, used for calculating offsets
+	 * @return returns coordinates of hexagon from any point on the screen. Use map.getTile() to gte the tile.
+	 */
 	public static Vector2 getCoordsFromPoint(int mouseX, int mouseY, OrthographicCamera camera){
 		
 		Vector3 camPos = camera.position;
