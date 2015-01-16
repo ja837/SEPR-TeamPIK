@@ -192,7 +192,9 @@ public class InGameScreen implements Screen{
 
 
 
-		MapTile tile = game.map.getTile((int)tileCoords.x, (int)tileCoords.y, 0);
+		MapTile tile = game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.baseLayerIndex);
+		ZooTile ztile = (ZooTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.zooLayerIndex);
+		TrackTile ttile = (TrackTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trackLayerIndex);
 
 		//Debug, outputs tile info to console.
 		System.out.println("\n" + tileCoords.toString());
@@ -200,8 +202,15 @@ public class InGameScreen implements Screen{
 		System.out.println("Camera position : " + cameraPosition.toString());		
 
 		
-		//If the tile has a border then display that info, otherwise don't
-		if (tile != null){
+		
+		if (ztile != null){
+			System.out.println(ztile.toString());			
+		}
+		else if (ttile != null){
+			System.out.println(ttile.toString());
+		}
+		else{		
+			//If the tile has a border then display that info, otherwise don't
 			if (tile.borders[0] || tile.borders[1] || tile.borders[2] || tile.borders[3] || tile.borders[4] || tile.borders[5]){
 				System.out.println(tile.toString());
 			}	

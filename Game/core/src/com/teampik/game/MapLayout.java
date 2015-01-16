@@ -55,6 +55,8 @@ public class MapLayout {
 		for (int i = 0; i < layout.length;i++){
 			for (int j = 0; j < layout[i].length; j++)
 			{
+				
+				
 				switch (layout[i][j]){												
 				case WATER:
 					tiles[i][j] = new MapTile(game.trWater);

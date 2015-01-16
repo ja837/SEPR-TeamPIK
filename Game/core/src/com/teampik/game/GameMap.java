@@ -76,13 +76,13 @@ public class GameMap extends TiledMap{
 		
 		for (Vector2 coordinate : mapLayout.trackCoords){
 			Cell cell = new Cell();
-			cell.setTile(new MapTile(game.trTrack));
+			cell.setTile(new TrackTile(game.trTrack, coordinate));
 			trackLayer.setCell((int) coordinate.x,  (int) coordinate.y, cell);
 		}
 		
 		for (Vector2 coordinate : mapLayout.zooCoords){
 			Cell cell = new Cell();
-			cell.setTile(new MapTile(game.trZoo));
+			cell.setTile(new ZooTile(game.trZoo, coordinate));
 			zooLayer.setCell((int) coordinate.x,  (int) coordinate.y, cell);
 		}
 			
