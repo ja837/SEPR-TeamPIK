@@ -80,10 +80,10 @@ public class GameMap extends TiledMap{
 			trackLayer.setCell((int) coordinate.x,  (int) coordinate.y, cell);
 		}
 		
-		for (Vector2 coordinate : mapLayout.zooCoords){
+		for (ZooParams params : mapLayout.zooParams){
 			Cell cell = new Cell();
-			cell.setTile(new ZooTile(game.trZoo, coordinate));
-			zooLayer.setCell((int) coordinate.x,  (int) coordinate.y, cell);
+			cell.setTile(new ZooTile(game.trZoo, params));
+			zooLayer.setCell((int) params.coordinates.x,  (int) params.coordinates.y, cell);
 		}
 			
 			

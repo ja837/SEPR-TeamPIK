@@ -303,15 +303,15 @@ public class MyGdxGame extends Game {
 		
 	}
 	
-	private ArrayList<Vector2> GetTestZooList(){
-		ArrayList<Vector2> zooCoords = new ArrayList<Vector2>();
-		
-		zooCoords.add(new Vector2(0,5));
-		zooCoords.add(new Vector2(4,16));
-		zooCoords.add(new Vector2(6,6));
-		zooCoords.add(new Vector2(8,23));
-		zooCoords.add(new Vector2(11,26));
-		return zooCoords;
+	private ArrayList<ZooParams> GetTestZooList(){
+		ArrayList<ZooParams> zooParmas = new ArrayList<ZooParams>();
+				
+		zooParmas.add(new ZooParams(new Vector2(0,5), "Lisbon"));
+		zooParmas.add(new ZooParams(new Vector2(4,16), "Atlantis"));
+		zooParmas.add(new ZooParams(new Vector2(6,6), "Madrid"));
+		zooParmas.add(new ZooParams(new Vector2(8,23), "Cardiff"));
+		zooParmas.add(new ZooParams(new Vector2(11,26), "Edinburgh"));
+		return zooParmas;
 		
 	}
 	

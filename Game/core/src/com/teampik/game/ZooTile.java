@@ -4,15 +4,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 
-public class ZooTile extends MapTile {
+public class ZooTile extends TrackTile {
 	
 	Vector2 coords;
+	String name;
 	
-	public ZooTile(TextureRegion textureRegion, Vector2 coords) {
+	public ZooTile(TextureRegion textureRegion, ZooParams params) {
 		
-		super(textureRegion);
+		super(textureRegion, params.coordinates);
 		
-		this.coords = coords;
+		this.coords = params.coordinates;
+		this.name = params.name;
 		
 
 		
@@ -21,7 +23,7 @@ public class ZooTile extends MapTile {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "ZooTile \n" + super.toString();
+		return name + "\n" + super.toString();
 	}
 
 	
