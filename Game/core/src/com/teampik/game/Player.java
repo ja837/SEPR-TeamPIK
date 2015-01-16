@@ -32,7 +32,8 @@ public class Player {
 		playerName = newName;
 	}
 	
-	public void discardGoal(Goal g){
-		//to do
+	public ArrayList<Goal> discardGoal(Goal g){
+		goals.remove(g);
+		return goals;
 	}
 }

@@ -25,7 +25,7 @@ public class Goal {
 	protected static Boolean boolTrain;
 	protected static Boolean boolVia;
 	
-	Random ranInt = new Random();
+	Random ranInt = new Random(); 
 	
 	private int diff;
 	protected int goalTurnCount;
@@ -140,7 +140,8 @@ public class Goal {
 	/*
 	@Override
 	public String toString() {
-		if (){
+		if (viaTile = true){
+			String goalName = "Send train from " + goal.originTile + " to " + goal.destinationTile + " via " + goal.viaTile;
 		}
 		String goalName = "Send train from " + goal.originTile + " to " + goal.destinationTile;
 		return goalName;
@@ -148,21 +149,11 @@ public class Goal {
 	*/
 
 //------------------------------------------------------
-	
-
-//-------------------------------------------------------
-	//discarding goals
-	/*
-	 
-	 
-	 
-	 */
-	
 	//randomly select a restriction for E,M,H goals
 	protected static class Restriction{
-		protected Restriction(int random){
+		protected Restriction(int randomInt){
 			
-			switch (random){
+			switch (randomInt){
 			case turn:
 				//depends on tiles from zoo->zoo + amount train can move per turn + via, return int
 				//# hexs from A->B(->C / lowest train movement in player.inv = limit
