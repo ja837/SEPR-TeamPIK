@@ -193,15 +193,15 @@ public class InputChecker implements InputProcessor
 			
 			
 			
-			/* Have to disable this because its not working.
-			if (amount > 0 && game.camera.zoom < 1.5) {
+			// Have to disable this because its not working.
+			if (amount > 0 && game.camera.zoom < 2.5) {
 				game.camera.zoom += 0.1f;
 			}
 
 	        //Zoom in
 			if (amount < 0 && game.camera.zoom > 0.5) {
 				game.camera.zoom -= 0.1f;
-			}*/
+			}
 			
 						
 			

@@ -235,62 +235,38 @@ public class MyGdxGame extends Game {
 		int f = MapLayout.FORREST;
 		int m = MapLayout.MOUNTAIN;
 		
-		int[][] layout = new int[30][45];
-		
-		// j = 0 : far lefthand column
-		// i = 0 : top row
-		
-		// initially cover entire map with water
-		for (int i = 0; i < 30; i++) {
-			for (int j = 0; j < 45; j ++){
-				layout[i][j] = w;
-			}
-		}
-		
-		// j = 0
-		for (int i = 24; i < 27; i++) {layout[i][0] = l;}
-		// j = 1
-		for (int i = 22; i < 27; i++) {layout[i][1] = l;}
-		// j = 2
-		for (int i = 18; i < 28; i++) {layout[i][2] = l;}
-		// j = 3
-		for (int i = 17; i < 27; i++) {layout[i][3] = l;}
-		// j = 4
-		for (int i = 19; i < 28; i++) {layout[i][4] = l;}
-		// j = 5
-		for (int i = 18; i < 27; i++) {layout[i][5] = l;}
-		// j = 6
-		for (int i = 6; i < 7; i++) {layout[i][6] = l;}
-		for (int i = 19; i < 28; i++) {layout[i][6] = l;}
-		// j = 7
-		for (int i = 5; i < 7; i++) {layout[i][7] = l;}
-		for (int i = 20; i < 27; i++) {layout[i][7] = l;}
-		// j = 8
-		for (int i = 0; i < 23; i++) {layout[i][8] = w;}
-		for (int i = 20; i < 30; i++) {layout[i][8] = w;}
-		// j = 9
-		for (int i = 0; i < 21; i++) {layout[i][9] = w;}
-		for (int i = 26; i < 30; i++) {layout[i][9] = w;}
-		// j = 10
-		for (int i = 0; i < 18; i++) {layout[i][10] = w;}
-		for (int i = 28; i < 30; i++) {layout[i][10] = w;}
-		// j = 11
-		for (int i = 0; i < 18; i++) {layout[i][11] = w;}
-		for (int i = 28; i < 30; i++) {layout[i][11] = w;}
-		// j = 12
-		for (int i = 0; i < 23; i++) {layout[i][12] = w;}
-		for (int i = 26; i < 30; i++) {layout[i][12] = w;}
-		// j = 13
-		for (int i = 0; i < 21; i++) {layout[i][13] = w;}
-		for (int i = 26; i < 30; i++) {layout[i][13] = w;}
-		// j = 14
-		for (int i = 0; i < 18; i++) {layout[i][14] = w;}
-		for (int i = 28; i < 30; i++) {layout[i][14] = w;}
-		// j = 15
-		for (int i = 0; i < 18; i++) {layout[i][15] = w;}
-		for (int i = 28; i < 30; i++) {layout[i][15] = w;}
-		
-		return layout;
+		return new int [] [] {
+				{w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,w,w,w,l,l,l,w,l,l,s,s,s,s,s,s,s},
+				{w,w,w,w,w,w,w,w,w,w,w,l,l,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,l,w,l,s,s,s,s,s,s,s},
+				{w,w,w,w,w,w,w,w,w,w,w,m,m,m,w,w,w,w,w,w,l,l,l,w,l,l,l,l,l,w,w,w,w,l,l,l,l,s,s,s,s,s,s,s,s},
+				{w,w,w,w,w,w,w,w,w,w,w,l,l,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,w,w,w,w,l,w,l,l,l,l,s,s,s,s,s,s,s},
+				{w,w,w,w,w,w,w,w,w,l,w,l,l,l,w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,w,w,l,l,l,l,s,s,s,s,s,l,l},
+				{w,w,w,w,w,w,w,l,l,l,w,w,l,l,w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,l,l,l,w,w,w,l,l,w,w,w,w,w,w,w,w,w,w,w,l,l,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,l,l,l,w,w,l,l,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,w,w,w,l,l,s,w,s,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,w,w,w,w,l,l,l,l,s,s,s,s,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,w,w,l,l,l,l,l,l,l,s,s,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,f,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,f,f,f,f,f,f,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,l,w,l,l,l,l,l,l,l,l,l,f,f,f,f,f,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,m,l,m,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,m,l,m,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,f,l,f,l,l,l,w,l,w,l},
+				{w,w,l,l,w,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,f,f,f,f,l,l,l,w,w,w,l},
+				{w,w,l,l,l,l,l,l,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,l,l,l,l,l,l,l,f,f,f,f,f,l,l,w,w,w,w},
+				{w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,l,l,w,w,l,l,l,l,l,l,l,l,l,f,f,f,f,l,w,w,w,w,w},
+				{w,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,w,w,w,w,w,l,l,w,w,l,l,l,l,l,l,l,l,l,l,f,l,l,w,w,w,w,w,w},
+				{w,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w,w,w,l,l,l,w,w,w,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w},
+				{l,l,l,l,l,l,l,l,l,l,l,w,l,w,w,w,w,w,w,l,l,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,w,w,w,l,l},
+				{l,l,l,l,d,d,d,d,l,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,w,l,l,l,l,l,l,l},
+				{l,l,l,d,d,d,d,d,l,l,w,w,w,l,w,w,w,w,w,l,w,w,w,w,w,w,l,l,l,l,w,l,l,l,l,l,w,w,l,l,l,l,l,l,l},
+				{w,w,l,l,d,l,l,l,l,w,w,w,w,w,w,w,w,w,w,l,w,w,w,w,w,w,l,l,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,l},
+				{w,w,l,w,l,w,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,w,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,w,w,w,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,w,w,w,w,w,l,l,l,l,l}
+		};
 	}
 		
 	
