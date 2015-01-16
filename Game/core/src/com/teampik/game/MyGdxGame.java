@@ -71,6 +71,9 @@ public class MyGdxGame extends Game {
 		imgMainMenu = new Texture("GUI/MainMenu/background.png");
 		imgInGame = new Texture("tempInGame.png");
 		
+		InputChecker inputProcessor = new InputChecker(this);		
+        inputMultiplexer.addProcessor(inputProcessor);
+		
 		loadingScreen = new LoadingScreen(this);
 		mainMenuScreen = new MainMenuScreen(this);
         inGameScreen = new InGameScreen(this);
@@ -86,9 +89,7 @@ public class MyGdxGame extends Game {
         Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
         setScreen(mainMenuScreen);
        
-        
-        
-        
+            
 	}
 
 	private void LoadAssets() {
@@ -96,10 +97,7 @@ public class MyGdxGame extends Game {
 		font = new BitmapFont();
         font.setColor(Color.RED);
         
-		InputChecker inputProcessor = new InputChecker(this);
 		
-		
-        inputMultiplexer.addProcessor(inputProcessor);
         
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		
