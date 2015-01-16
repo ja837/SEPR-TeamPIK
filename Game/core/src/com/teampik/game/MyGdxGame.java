@@ -39,6 +39,10 @@ public class MyGdxGame extends Game {
 	TextureRegion trDefault;
 	TextureRegion trWater;
 	TextureRegion trLand;
+	TextureRegion trSnow;
+	TextureRegion trForest;
+	TextureRegion trMountain;
+	TextureRegion trDesert;
 	TextureRegion trTrack;
 	TextureRegion trZoo;
 	TextureRegion trSelected;
@@ -116,6 +120,10 @@ public class MyGdxGame extends Game {
         trDefault = new TextureRegion(new Texture("Tiles/lava1.png"));
         trWater = new TextureRegion(new Texture("Tiles/water1.png"));
         trLand = new TextureRegion(new Texture("Tiles/land.png"));
+        trSnow = new TextureRegion(new Texture("Tiles/snow1.png"));
+        trDesert = new TextureRegion(new Texture("Tiles/desert.png"));
+        trMountain = new TextureRegion(new Texture("Tiles/mountain.png"));
+        trForest = new TextureRegion(new Texture("Tiles/forest.png"));
         trTrack = new TextureRegion(new Texture("track.png"));
         trZoo = new TextureRegion(new Texture("zoo.png"));
         trSelected = new TextureRegion(new Texture("perfectHexagonSelected.png"));
@@ -220,7 +228,7 @@ public class MyGdxGame extends Game {
 		int t = MapLayout.TRACK;
 		int s = MapLayout.SNOW;
 		int d = MapLayout.DESERT;
-		int f = MapLayout.FORREST;
+		int f = MapLayout.FOREST;
 		int m = MapLayout.MOUNTAIN;
 		
 		return new int [] [] {
