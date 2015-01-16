@@ -157,35 +157,139 @@ public class MyGdxGame extends Game {
         	lstBorderCoords[i] = new ArrayList<Vector2>();
         }
 		
-		// NORTH borders
-		lstBorderCoords[Direction.NORTH].add(new Vector2(1,4));
-		lstBorderCoords[Direction.NORTH].add(new Vector2(2,6));
-		lstBorderCoords[Direction.NORTH].add(new Vector2(2,9));
-		lstBorderCoords[Direction.NORTH].add(new Vector2(3,8));
-		lstBorderCoords[Direction.NORTH].add(new Vector2(3,9));
-		lstBorderCoords[Direction.NORTH].add(new Vector2(9,9));
-		lstBorderCoords[Direction.NORTH].add(new Vector2(10,8));
-		lstBorderCoords[Direction.NORTH].add(new Vector2(10,19));
-		lstBorderCoords[Direction.NORTH].add(new Vector2(11,8));
-		lstBorderCoords[Direction.NORTH].add(new Vector2(11,20));
-		lstBorderCoords[Direction.NORTH].add(new Vector2(12,7));
-		lstBorderCoords[Direction.NORTH].add(new Vector2(13,7));
-		
+		// {x,y,nw,n,ne}
+		int[][] coords = new int [][]{
+				{1,4,1,1,0},{1,5,0,0,1},{1,6,0,0,1},
+				{2,4,1,0,0},{2,5,1,0,0},{2,6,1,1,0},{2,7,0,0,1},{2,9,0,1,1},
+				{3,7,1,0,0},{3,8,1,1,0},{3,9,0,1,1},
+				{4,8,1,0,0},
+				{8,9,0,0,1},{8,23,0,0,1},{8,24,0,0,1},
+				{9,9,0,1,1},{9,24,1,0,0},
+				{10,8,0,1,1},{10,19,0,1,0},
+				{11,8,0,1,1},{11,20,1,1,0},{11,21,0,0,1},{11,22,0,0,1},
+				{12,7,0,1,1},{12,20,1,0,0},{12,21,1,0,0},{12,23,0,1,0},
+				{13,7,0,1,1},{13,24,1,1,0},
+				{15,17,0,1,1},
+				{16,16,0,1,1},{16,18,0,1,1},
+				{17,9,0,0,1},{17,10,0,0,1},{17,11,0,0,1},{17,12,0,0,1},{17,16,0,1,1},{17,18,0,1,1},
+				{18,9,1,0,0},{18,10,1,1,0},{18,11,1,0,0},{18,12,1,1,0},{18,13,0,0,1},{18,14,0,0,1},{18,15,0,1,1},{18,16,0,0,1},{18,17,0,1,1},
+				{19,11,1,1,1},{19,13,1,1,0},{19,14,1,0,0},{19,15,1,0,0},{19,16,1,0,0},{19,17,1,0,0},{19,18,1,1,0},{19,19,0,0,1},{19,20,0,0,1},
+				{20,10,0,1,0},{20,12,0,1,1},{20,18,1,0,0},{20,19,1,0,0},
+				{21,11,1,1,0},{21,13,1,0,0},{21,12,0,1,1},{21,13,0,1,1},{22,11,1,1,0},{22,12,0,1,0},
+				{23,12,1,1,1},{23,13,1,1,0},
+				{24,11,0,1,1},{24,13,1,1,0},{24,14,0,1,0},{24,15,1,0,0},
+				{25,11,1,0,0},{25,13,0,1,0},{25,15,0,1,0},{25,17,0,0,1},{25,18,0,0,1},{25,19,0,0,1},
+				{26,16,0,1,0},{26,17,1,1,0},{26,18,1,0,0},{26,19,1,0,0},
+				{27,17,0,1,0},
+				{28,14,0,1,0},{28,16,0,1,0},
+				{29,15,0,1,0},{29,16,0,1,0},
+				};
+		for (int i=0; i < coords.length; i++) {
+			if (coords[i][4] == 1) {
+				lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(coords[i][0],coords[i][1]));
+			}
+			if (coords[i][3] == 1) {
+				lstBorderCoords[Direction.NORTH].add(new Vector2(coords[i][0],coords[i][1]));
+			}
+			if (coords[i][2] == 1) {
+				lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(coords[i][0],coords[i][1]));
+			}
+		}
+//			
+//		// NORTH borders
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(1,4));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(2,6));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(2,9));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(3,8));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(3,9));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(9,9));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(10,8));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(10,19));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(11,8));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(11,20));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(12,7));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(12,23));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(13,7));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(13,24));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(15,17));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(16,16));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(16,18));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(17,16));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(17,18));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(18,15));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(18,17));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(18,10));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(18,12));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(19,11));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(19,13));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(19,18));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(20,10));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(20,12));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(21,11));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(21,12));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(21,13));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(22,11));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(22,12));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(23,13));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(23,12));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(24,11));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(24,13));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(24,14));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(25,13));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(25,15));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(26,16));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(26,17));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(27,17));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(28,14));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(28,16));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(29,15));
+//		lstBorderCoords[Direction.NORTH].add(new Vector2(29,16));
+//		
 		// SOUTH borders
 		for (Vector2 v : lstBorderCoords[Direction.NORTH]){
 			if ((int)v.y != 29) {
 				lstBorderCoords[Direction.SOUTH].add(new Vector2((int)v.x,(int)v.y+1));
 			}
         }
-		
-		// NORTHWEST borders
-		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(1,4));
-		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(2,4));
-		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(2,5));
-		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(2,6));
-		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(3,7));
-		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(3,8));
-		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(4,8));
+//		
+//		// NORTHWEST borders
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(1,4));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(2,4));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(2,5));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(2,6));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(3,7));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(3,8));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(4,8));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(9,24));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(11,20));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(12,20));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(12,21));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(13,24));
+//		
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(18,9));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(18,10));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(18,11));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(18,12));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(19,11));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(19,13));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(19,14));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(19,15));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(19,16));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(19,17));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(19,18));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(20,18));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(20,19));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(21,11));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(21,13));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(22,11));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(23,12));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(23,13));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(24,13));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(24,15));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(25,11));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(26,17));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(26,18));
+//		lstBorderCoords[Direction.NORTH_WEST].add(new Vector2(26,19));
 		
 		// SOUTHEAST borders
 		for (Vector2 v : lstBorderCoords[Direction.SOUTH_EAST]){
@@ -196,19 +300,51 @@ public class MyGdxGame extends Game {
 			}
         }
 		
-		// NORTHEAST borders
-		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(1,5));
-		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(1,6));
-		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(2,7));
-		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(2,9));
-		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(3,9));
-		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(8,9));
-		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(9,9));
-		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(10,8));
-		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(11,8));
-		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(12,7));
-		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(13,7));
+		
+//		// NORTHEAST borders
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(1,5));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(1,6));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(2,7));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(2,9));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(3,9));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(8,9));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(8,23));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(8,24));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(9,9));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(10,8));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(11,8));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(11,21));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(11,22));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(12,7));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(13,7));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(17,9));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(15,17));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(16,16));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(16,18));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(17,18));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(17,16));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(17,10));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(17,11));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(17,12));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(18,13));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(18,14));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(18,15));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(18,16));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(18,17));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(19,11));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(19,19));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(19,20));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(20,12));
 //		
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(21,12));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(21,13));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(23,12));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(24,11));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(24,14));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(25,17));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(25,18));
+//		lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(25,19));
+////		
 		// SOUTHWEST borders
 		for (Vector2 v : lstBorderCoords[Direction.NORTH_EAST]){
 			if ((int)v.x % 2 == 0) {
