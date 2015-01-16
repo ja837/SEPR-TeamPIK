@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /*TODO 
-	allocating to players
-	players discarding
 	progress updater
 */
 
@@ -91,19 +89,13 @@ public class Goal {
 	//checking if all restrictions are complete, plus train + cargo on right tile
 	/*
 	protected void checkGoalCompleted(Goal goal){
-		// if (train.getTile() = destination {
-			//if (train.cargo = aniReq) {
-				if (subGoalsComplete()){
-					//Scoring.allocatePoints();
-					
-				}
-				
-			}
-		}	
+		if (train.getTile() = destination {
+			if (subGoalsComplete()){
+				Scoring.allocatePoints();	
+			}	
+		}
 		else {
 			return false;
-		}
-			
 		}
 	}
     */
@@ -140,10 +132,14 @@ public class Goal {
 	/*
 	@Override
 	public String toString() {
+		Random ranInt2 = new Random();
+		int rannInt = ranInt2.nextInt(Animal.animals.size() +1);
+		
 		if (viaTile = true){
-			String goalName = "Send train from " + goal.originTile + " to " + goal.destinationTile + " via " + goal.viaTile;
+			deliver + Animal.getAnimalName(rannInt) + " to " + DEST " + from " + ORIGIN " via " VIA
 		}
-		String goalName = "Send train from " + goal.originTile + " to " + goal.destinationTile;
+		deliver ANIMAL to DEST from ORIGIN
+		
 		return goalName;
 	}
 	*/

@@ -6,6 +6,7 @@ public class Train {
 		HOVER, BULLET, ELECTRIC, DIESEL, STEAM
 	}
 	
+	//public Tile currentTile;
 	public trainType type;
 	public int speed;
 	
@@ -30,5 +31,14 @@ public class Train {
 	public void setSpeed(int tspeed){
 		speed = tspeed;
 	}
+	/*
+	public Tile getTrainTile(Train t){
+	 	return t.currentTile();
+	 }
+	 */
+	
+	/*
+	 
+	 */
 }
 
