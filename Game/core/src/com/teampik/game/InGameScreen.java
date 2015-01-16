@@ -211,9 +211,12 @@ public class InGameScreen implements Screen{
 		}
 		else{		
 			//If the tile has a border then display that info, otherwise don't
-			if (tile.borders[0] || tile.borders[1] || tile.borders[2] || tile.borders[3] || tile.borders[4] || tile.borders[5]){
-				System.out.println(tile.toString());
-			}	
+			if (tile != null)
+			{
+				if (tile.borders[0] || tile.borders[1] || tile.borders[2] || tile.borders[3] || tile.borders[4] || tile.borders[5]){
+					System.out.println(tile.toString());
+				}	
+			}
 		}
 
 
