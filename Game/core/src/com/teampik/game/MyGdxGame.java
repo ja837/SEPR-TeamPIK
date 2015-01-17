@@ -97,6 +97,7 @@ public class MyGdxGame extends Game {
 	}
 
 	private void LoadAssets() {
+		
 						
 		font = new BitmapFont();
         font.setColor(Color.RED);

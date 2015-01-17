@@ -40,6 +40,8 @@ public class InGameScreen implements Screen{
 
 	InGameUI UI = new InGameUI();
 	
+	Train trainSelectedFromInventory;
+	
 
 
 
@@ -60,6 +62,16 @@ public class InGameScreen implements Screen{
 				currentState = endOfTurnProcessing;
 			}
 		});
+		
+		/*
+		for (final InventoryButton b : UI.inventoryItems){
+			b.addListener(new ClickListener(){
+				@Override 
+				public void clicked(InputEvent event, float x, float y){
+					currentPlayer.inventory.selectTrain(b.index);
+				}
+			});
+		}*/
 
 		
 
@@ -77,6 +89,11 @@ public class InGameScreen implements Screen{
 		
 		game.player1.changeName(game.mainMenuScreen.UI.tfPlayer1Name.getText()); //Assigns Names from menu text boxes to Players 
 		game.player2.changeName(game.mainMenuScreen.UI.tfPlayer2Name.getText());
+		
+		game.player1.inventory.trains.clear();
+		game.player2.inventory.trains.clear();
+		
+		UI.clearInventory();
 		
 	}
 
@@ -99,6 +116,7 @@ public class InGameScreen implements Screen{
 		switch (currentState){
 		case endOfTurnProcessing:			
 			//End of turn processing to be done here.
+			
 
 			if (turnCount % 2 == 0){
 				ProcessEndOfTurn(game.player1);
@@ -114,11 +132,14 @@ public class InGameScreen implements Screen{
 			//game.batch.draw(game.labelBackgroundRed,Gdx.graphics.getWidth() - 260f, Gdx.graphics.getHeight() - 20f); //Player 1 is Red
 
 			currentPlayer = game.player1;
+			
+			
 
 			break;
 		case player2Turn:
-			
 			currentPlayer = game.player2;
+			
+			
 
 			break;
 		}
@@ -130,12 +151,13 @@ public class InGameScreen implements Screen{
 
 	//Refresh the UI
 	public void RefreshUI(){
+		
 		UI.lblPlayer.setText(currentPlayer.playerName + "'s (Player " + currentState + "'s) turn");
 
 	}
 
-	public void ProcessEndOfTurn(Player player){ //End of turn processing returns new instance of player
-		
+	public void ProcessEndOfTurn(Player player){ 
+		UI.clearInventory();
 		System.out.println("Turn " + (turnCount - 1) + " just ended. Turn " + turnCount + " is now starting.");
 		
 		if (turnCount == turnLimit){			
@@ -155,6 +177,12 @@ public class InGameScreen implements Screen{
 		int ranNumber = rdm.nextInt(4);
 		Goal g = new Goal(ranNumber);
 		player.addGoal(g);
+		
+		player.inventory.addTrain(new Train(game.trDefault, Train.trainType.values()[rdm.nextInt(4)]));
+		
+		for (Train t : player.inventory.trains){
+			UI.addToInventory(t);
+		}
 		
 		
 		

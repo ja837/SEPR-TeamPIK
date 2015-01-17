@@ -5,10 +5,15 @@ import java.util.ArrayList;
 public class Inventory {
 	//Trains
 	ArrayList<Train> trains = new ArrayList<Train>();
+	Train selectedTrain;
+	
+	public void selectTrain(int index){
+		selectedTrain = trains.get(index);
+	}
 
 	public int addTrain(Train train){
 		
-		if (trains.size() < 3) { //If there is less than 3 Trains in the inventory add the train
+		if (trains.size() < 4) { //If there is less than 3 Trains in the inventory add the train
 			trains.add(train);
 			return 1;
 			}

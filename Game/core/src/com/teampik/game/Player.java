@@ -9,6 +9,10 @@ public class Player {
 	Inventory inventory;
 	
     ArrayList<Goal> goals = new ArrayList<Goal>();
+    
+    public Player(){
+    	inventory  = new Inventory();
+    }
 	
 	
 	public void addGoal(Goal goal){
