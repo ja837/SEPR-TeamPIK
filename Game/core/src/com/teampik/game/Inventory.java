@@ -8,7 +8,7 @@ public class Inventory {
 
 	public int addTrain(Train train){
 		
-		if (trains.size() < 2) { //If there is less than 3 Trains in the inventory add the train
+		if (trains.size() < 3) { //If there is less than 3 Trains in the inventory add the train
 			trains.add(train);
 			return 1;
 			}

@@ -197,15 +197,13 @@ public class GameMap extends TiledMap{
 	
 	public void deployTraintoTile (Vector2 coords, Train t){
 		
-		MapTile tile = null;
+		
 		TiledMapTileLayer trainLayer = (TiledMapTileLayer) game.map.getLayers().get(trainLayerIndex);
-		Cell c = trainLayer.getCell((int) coords.x, (int) coords.y);
+		Cell c = new Cell();
 		
-		c.setTile(tile);
+		c.setTile(t);
 		
-		if (c != null){
-			tile = (MapTile) c.getTile();	
-		}
+		trainLayer.setCell((int) coords.x, (int) coords.y, c);
 		
 	}
 	

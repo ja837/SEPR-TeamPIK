@@ -1,6 +1,10 @@
 package com.teampik.game;
 
-public class Train {
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.Vector2;
+
+public class Train extends StaticTiledMapTile {
 	
 	public enum trainType {
 		HOVER, BULLET, ELECTRIC, DIESEL, STEAM
@@ -9,9 +13,12 @@ public class Train {
 	//public Tile currentTile;
 	public trainType type;
 	public int speed;
+	Vector2 location;
 	
 	// Train constructor
-	public Train(trainType tType){
+	public Train(TextureRegion textureRegion, trainType tType){
+		super(textureRegion);
+		
 		this.type = tType;
 		switch (tType) {
 		    case STEAM:
@@ -31,11 +38,12 @@ public class Train {
 	public void setSpeed(int tspeed){
 		speed = tspeed;
 	}
-	/*
-	public Tile getTrainTile(Train t){
-	 	return t.currentTile();
+	
+	
+	public Vector2 getLocation(){
+	 	return this.location;
 	 }
-	 */
+	 
 	
 	/*
 	 
