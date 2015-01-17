@@ -39,11 +39,10 @@ public class GameMap extends TiledMap{
 	
 	public static GameMap createMap(MyGdxGame game, MapLayout mapLayout) {
 		
-		
 		GameMap map = new GameMap(game);
 		MapLayers layers = map.getLayers();
 
-		
+		TiledMapTileLayer itemLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
 		TiledMapTileLayer baseLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight); //Number of tiles in x direction, Number of tiles in y direction, pixel width of tile, pixel height of tile
 		TiledMapTileLayer[] borderLayers = new TiledMapTileLayer[6]; // One for each direction
 		
@@ -86,8 +85,12 @@ public class GameMap extends TiledMap{
 			zooLayer.setCell((int) params.coordinates.x,  (int) params.coordinates.y, cell);
 		}
 			
-			
-		TiledMapTileLayer itemLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
+		for (powerups params : mapLayout.powerups){
+			Cell cell = new Cell();
+			cell.setTile(new itemtile(game.trBomb, params));
+			zooLayer.setCell((int) params.coordinates.x,  (int) params.coordinates.y, cell);
+		}		
+		
 		TiledMapTileLayer trainLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
 		TiledMapTileLayer selectedTileLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
 		
@@ -212,3 +215,4 @@ public class GameMap extends TiledMap{
 	
 
 }
+

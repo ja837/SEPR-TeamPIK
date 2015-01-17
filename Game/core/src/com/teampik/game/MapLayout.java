@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class MapLayout {
-	
-	
+public class MapLayout {	
 	
 	public final static int WATER = 1000;
 	public final static int LAND = 2000;
@@ -16,8 +14,9 @@ public class MapLayout {
 	public final static int DESERT = 6000;
 	public final static int TRACK = 7000;
 	public final static int ZOO  = 8000;
+	public final static int ITEM = 9000;
 	
-	
+	ArrayList<powerups> powerups;
 	ArrayList<Vector2>[] borders;
 	ArrayList<Vector2> trackCoords;
 	ArrayList<ZooParams> zooParams;
@@ -29,19 +28,18 @@ public class MapLayout {
 	int tilesY;
 	
 	//This constructor takes a layout and border list and converts them into tiles for use when creating the map.
-	public MapLayout(MyGdxGame game, int[][] layout, ArrayList<Vector2>[] listOfCoordsWithBorders, ArrayList<Vector2> trackCoords, ArrayList<ZooParams> zooParams, int tilesX, int tilesY)
+	public MapLayout(MyGdxGame game, int[][] layout, ArrayList<Vector2>[] listOfCoordsWithBorders, ArrayList<Vector2> trackCoords, ArrayList<ZooParams> zooParams, ArrayList<powerups> powerups,int tilesX, int tilesY)
 	{
 		this.borders = listOfCoordsWithBorders;
 		this.trackCoords = trackCoords;
 		this.zooParams = zooParams;
 		this.baseTileLayout = layout;
+		this.powerups = powerups;
 		this.tilesX = tilesX;
-		this.tilesY = tilesY;
-		
+		this.tilesY = tilesY;		
 		
 		//Have to rotate layout because arrays are indexed differently to libgdx's maps.
-		layout = rotateCW(layout);
-		
+		layout = rotateCW(layout);		
 		
 		//2d array of maptiles
 		tiles = new MapTile[layout.length][];
@@ -54,9 +52,7 @@ public class MapLayout {
 		//for each value in the layout array, put a tile in the tile array.
 		for (int i = 0; i < layout.length;i++){
 			for (int j = 0; j < layout[i].length; j++)
-			{
-				
-				
+			{				
 				switch (layout[i][j]){												
 				case WATER:
 					tiles[i][j] = new MapTile(game.trWater);
@@ -118,3 +114,4 @@ public class MapLayout {
 	
 
 }
+

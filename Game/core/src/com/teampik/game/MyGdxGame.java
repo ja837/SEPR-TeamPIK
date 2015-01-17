@@ -45,6 +45,7 @@ public class MyGdxGame extends Game {
 	TextureRegion trDesert;
 	TextureRegion trTrack;
 	TextureRegion trZoo;
+	TextureRegion trBomb;
 	TextureRegion trSelected;
 	TextureRegion[] trBorders = new TextureRegion[6];
 	Vector2 currentlySelectedTile = new Vector2(-1,-1);
@@ -126,6 +127,7 @@ public class MyGdxGame extends Game {
         trForest = new TextureRegion(new Texture("Tiles/forest.png"));
         trTrack = new TextureRegion(new Texture("track.png"));
         trZoo = new TextureRegion(new Texture("zoo.png"));
+        trBomb = new TextureRegion(new Texture("bomb.png"));
         trSelected = new TextureRegion(new Texture("perfectHexagonSelected.png"));
         trBorders[Direction.NORTH] = new TextureRegion(new Texture("Borders/borderNorth.png"));
         trBorders[Direction.NORTH_EAST] = new TextureRegion(new Texture("Borders/borderNorthEast.png"));
@@ -139,7 +141,7 @@ public class MyGdxGame extends Game {
         
                 
         
-        MapLayout m = new MapLayout(this, getTileLayout(), getBorderList(), getTrackList(), getZooList(), 45, 30);
+        MapLayout m = new MapLayout(this, getTileLayout(), getBorderList(), getTrackList(), getZooList(), getPowerups(), 45, 30);
         
         map = GameMap.createMap(this, m);
         tiledMapRenderer = new HexagonalTiledMapRenderer(map);
@@ -148,7 +150,7 @@ public class MyGdxGame extends Game {
         player2 = new Player();
 	}
 	
-	
+
 	//list of borders
 	private ArrayList<Vector2>[] getBorderList(){
 		ArrayList<Vector2>[] lstBorderCoords = (ArrayList<Vector2>[]) new ArrayList[6];
@@ -357,6 +359,13 @@ public class MyGdxGame extends Game {
 		zooParams.add(new ZooParams(new Vector2(41,4), "Istanbul"));
 		return zooParams;
 	}
+	private ArrayList<powerups> getPowerups(){
+		ArrayList<powerups> Powerup = new ArrayList<powerups>();
+		Powerup.add(new powerups(new Vector2(8,22),1));
+		Powerup.add(new powerups(new Vector2(4,7),1));
+		return Powerup;
+	}
+	
 	private ArrayList<Vector2> setTrack(ArrayList<Vector2> coords, int x,int y,int numtiles, int direction){
 		switch (direction) {
 		case 0: //NORTH
@@ -392,4 +401,5 @@ public class MyGdxGame extends Game {
 	}
 }
 	
+
 
