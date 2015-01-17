@@ -96,7 +96,7 @@ public class GameMap extends TiledMap{
 		for (powerups params : mapLayout.powerups){
 			Cell cell = new Cell();
 			cell.setTile(new itemtile(game.trBomb, params));
-			zooLayer.setCell((int) params.coordinates.x,  (int) params.coordinates.y, cell);
+			itemLayer.setCell((int) params.coordinates.x,  (int) params.coordinates.y, cell);
 		}		
 		
 		TiledMapTileLayer trainLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);

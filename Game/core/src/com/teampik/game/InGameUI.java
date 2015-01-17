@@ -19,14 +19,14 @@ public class InGameUI{
 	Label lblInventory;
 	TextButton btnEndTurn;
 
-	ArrayList<InventoryButton> inventoryItems;
+	ArrayList<InventoryTrainButton> inventoryItems;
 
 
 	public InGameUI(){
 		skin = new Skin(Gdx.files.internal("data/uiskin.json"));
 		stage = new Stage();
 
-		inventoryItems = new ArrayList<InventoryButton>();
+		inventoryItems = new ArrayList<InventoryTrainButton>();
 
 
 		lblPlayer = new Label("", skin);
@@ -48,7 +48,7 @@ public class InGameUI{
 	}
 
 	public void addToInventory(Player p, Train t){
-		InventoryButton btn = new InventoryButton(t.type.toString(), skin, inventoryItems.size(), p.inventory);
+		InventoryTrainButton btn = new InventoryTrainButton(t.type.toString(), skin, inventoryItems.size(), p.inventory);
 		btn.setPosition(Gdx.graphics.getWidth() - lblInventory.getPrefWidth(), Gdx.graphics.getHeight() - 150f - (inventoryItems.size() * 40f));
 		inventoryItems.add(btn);
 		
@@ -60,7 +60,7 @@ public class InGameUI{
 	}
 
 	public void clearInventory(){
-		for (TextButton l : inventoryItems){
+		for (InventoryTrainButton l : inventoryItems){
 			l.remove();
 		}
 		inventoryItems.clear();
