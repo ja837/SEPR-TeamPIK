@@ -131,6 +131,7 @@ public class MyGdxGame extends Game {
         trMountain = new TextureRegion(new Texture("Tiles/mountain.png"));
         trForest = new TextureRegion(new Texture("Tiles/forest.png"));
         trTrack = new TextureRegion(new Texture("track.png"));
+
         trZoo = new TextureRegion(new Texture("zoo.png"));
         
         trTrains[Train.HOVER][Train.RED] = new TextureRegion(new Texture("Trains/hover_train_red.png"));
@@ -143,7 +144,7 @@ public class MyGdxGame extends Game {
         trTrains[Train.DIESEL][Train.BLUE] = new TextureRegion(new Texture("Trains/diesel_train_blue.png"));
         trTrains[Train.STEAM][Train.RED] = new TextureRegion(new Texture("Trains/steam_train_red.png"));
         trTrains[Train.STEAM][Train.BLUE]= new TextureRegion(new Texture("Trains/steam_train_blue.png"));
-        
+
         trBomb = new TextureRegion(new Texture("bomb.png"));
         trSelected = new TextureRegion(new Texture("perfectHexagonSelected.png"));
         trBorders[Direction.NORTH] = new TextureRegion(new Texture("Borders/borderNorth.png"));
@@ -308,7 +309,6 @@ public class MyGdxGame extends Game {
 	
 	private ArrayList<Vector2> getTrackList(){
 		ArrayList<Vector2> trackCoords = new ArrayList<Vector2>();
-		
 		setTrack(trackCoords,1,5,3,2);
 		setTrack(trackCoords,1,6,3,1);
 		setTrack(trackCoords,4,4,3,1);
