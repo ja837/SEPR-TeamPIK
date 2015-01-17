@@ -272,8 +272,8 @@ public class MyGdxGame extends Game {
 				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,m,l,m,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,f,l,f,l,l,l,w,l,w,l},
 				{w,w,l,l,w,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,f,f,f,f,l,l,l,w,w,w,l},
 				{w,w,l,l,l,l,l,l,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,l,l,l,l,l,l,l,f,f,f,f,f,l,l,w,w,w,w},
-				{w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,l,l,w,w,l,l,l,l,l,l,l,l,l,f,f,f,f,l,w,w,w,w,w},
-				{w,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,w,w,w,w,w,l,l,w,w,l,l,l,l,l,l,l,l,l,l,f,l,l,w,w,w,w,w,w},
+				{w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,l,l,w,w,l,l,l,l,l,l,l,l,l,l,f,l,l,l,w,w,w,w,w},
+				{w,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,w,w,w,w,w,l,l,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w},
 				{w,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w,w,w,l,l,l,w,w,w,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w},
 				{l,l,l,l,l,l,l,l,l,l,l,w,l,w,w,w,w,w,w,l,l,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,w,w,w,l,l},
 				{l,l,l,l,d,d,d,d,l,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,w,l,l,l,l,l,l,l},
@@ -291,9 +291,44 @@ public class MyGdxGame extends Game {
 		ArrayList<Vector2> trackCoords = new ArrayList<Vector2>();
 		
 		setTrack(trackCoords,1,5,3,2);
+		setTrack(trackCoords,1,6,3,1);
 		setTrack(trackCoords,4,4,3,1);
-		setTrack(trackCoords,1,6,4,1);
-		setTrack(trackCoords,4,8,8,2);
+		setTrack(trackCoords,4,7,2,2);
+		setTrack(trackCoords,4,8,8,0);
+		setTrack(trackCoords,5,17,7,1);
+		setTrack(trackCoords,7,7,12,1);
+		setTrack(trackCoords,8,24,3,1);
+		setTrack(trackCoords,8,22,5,2);
+		setTrack(trackCoords,12,25,2,2);
+		setTrack(trackCoords,13,21,4,0);
+		setTrack(trackCoords,14,11,4,0);
+		setTrack(trackCoords,14,16,4,0);
+		setTrack(trackCoords,14,23,8,1);
+		setTrack(trackCoords,15,16,9,1);
+		setTrack(trackCoords,20,11,4,2);
+		setTrack(trackCoords,20,12,4,1);
+		setTrack(trackCoords,23,6,2,2);
+		setTrack(trackCoords,23,7,3,0);
+		setTrack(trackCoords,23,28,4,2);
+		setTrack(trackCoords,24,14,2,2);
+		setTrack(trackCoords,24,15,4,0);
+		setTrack(trackCoords,25,19,4,2);
+		setTrack(trackCoords,25,20,5,0);
+		setTrack(trackCoords,25,25,2,1);
+		setTrack(trackCoords,26,4,6,2);
+		setTrack(trackCoords,27,13,3,2);
+		setTrack(trackCoords,28,17,3,1);
+		setTrack(trackCoords,30,7,2,2);
+		setTrack(trackCoords,30,9,9,0);
+		setTrack(trackCoords,32,2,5,0);
+		setTrack(trackCoords,32,18,5,2);
+		setTrack(trackCoords,33,7,4,1);
+		setTrack(trackCoords,37,6,3,0);
+		setTrack(trackCoords,37,10,7,0);
+		setTrack(trackCoords,38,16,2,1);
+		setTrack(trackCoords,38,5,3,2);
+		setTrack(trackCoords,38,9,3,1);
+		setTrack(trackCoords,40,11,6,0);
 		return trackCoords;
 		
 	}
@@ -304,8 +339,22 @@ public class MyGdxGame extends Game {
 		zooParams.add(new ZooParams(new Vector2(0,5), "Lisbon"));
 		zooParams.add(new ZooParams(new Vector2(4,16), "Atlantis"));
 		zooParams.add(new ZooParams(new Vector2(6,6), "Madrid"));
-		zooParams.add(new ZooParams(new Vector2(8,23), "Cardiff"));
+		zooParams.add(new ZooParams(new Vector2(8,23), "Dublin"));
 		zooParams.add(new ZooParams(new Vector2(11,26), "Edinburgh"));
+		zooParams.add(new ZooParams(new Vector2(13,20), "London"));
+		zooParams.add(new ZooParams(new Vector2(14,15), "Paris"));
+		zooParams.add(new ZooParams(new Vector2(19,12), "Zurich"));
+		zooParams.add(new ZooParams(new Vector2(22,27), "Oslo"));
+		zooParams.add(new ZooParams(new Vector2(24,19), "Berlin"));
+		zooParams.add(new ZooParams(new Vector2(25,5), "Rome"));
+		zooParams.add(new ZooParams(new Vector2(26,13), "Vienna"));
+		zooParams.add(new ZooParams(new Vector2(27,26), "Stockholm"));
+		zooParams.add(new ZooParams(new Vector2(30,8), "Belgrade"));
+		zooParams.add(new ZooParams(new Vector2(31,19), "Warsaw"));
+		zooParams.add(new ZooParams(new Vector2(33,2), "Athens"));
+		zooParams.add(new ZooParams(new Vector2(37,9), "Bucharest"));
+		zooParams.add(new ZooParams(new Vector2(40,17), "Kiev"));
+		zooParams.add(new ZooParams(new Vector2(41,4), "Istanbul"));
 		return zooParams;
 	}
 	private ArrayList<Vector2> setTrack(ArrayList<Vector2> coords, int x,int y,int numtiles, int direction){
@@ -341,32 +390,6 @@ public class MyGdxGame extends Game {
 		
 		return coords;
 	}
-	/*
-	// coords of city / zoo locations
-	private ArrayList<Vector2> getZooList(){
-		ArrayList<Vector2> zooCoords = new ArrayList<Vector2>();
-		
-		zooCoords.add(new Vector2(0,5));
-		zooCoords.add(new Vector2(4,16));
-		zooCoords.add(new Vector2(6,6));
-		zooCoords.add(new Vector2(8,23));
-		zooCoords.add(new Vector2(11,26));
-		zooCoords.add(new Vector2(13,20));
-		zooCoords.add(new Vector2(14,15));
-		zooCoords.add(new Vector2(19,12));
-		zooCoords.add(new Vector2(22,27));
-		zooCoords.add(new Vector2(25,5));
-		zooCoords.add(new Vector2(24,19));
-		zooCoords.add(new Vector2(26,13));
-		zooCoords.add(new Vector2(27,26));
-		zooCoords.add(new Vector2(30,8));
-		zooCoords.add(new Vector2(31,19));
-		zooCoords.add(new Vector2(33,2));
-		zooCoords.add(new Vector2(38,28));
-		zooCoords.add(new Vector2(40,17));
-		zooCoords.add(new Vector2(41,4));
-		return zooCoords;*/
-		
-	}
+}
 	
 
