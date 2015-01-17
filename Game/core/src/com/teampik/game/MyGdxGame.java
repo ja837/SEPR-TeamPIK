@@ -35,7 +35,9 @@ public class MyGdxGame extends Game {
 	Texture labelBackgroundRed;
 	Texture labelBackgroundBlue;
 	
-	
+	//TRAIN TEXTURES{
+	Texture trainSteamB;
+	//}
 	TextureRegion trDefault;
 	TextureRegion trWater;
 	TextureRegion trLand;
@@ -139,7 +141,7 @@ public class MyGdxGame extends Game {
         labelBackgroundRed = new Texture("RED.png");
         labelBackgroundBlue = new Texture("BLUE.png");
         
-                
+        trainSteamB = new Texture("Trains/steam_train_blue.png")    ;    
         
         MapLayout m = new MapLayout(this, getTileLayout(), getBorderList(), getTrackList(), getZooList(), getPowerups(), 45, 30);
         

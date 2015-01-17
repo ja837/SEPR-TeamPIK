@@ -180,7 +180,7 @@ public class InGameScreen implements Screen{
 		player.inventory.addTrain(new Train(game.trDefault, Train.trainType.values()[rdm.nextInt(4)]));
 		
 		for (Train t : player.inventory.trains){
-			UI.addToInventory(t);
+			UI.addToInventory(player,t);
 		}
 		
 		
