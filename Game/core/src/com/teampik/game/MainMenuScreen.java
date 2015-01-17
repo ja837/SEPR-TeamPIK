@@ -25,8 +25,12 @@ public class MainMenuScreen implements Screen{
 		UI.btnStartGame.addListener(new ClickListener(){
 			@Override 
 			public void clicked(InputEvent event, float x, float y){
+				
+				if (game.mainMenuScreen.UI.tfPlayer1Name.getText().trim().isEmpty() || game.mainMenuScreen.UI.tfPlayer2Name.getText().trim().isEmpty()) {
+					game.mainMenuScreen.UI.lblNameError.setVisible(true);
+				}else{
 				game.inGameScreen.SwitchToInGameScreen();
-
+				}
 			}
 		});
 

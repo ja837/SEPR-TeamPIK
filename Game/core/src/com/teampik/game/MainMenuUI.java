@@ -21,6 +21,7 @@ public class MainMenuUI{
 	
 	Label lblPlayer1Name;
 	Label lblPlayer2Name;
+	Label lblNameError;
 	
 	TextButton btnStartGame;
 	
@@ -30,12 +31,14 @@ public class MainMenuUI{
 
 		lblPlayer1Name = new Label("Player 1 name", skin);
 		lblPlayer2Name = new Label("Player 2 name", skin);
+		lblNameError = new Label("Please enter a name for both players", skin);
 		tfPlayer1Name = new TextField("", skin);
 		tfPlayer2Name = new TextField("", skin);
 		
 		lblPlayer1Name.setPosition((Gdx.graphics.getWidth() / 2) - lblPlayer1Name.getPrefWidth() - 20, Gdx.graphics.getHeight() / 4 + 20);		
 		lblPlayer2Name.setPosition((Gdx.graphics.getWidth() / 2) - lblPlayer2Name.getPrefWidth() - 20, Gdx.graphics.getHeight() / 4 - 20);
-
+		lblNameError.setPosition((Gdx.graphics.getWidth() / 2) - lblNameError.getPrefWidth() + 100, Gdx.graphics.getHeight() / 4 + 80);
+		lblNameError.setVisible(false);
 		tfPlayer1Name.setPosition((Gdx.graphics.getWidth() / 2), Gdx.graphics.getHeight() / 4 + 20);
 		tfPlayer1Name.setWidth(200f);
 		tfPlayer1Name.setHeight(20f);
@@ -64,9 +67,11 @@ public class MainMenuUI{
 		btnStartGame.setPosition((Gdx.graphics.getWidth() / 2) - btnStartGame.getPrefWidth(), Gdx.graphics.getHeight() / 4 - 60);
 		
 		
+		
 
 		stage.addActor(lblPlayer1Name);
 		stage.addActor(lblPlayer2Name);
+		stage.addActor(lblNameError);
 		stage.addActor(tfPlayer1Name);
 		stage.addActor(tfPlayer2Name);
 		stage.addActor(btnStartGame);
