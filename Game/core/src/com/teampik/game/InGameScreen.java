@@ -33,7 +33,6 @@ public class InGameScreen implements Screen{
 
 	public int currentState = endOfTurnProcessing;
 	public int turnCount = 1;
-
 	public int turnLimit = 50;
 
 

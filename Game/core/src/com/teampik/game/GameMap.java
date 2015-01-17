@@ -126,17 +126,19 @@ public class GameMap extends TiledMap{
 		int halfScreenWidth = Gdx.graphics.getWidth() / 2;		//Find middle of the screen. This is the default camera position.
 		int halfScreenHeight = Gdx.graphics.getHeight() / 2;
 		
+		
+		
 		int tileSideAdjusted = (int) ( tileSide / zoom);
 		int tileHeightAdjusted = (int) (tileHeight / zoom);		//Adjust the tile geometry values according to the zoom
 		int tileRadiusAdjusted = (int) (tileRadius / zoom);
 		
 		
 		//When we zoom, our effective 0,0 coordinate is moved from the bottom left corner of the screen. This is used to help with the recalculation.
-		double hexSidesToXEdge = (double) halfScreenWidth / tileSide;
-		double hexHeightsToYEdge = (double) halfScreenHeight / tileHeight;
+		double hexSidesToXEdge = (double) camPos.x / tileSide;
+		double hexHeightsToYEdge = (double) camPos.y / tileHeight;
 		
-		double zeroCoordinateX = halfScreenWidth - (hexSidesToXEdge * tileSideAdjusted); 
-		double zeroCoordinateY = halfScreenHeight - (hexHeightsToYEdge * tileHeightAdjusted);
+		double zeroCoordinateX = camPos.x - (hexSidesToXEdge * tileSideAdjusted); 
+		double zeroCoordinateY = camPos.y - (hexHeightsToYEdge * tileHeightAdjusted);
 
 
 		//Adjust for camera position (there may be tiles off screen).

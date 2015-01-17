@@ -74,14 +74,10 @@ public class InputChecker implements InputProcessor
 	public boolean keyUp(int keycode) {
 		switch (Gamestate.GetGamestate())
 		{
-		case Gamestate.MAIN_MENU:
-									
+		case Gamestate.MAIN_MENU:		
 			break;
 			
 		case Gamestate.IN_GAME:
-			
-			
-			
 			break;
 		}
 		
@@ -101,22 +97,13 @@ public class InputChecker implements InputProcessor
 		switch (Gamestate.GetGamestate())
 		{
 		case Gamestate.MAIN_MENU:
-			
 			break;
 		case Gamestate.IN_GAME:
 			if (button == Buttons.LEFT){
 				game.inGameScreen.selectTile(screenX, screenY);
 			}
-			
-						
-			
 			break;
 		}
-		
-		
-		
-		
-		
 		return false;
 	}
 
@@ -130,9 +117,6 @@ public class InputChecker implements InputProcessor
 			if (button == Buttons.LEFT){
 				last.set(-1, -1, -1);
 			}
-			
-						
-			
 			break;
 		}
 		return false;
@@ -156,8 +140,7 @@ public class InputChecker implements InputProcessor
 			      game.camera.position.add(delta.x, delta.y, 0);
 			    }
 			    last.set(screenX, screenY, 0);
-						
-			
+			    
 			break;
 		}
 		return false;
@@ -172,31 +155,21 @@ public class InputChecker implements InputProcessor
 
 	@Override
 	public boolean scrolled(int amount) {
-		
 		switch (Gamestate.GetGamestate())
 		{
 		case Gamestate.MAIN_MENU:
 			break;
 		case Gamestate.IN_GAME:
-			
-			
-			
 			// Have to disable this because its not working.
 			if (amount > 0 && game.camera.zoom < 2.5) {
 				game.camera.zoom += 0.1f;
 			}
-
 	        //Zoom in
 			if (amount < 0 && game.camera.zoom > 0.5) {
 				game.camera.zoom -= 0.1f;
 			}
-			
-						
-			
 			break;
 		}
-
-		
 		return false;
 	}
 
