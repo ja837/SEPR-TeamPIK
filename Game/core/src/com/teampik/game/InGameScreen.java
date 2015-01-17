@@ -167,7 +167,9 @@ public class InGameScreen implements Screen{
 		Goal g = new Goal(ranNumber);
 		player.addGoal(g);
 		
-		player.inventory.addTrain(new Train(game.trDefault, Train.trainType.values()[rdm.nextInt(5)]));
+		int randomTrainInt = rdm.nextInt(5);
+		
+		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt]));
 		
 		for (Train t : player.inventory.trains){
 			UI.addToInventory(player, t);

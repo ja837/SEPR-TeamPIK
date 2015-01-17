@@ -50,16 +50,8 @@ public class MyGdxGame extends Game {
 	TextureRegion[] trBorders = new TextureRegion[6];
 	
 	//Train textures
-	TextureRegion trTrainHoverRed;
-	TextureRegion trTrainHoverBlue;
-	TextureRegion trTrainBulletRed;
-	TextureRegion trTrainBulletBlue;
-	TextureRegion trTrainElectricRed;
-	TextureRegion trTrainElectricBlue;
-	TextureRegion trTrainDieselRed;
-	TextureRegion trTrainDieselBlue;
-	TextureRegion trTrainSteamRed;
-	TextureRegion trTrainSteamBlue;
+	TextureRegion[][] trTrains = new TextureRegion[6][3];
+	
 	
 	Vector2 currentlySelectedTile = new Vector2(-1,-1);
 	
@@ -140,6 +132,18 @@ public class MyGdxGame extends Game {
         trForest = new TextureRegion(new Texture("Tiles/forest.png"));
         trTrack = new TextureRegion(new Texture("track.png"));
         trZoo = new TextureRegion(new Texture("zoo.png"));
+        
+        trTrains[Train.HOVER][Train.RED] = new TextureRegion(new Texture("Trains/hover_train_red.png"));
+        trTrains[Train.HOVER][Train.BLUE] = new TextureRegion(new Texture("Trains/hover_train_blue.png"));
+        trTrains[Train.BULLET][Train.RED] = new TextureRegion(new Texture("Trains/bullet_train_red.png"));
+        trTrains[Train.BULLET][Train.BLUE] = new TextureRegion(new Texture("Trains/bullet_train_blue.png"));
+        trTrains[Train.ELECTRIC][Train.RED] = new TextureRegion(new Texture("Trains/electric_train_red.png"));
+        trTrains[Train.ELECTRIC][Train.BLUE] = new TextureRegion(new Texture("Trains/electric_train_blue.png"));
+        trTrains[Train.DIESEL][Train.RED] = new TextureRegion(new Texture("Trains/diesel_train_red.png"));
+        trTrains[Train.DIESEL][Train.BLUE] = new TextureRegion(new Texture("Trains/diesel_train_blue.png"));
+        trTrains[Train.STEAM][Train.RED] = new TextureRegion(new Texture("Trains/steam_train_red.png"));
+        trTrains[Train.STEAM][Train.BLUE]= new TextureRegion(new Texture("Trains/steam_train_blue.png"));
+        
         trBomb = new TextureRegion(new Texture("bomb.png"));
         trSelected = new TextureRegion(new Texture("perfectHexagonSelected.png"));
         trBorders[Direction.NORTH] = new TextureRegion(new Texture("Borders/borderNorth.png"));
@@ -159,8 +163,8 @@ public class MyGdxGame extends Game {
         map = GameMap.createMap(this, m);
         tiledMapRenderer = new HexagonalTiledMapRenderer(map);
         
-        player1 = new Player();
-        player2 = new Player();
+        player1 = new Player(1);
+        player2 = new Player(2);
 	}
 	
 

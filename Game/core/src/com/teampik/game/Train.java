@@ -10,6 +10,15 @@ public class Train extends MapTile {
 		HOVER, BULLET, ELECTRIC, DIESEL, STEAM
 	}
 	
+	public final static int HOVER = 0;
+	public final static int BULLET = 1;
+	public final static int ELECTRIC = 2;
+	public final static int DIESEL = 3;
+	public final static int STEAM = 4;
+	
+	public final static int RED = 1;
+	public final static int BLUE = 2;
+	
 	//public Tile currentTile;
 	public trainType type;
 	public int speed;

@@ -5,13 +5,15 @@ import java.util.ArrayList;
 public class Player {
 	
 	public String playerName = "default";
+	int playerNumber;
     
 	Inventory inventory;
 	
     ArrayList<Goal> goals = new ArrayList<Goal>();
     
-    public Player(){
+    public Player(int number){
     	inventory  = new Inventory();
+    	playerNumber  = number;
     }
 	
 	
