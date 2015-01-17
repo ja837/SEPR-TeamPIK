@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.teampik.game.powerups&apos; to &apos;Powerup&apos;&#x0D;&#x0A;- Original project: &apos;TeamPIKGame-core&apos;&#x0D;&#x0A;- Original element: &apos;com.teampik.game.powerups&apos;&#x0D;&#x0A;- Renamed element: &apos;com.teampik.game.Powerup&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;powerups&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;com.teampik.game{powerups.java[powerups" matchStrategy="1" name="Powerup" qualified="false" references="true" similarDeclarations="false" stamp="1421506633539" textual="false" version="1.0"/>
+</session>

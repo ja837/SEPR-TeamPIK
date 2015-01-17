@@ -85,7 +85,7 @@ public class GameMap extends TiledMap{
 			zooLayer.setCell((int) params.coordinates.x,  (int) params.coordinates.y, cell);
 		}
 			
-		for (powerups params : mapLayout.powerups){
+		for (Powerup params : mapLayout.powerups){
 			Cell cell = new Cell();
 			cell.setTile(new itemtile(game.trBomb, params));
 			zooLayer.setCell((int) params.coordinates.x,  (int) params.coordinates.y, cell);

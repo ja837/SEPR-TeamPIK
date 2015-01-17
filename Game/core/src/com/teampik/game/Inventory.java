@@ -3,6 +3,8 @@ package com.teampik.game;
 import java.util.ArrayList;
 
 public class Inventory {
+	
+	
 	//Trains
 	ArrayList<Train> trains = new ArrayList<Train>();
 	Train selectedTrain = null;
@@ -31,5 +33,31 @@ public class Inventory {
 			trains.remove(selectedTrain);
 		}
 	}
+	
+	
+	
 	//Powerups
+	
+	ArrayList<Powerup> powerups = new ArrayList<Powerup>();
+	
+	Powerup selectedPowerup = null;
+	
+	public void selectPowerup(int index){
+		selectedPowerup = powerups.get(index);
+	}
+	
+	public int addPowerup(Powerup powerup){
+		if (powerups.size() < 4) { //If there is less than 4 powerups in the inventory add the powerup
+			powerups.add(powerup);
+			return 1;
+			}
+		else {
+			return 0;
+			}
+		}
+
+	public void deployPowerup(){
+		powerups.remove(selectedPowerup);
+	}
+
 }

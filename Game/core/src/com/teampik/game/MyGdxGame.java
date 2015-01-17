@@ -361,10 +361,10 @@ public class MyGdxGame extends Game {
 		zooParams.add(new ZooParams(new Vector2(41,4), "Istanbul"));
 		return zooParams;
 	}
-	private ArrayList<powerups> getPowerups(){
-		ArrayList<powerups> Powerup = new ArrayList<powerups>();
-		Powerup.add(new powerups(new Vector2(8,22),1));
-		Powerup.add(new powerups(new Vector2(4,7),1));
+	private ArrayList<Powerup> getPowerups(){
+		ArrayList<Powerup> Powerup = new ArrayList<Powerup>();
+		Powerup.add(new Powerup(new Vector2(8,22),1));
+		Powerup.add(new Powerup(new Vector2(4,7),1));
 		return Powerup;
 	}
 	
