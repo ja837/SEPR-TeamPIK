@@ -32,27 +32,28 @@ public class Train extends MapTile {
 	ArrayList<Vector2> locationHistory;
 
 	// Train constructor
-	public Train(TextureRegion textureRegion, trainType tType){
+	public Train(TextureRegion textureRegion, trainType tType, Player p){
 		super(textureRegion);
 		
+		
+		this.playerTrainBelongsTo = p;
 		this.type = tType;
+		
+		
 		switch (tType) {
 		    case STEAM:
-		        speed = 2;
-		    case DIESEL:
 		        speed = 4;
-		    case ELECTRIC:
+		    case DIESEL:
 		        speed = 5;
+		    case ELECTRIC:
+		        speed = 6;
 		    case BULLET:
-		    	speed = 6;
+		    	speed = 7;
 		    case HOVER:
 		    	speed = 8;
 		}
 	}
 	
-	public void setPlayer(Player p){
-		playerTrainBelongsTo = p;
-	}
 	
 	//change train speed, will add duration (no of turns to change for) later
 	public void setSpeed(int tspeed){
@@ -61,6 +62,10 @@ public class Train extends MapTile {
 	
 	public Vector2 getLocation(){
 	 	return this.location;
+	 }
+	
+	public void setLocation(Vector2 v){
+	 	location = v;
 	 }
 	 
 	public static trainType getRandomTrain(){

@@ -40,6 +40,7 @@ public class Goal {
 	Train.trainType trainType;
 	Train trainForGoal;
 	Player p;
+	String animal;
 
 
 	public Goal(int diff, GameMap m, Player p){
@@ -57,6 +58,9 @@ public class Goal {
 		}
 		
 		this.addRestrictions(diff);
+		Random ranInt2 = new Random();
+		int rannInt = ranInt2.nextInt(Animals.values().length);
+		animal = Animal.getAnimalName(rannInt);
 		System.out.println(this.toString());
 	}
 
@@ -155,13 +159,9 @@ public class Goal {
 
 		@Override
 		public String toString() {
-			Random ranInt2 = new Random();
-			int rannInt = ranInt2.nextInt(Animals.values().length);
-			String goalName = "";
+			String goalName = "Deliver a " + animal + " to " + destinationTile.name + " from " + originTile.name;
 			
-
 			for (Restriction r : restrictions){
-				goalName = "Deliver " + Animal.getAnimalName(rannInt) + " to " + destinationTile.name + " from " + originTile.name;
 				if (r.viaRestriciton != null){
 					goalName += " via " + r.viaRestriciton.name;
 				}
@@ -228,7 +228,7 @@ public class Goal {
 						}
 					}
 					//do distance / t.speed = limit
-					turnLimit = ((int) cDistance / tempSpeed);
+					turnLimit = ((int) cDistance / tempSpeed) + 2;
 					break;
 
 				case via:

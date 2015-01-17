@@ -27,6 +27,7 @@ public class GameMap extends TiledMap{
 	MapLayout mapLayout;
 	
 	ArrayList<ZooTile> zooList;
+	ArrayList<Train> deployedTrains;
 	
 	public static int tileRadius = 32;
 	public static int tileHeight  = 56; 						/*= (int) (((float) radius) * Math.sqrt(3)) This is correct mathematically, where a radius of 32 would get a height of just under 56. Since we are working with a texture, we can just take the hieght of that instead.*/
@@ -37,6 +38,8 @@ public class GameMap extends TiledMap{
 	public GameMap(MyGdxGame g){		
 		game = g;
 		zooList = new ArrayList<ZooTile>();
+		
+		deployedTrains = new ArrayList<Train>();
 	}
 	
 	public static GameMap createMap(MyGdxGame game, MapLayout mapLayout) {
