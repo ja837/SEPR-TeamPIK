@@ -139,7 +139,7 @@ public class MyGdxGame extends Game {
         
                 
         
-        MapLayout m = new MapLayout(this, GetTestTileLayout(), GetTestBorderList(), GetTestTrackList(), GetTestZooList(), 45, 30);
+        MapLayout m = new MapLayout(this, getTileLayout(), getBorderList(), getTrackList(), getZooList(), 45, 30);
         
         map = GameMap.createMap(this, m);
         tiledMapRenderer = new HexagonalTiledMapRenderer(map);
@@ -150,14 +150,14 @@ public class MyGdxGame extends Game {
 	
 	
 	//Just an example list of borders
-	private ArrayList<Vector2>[] GetTestBorderList(){
+	private ArrayList<Vector2>[] getBorderList(){
 		ArrayList<Vector2>[] lstBorderCoords = (ArrayList<Vector2>[]) new ArrayList[6];
 		
 		for (int i = Direction.NORTH; i <= Direction.NORTH_WEST; i++){
         	lstBorderCoords[i] = new ArrayList<Vector2>();
         }
 		
-		// {x,y,nw,n,ne}
+		// 2D array of coords {x,y,northwest,north,northeast} to convert to arraylist of 2dvectors{x,y,nw,n,ne}
 		int[][] coords = new int [][]{
 				{1,4,1,1,0},{1,5,0,0,1},{1,6,0,0,1},
 				{2,4,1,0,0},{2,5,1,0,0},{2,6,1,1,0},{2,7,0,0,1},{2,9,0,1,1},
@@ -199,6 +199,7 @@ public class MyGdxGame extends Game {
 				{43,18,0,0,1},{43,19,0,1,1},
 				{44,17,0,1,0}, {44,18,1,0,0}
 				};
+		
 		for (int i=0; i < coords.length; i++) {
 			if (coords[i][4] == 1) {
 				lstBorderCoords[Direction.NORTH_EAST].add(new Vector2(coords[i][0],coords[i][1]));
@@ -236,23 +237,15 @@ public class MyGdxGame extends Game {
 			}
 		}
 		
-		
-		
-		
-		
-        
-		
 		return lstBorderCoords;
 		
 	}
 	
-	//Example map layout.
-	private int[][] GetTestTileLayout(){
+	//Europe map layout.
+	private int[][] getTileLayout(){
 		
 		int w = MapLayout.WATER;
 		int l = MapLayout.LAND;
-		int z = MapLayout.ZOO;
-		int t = MapLayout.TRACK;
 		int s = MapLayout.SNOW;
 		int d = MapLayout.DESERT;
 		int f = MapLayout.FOREST;
@@ -294,27 +287,86 @@ public class MyGdxGame extends Game {
 		
 	
 	
-	private ArrayList<Vector2> GetTestTrackList(){
+	private ArrayList<Vector2> getTrackList(){
 		ArrayList<Vector2> trackCoords = new ArrayList<Vector2>();
 		
-		trackCoords.add(new Vector2(1,5));
-		
+		setTrack(trackCoords,1,5,3,2);
+		setTrack(trackCoords,4,4,3,1);
+		setTrack(trackCoords,1,6,4,1);
+		setTrack(trackCoords,4,8,8,2);
 		return trackCoords;
 		
 	}
 	
-	private ArrayList<ZooParams> GetTestZooList(){
-		ArrayList<ZooParams> zooParmas = new ArrayList<ZooParams>();
+	private ArrayList<ZooParams> getZooList(){
+		ArrayList<ZooParams> zooParams = new ArrayList<ZooParams>();
 				
-		zooParmas.add(new ZooParams(new Vector2(0,5), "Lisbon"));
-		zooParmas.add(new ZooParams(new Vector2(4,16), "Atlantis"));
-		zooParmas.add(new ZooParams(new Vector2(6,6), "Madrid"));
-		zooParmas.add(new ZooParams(new Vector2(8,23), "Cardiff"));
-		zooParmas.add(new ZooParams(new Vector2(11,26), "Edinburgh"));
-		return zooParmas;
+		zooParams.add(new ZooParams(new Vector2(0,5), "Lisbon"));
+		zooParams.add(new ZooParams(new Vector2(4,16), "Atlantis"));
+		zooParams.add(new ZooParams(new Vector2(6,6), "Madrid"));
+		zooParams.add(new ZooParams(new Vector2(8,23), "Cardiff"));
+		zooParams.add(new ZooParams(new Vector2(11,26), "Edinburgh"));
+		return zooParams;
+	}
+	private ArrayList<Vector2> setTrack(ArrayList<Vector2> coords, int x,int y,int numtiles, int direction){
+		switch (direction) {
+		case 0: //NORTH
+			for (int i = 0; i < numtiles; i++) {
+				coords.add(new Vector2(x,y+i));
+			}
+			break;
+		case 1: //NORTHEAST
+			if (x % 2 == 0) {
+				for (int i = 1; i <= numtiles; i++) {
+					coords.add(new Vector2(x+i-1,y+i/2));
+				}
+			}else{
+				for (int i = 0; i < numtiles; i++) {
+					coords.add(new Vector2(x+i,y+i/2));
+				}
+			}
+			break;
+		case 2: //SOUTHEAST
+			if (x % 2 == 0) {
+				for (int i = 0; i < numtiles; i++) {
+					coords.add(new Vector2(x+i,y-i/2));
+				}
+			}else{
+				for (int i = 1; i <= numtiles; i++) {
+					coords.add(new Vector2(x+i-1,y-i/2));
+				}
+			}
+			break;
+		}
+		
+		return coords;
+	}
+	/*
+	// coords of city / zoo locations
+	private ArrayList<Vector2> getZooList(){
+		ArrayList<Vector2> zooCoords = new ArrayList<Vector2>();
+		
+		zooCoords.add(new Vector2(0,5));
+		zooCoords.add(new Vector2(4,16));
+		zooCoords.add(new Vector2(6,6));
+		zooCoords.add(new Vector2(8,23));
+		zooCoords.add(new Vector2(11,26));
+		zooCoords.add(new Vector2(13,20));
+		zooCoords.add(new Vector2(14,15));
+		zooCoords.add(new Vector2(19,12));
+		zooCoords.add(new Vector2(22,27));
+		zooCoords.add(new Vector2(25,5));
+		zooCoords.add(new Vector2(24,19));
+		zooCoords.add(new Vector2(26,13));
+		zooCoords.add(new Vector2(27,26));
+		zooCoords.add(new Vector2(30,8));
+		zooCoords.add(new Vector2(31,19));
+		zooCoords.add(new Vector2(33,2));
+		zooCoords.add(new Vector2(38,28));
+		zooCoords.add(new Vector2(40,17));
+		zooCoords.add(new Vector2(41,4));
+		return zooCoords;*/
 		
 	}
 	
 
-	
-}
