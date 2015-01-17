@@ -51,6 +51,7 @@ public class Goal {
 		this.map = m;
 		this.diff = diff;
 		this.addRestrictions(diff);
+		System.out.println(this.toString());
 	}
 	//----------------------------------------------------
 	public void addRestrictions(int diff){
