@@ -41,19 +41,25 @@ public class Goal {
 	Train trainForGoal;
 	Player p;
 
-	//----------------------------------------------------	
-	public Goal(int diff, GameMap m){
-		generateOriginTile();
-		generateDestinationTile();
-		//boolTrain = false;
-		//boolVia = false;
-		this.goalTurnCount = 0;
+
+	public Goal(int diff, GameMap m, Player p){
+		this.p = p;
 		this.map = m;
+		this.goalTurnCount = 0;
 		this.diff = diff;
+		
+
+		originTile = generateOriginTile();
+		destinationTile = generateDestinationTile();
+		
+		while( originTile == destinationTile){
+			destinationTile = generateDestinationTile();
+		}
+		
 		this.addRestrictions(diff);
 		System.out.println(this.toString());
 	}
-	//----------------------------------------------------
+
 	public void addRestrictions(int diff){
 		int r1 = ranInt.nextInt(train+1);
 		int r2 = ranInt.nextInt(train+1);
@@ -77,16 +83,16 @@ public class Goal {
 			break;
 		}
 	}
-	//--------------------------------------------------	
+
 	private ZooTile generateOriginTile(){
 		int r = ranInt.nextInt(map.zooList.size());
-		originTile = map.zooList.get(r);
-		return originTile;
+		ZooTile origin = map.zooList.get(r);
+		return origin;
 	}
 	private ZooTile generateDestinationTile(){
 		int r = ranInt.nextInt(map.zooList.size());
-		destinationTile = map.zooList.get(r);
-		return destinationTile;
+		ZooTile destination = map.zooList.get(r);
+		return destination;
 	}
 	private ZooTile generateViaTile(){
 		int r = ranInt.nextInt(map.zooList.size());
@@ -94,48 +100,6 @@ public class Goal {
 		return viaTile;
 	}
 
-	//--------------------------------------------------
-	//checking if all restrictions are complete, plus train + cargo on right tile
-	/*
-	protected void checkGoalCompleted(Goal goal, Player p){
-		if (map.getTrainFromLocation(destinationTile.coords) != null)  {	
-			if (subGoalsComplete()){
-				//SCORING
-				p.discardGoal(goal);
-			}	
-		}
-	}
-	 */
-	//--------------------------------------------------
-	//checking individual restrictions - will say incomplete all time
-	/*
-	 private Boolean hasViaBeenFullfilled() {
-
-		if (train.getTile == viaReq){
-			boolVia = true;
-		}
-		return boolVia;
-	} 
-
-
-	private Boolean isRightTrain(){
-		if (player.train.getType() == Train() ) {
-			boolTrain = true;
-		}
-		return boolTrain;
-	}*/
-	//----------------------------------------------------
-	//checking train and via restrictions
-	/*
-	 * private Boolean subGoalsComplete(){
-		if (isRightTrain() && hasViaBeenFullfilled()){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}*/
-	//----------------------------------------------------	
 	//using restriction bools for completion
 	public Boolean allRestrictionsComplete(){
 		Boolean allComplete = false;
@@ -188,24 +152,32 @@ public class Goal {
 	}
 
 
-		//-----------------------------------------------------	
+
 		@Override
 		public String toString() {
 			Random ranInt2 = new Random();
-			int rannInt = ranInt2.nextInt(Animals.values().length +1);
-			String goalName;
+			int rannInt = ranInt2.nextInt(Animals.values().length);
+			String goalName = "";
+			
 
-			goalName = "Deliver " + Animal.getAnimalName(rannInt) + " to " + destinationTile.name + " from " + originTile.name;
-			if (viaTile != null){
-				goalName += " via " + viaTile.name;
+			for (Restriction r : restrictions){
+				goalName = "Deliver " + Animal.getAnimalName(rannInt) + " to " + destinationTile.name + " from " + originTile.name;
+				if (r.viaRestriciton != null){
+					goalName += " via " + r.viaRestriciton.name;
+				}
+				if (r.trainTypeRestriction != null){
+					goalName += " with train " + r.trainTypeRestriction.toString();
+				}		
+			
+				//turn limit
+				if (r.turnLimit != -1){
+					goalName += " within " + r.turnLimit + " turns";
+				}
 			}
-			if (trainType != null){
-				goalName += " with train " + trainType.toString();
-			}		
 			return goalName;
+			
 		}
 
-		//------------------------------------------------------
 		//randomly select a restriction for E,M,H goals
 		protected class Restriction{
 
@@ -241,7 +213,7 @@ public class Goal {
 						xDistance = Math.abs(originTile.coords.x - destinationTile.coords.x);
 						yDistance = Math.abs(originTile.coords.y - destinationTile.coords.y);
 					}				
-					cDistance = (float) Math.sqrt((Math.pow(xDistance, 2)) + (Math.pow(yDistance, 2)));
+					cDistance = (float) Math.sqrt((Math.pow(xDistance, 2)) + (Math.pow(yDistance, 2))) + 15f;
 
 					//finding lowest moving train in player inv
 					//tempSpeed holds lowest value
@@ -261,6 +233,11 @@ public class Goal {
 
 				case via:
 					viaRestriciton = generateViaTile();
+					while (viaRestriciton == originTile){
+						while (viaRestriciton == destinationTile){
+							viaRestriciton = generateViaTile();
+						}
+					}
 					break;
 
 				case train:

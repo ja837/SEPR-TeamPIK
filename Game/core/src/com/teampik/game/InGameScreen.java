@@ -163,10 +163,6 @@ public class InGameScreen implements Screen{
 		
 		//Create and give a goal to the next player.
 		Random rdm = new Random();
-		int ranNumber = rdm.nextInt(4);
-		Goal g = new Goal(ranNumber, game.map);
-		player.addGoal(g);
-		
 		int randomTrainInt = rdm.nextInt(5);
 		
 		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt]));
@@ -175,10 +171,10 @@ public class InGameScreen implements Screen{
 			UI.addToInventory(player, t);
 		}
 		
-		
-		
-
-		
+		int ranNumber = rdm.nextInt(4);
+		Goal g = new Goal(ranNumber, game.map, player);
+		player.addGoal(g);
+				
 		
 	}
 

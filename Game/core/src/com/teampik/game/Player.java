@@ -24,7 +24,7 @@ public class Player {
 		Random ranInt = new Random();
 		int r1 = ranInt.nextInt(4);
 		if (goals.size() < 3){
-			goals.add(new Goal(r1, map));
+			goals.add(goal);
 			
 		}
 	}
