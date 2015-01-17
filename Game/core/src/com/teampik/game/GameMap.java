@@ -16,11 +16,11 @@ public class GameMap extends TiledMap{
 	
 	final static int baseLayerIndex = 0;
 	final static int borderLayerIndex[] = {1,2,3,4,5,6};
-	final static int trackLayerIndex = 7;
-	final static int zooLayerIndex = 8;
-	final static int itemLayerIndex = 9;
-	final static int trainLayerIndex = 10;
-	final static int selectedTileLayerIndex = 11;
+	final static int trackLayerIndex[] = {7,8,9,10,11,12,13};
+	final static int zooLayerIndex = 14;
+	final static int itemLayerIndex = 15;
+	final static int trainLayerIndex = 16;
+	final static int selectedTileLayerIndex = 17;
 	
 	
 	MyGdxGame game;
@@ -43,14 +43,22 @@ public class GameMap extends TiledMap{
 		MapLayers layers = map.getLayers();
 
 		TiledMapTileLayer itemLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
+		
+		
 		TiledMapTileLayer baseLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight); //Number of tiles in x direction, Number of tiles in y direction, pixel width of tile, pixel height of tile
-		TiledMapTileLayer[] borderLayers = new TiledMapTileLayer[6]; // One for each direction
+		TiledMapTileLayer[] borderLayers = new TiledMapTileLayer[6]; // One for each direction			
 		
 		for (int i = 0; i < borderLayers.length;i++){
 			borderLayers[i] = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
 		}
 		
-		TiledMapTileLayer trackLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
+		TiledMapTileLayer[] trackLayers = new TiledMapTileLayer[7];
+		
+		for (int i = 0; i < trackLayers.length;i++){
+			trackLayers[i] = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
+		}
+		
+		
 		TiledMapTileLayer zooLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
 		
 		//Base Tiles (Land, water etc.)
@@ -76,7 +84,7 @@ public class GameMap extends TiledMap{
 		for (Vector2 coordinate : mapLayout.trackCoords){
 			Cell cell = new Cell();
 			cell.setTile(new TrackTile(game.trTrack, coordinate));
-			trackLayer.setCell((int) coordinate.x,  (int) coordinate.y, cell);
+			trackLayers[Direction.MIDDLE].setCell((int) coordinate.x,  (int) coordinate.y, cell);
 		}
 		
 		for (ZooParams params : mapLayout.zooParams){
@@ -98,8 +106,10 @@ public class GameMap extends TiledMap{
 		layers.add(baseLayer);		
 		for (int i = 0; i < borderLayers.length;i++){
 			layers.add(borderLayers[i]);
-		}		
-		layers.add(trackLayer);
+		}	
+		for (int i = 0; i < trackLayers.length;i++){
+			layers.add(trackLayers[i]);
+		}
 		layers.add(zooLayer);
 		
 		layers.add(itemLayer);

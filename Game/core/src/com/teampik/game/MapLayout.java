@@ -19,6 +19,7 @@ public class MapLayout {
 	ArrayList<powerups> powerups;
 	ArrayList<Vector2>[] borders;
 	ArrayList<Vector2> trackCoords;
+	
 	ArrayList<ZooParams> zooParams;
 	int[][] baseTileLayout;
 	
