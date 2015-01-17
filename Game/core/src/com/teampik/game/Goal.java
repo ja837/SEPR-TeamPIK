@@ -2,6 +2,7 @@ package com.teampik.game;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.lang.Math;
 
 import com.badlogic.gdx.math.Vector2;
 import com.teampik.game.Animal.Animals;
@@ -39,19 +40,19 @@ public class Goal {
 	static Train.trainType trainType;
 	Train trainForGoal;
 	Player p;
-	
+
+//----------------------------------------------------	
 	public Goal(int diff, GameMap m){
 		generateOriginTile();
 		generateDestinationTile();
-		boolTrain = false;
-		boolVia = false;
-		this.goalTurnCount = 0;
+		//boolTrain = false;
+		//boolVia = false;
+		//this.goalTurnCount = 0;
 		this.map = m;
 		this.diff = diff;
 		this.addRestrictions(diff);
 	}
-	
-	
+//----------------------------------------------------
 	public void addRestrictions(int diff){
 		int r1 = ranInt.nextInt(train+1);
 		int r2 = ranInt.nextInt(train+1);
@@ -78,7 +79,6 @@ public class Goal {
 				
 			}
 	}
-
 //--------------------------------------------------	
 	private ZooTile generateOriginTile(){
 		int r = ranInt.nextInt(map.zooList.size());
@@ -99,7 +99,7 @@ public class Goal {
 	
 //--------------------------------------------------
 	//checking if all restrictions are complete, plus train + cargo on right tile
-	
+	/*
 	protected void checkGoalCompleted(Goal goal, Player p){
 		if (map.getTrainFromLocation(destinationTile.coords) != null)  {	
 			if (subGoalsComplete()){
@@ -108,10 +108,12 @@ public class Goal {
 			}	
 		}
 	}
-    
+    */
 //--------------------------------------------------
 	//checking individual restrictions - will say incomplete all time
-	private Boolean hasViaBeenFullfilled() {
+	/*
+	 private Boolean hasViaBeenFullfilled() {
+	
 		if (train.getTile == viaReq){
 			boolVia = true;
 		}
@@ -124,17 +126,24 @@ public class Goal {
 			boolTrain = true;
 		}
 		return boolTrain;
-	}
+	}*/
 //----------------------------------------------------
 	//checking train and via restrictions
-	private Boolean subGoalsComplete(){
+	/*
+	 * private Boolean subGoalsComplete(){
 		if (isRightTrain() && hasViaBeenFullfilled()){
 			return true;
 		}
 		else{
 			return false;
 		}
-	}
+	}*/
+//----------------------------------------------------	
+	//using restriction bools for completion
+		
+	
+	
+	
 //-----------------------------------------------------	
 	@Override
 	public String toString() {
@@ -146,7 +155,7 @@ public class Goal {
 		if (viaTile != null){
 			goalName += " via " + viaTile.name;
 		}
-		if (trainForGoal.type == trainType){
+		if (trainType != null){
 			goalName += " with train " + trainType.toString();
 		}
 			
@@ -161,6 +170,7 @@ public class Goal {
 		Train.trainType trainTypeRestriction = null;
 		int turnLimit = -1;
 		ZooTile viaRestriciton = null;
+		
 		Boolean trainTypeCompleted = false;
 		Boolean turnLimitCompleted = false;
 		Boolean viaCompleted = false;
@@ -168,18 +178,53 @@ public class Goal {
 		protected Restriction(int randomInt){
 			switch (randomInt){
 			case turn:
+				float xDistance, yDistance, zDistance, cDistance, x1Distance, y1Distance;
+				int tempSpeed = 10;
+				//Vector2 distance;
+				
 				//depends on tiles from zoo->zoo + amount train can move per turn + via, return int
 				//# hexs from A->B(->C / lowest train movement in player.inv = limit
-				break;
-			case via:
-				//need ZooTile somewhere - turn limit needs to take this into account, return zootile
-				viaRestriciton = generateViaTile();
 				
+				//find distance between o+d / o+v+d
+				if (viaRestriciton != null){
+					//iteration 1 of finding best way to do turn limit
+					//xDistance
+					x1Distance = Math.abs(originTile.coords.x - viaTile.coords.x);
+					xDistance = Math.abs(x1Distance + destinationTile.coords.x);
+					//yDistance;
+					y1Distance = Math.abs(originTile.coords.y - viaTile.coords.y);
+					yDistance = Math.abs(y1Distance + destinationTile.coords.y);
+				}
+				else{
+					xDistance = Math.abs(originTile.coords.x - destinationTile.coords.x);
+					yDistance = Math.abs(originTile.coords.y - destinationTile.coords.y);
+				}				
+				cDistance = (float) Math.sqrt((Math.pow(xDistance, 2)) + (Math.pow(yDistance, 2)));
+
+				//finding lowest moving train in player inv
+				//tempSpeed holds lowest value
+				if (trainTypeRestriction != null){
+					tempSpeed = trainForGoal.speed;
+				}
+				else {
+				for (Train t : p.inventory.trains){
+					if (t.speed < tempSpeed){
+						tempSpeed = t.speed;
+					}
+				}
+				}
+				
+				//do distance / t.speed = limit
+				turnLimit = ((int) cDistance / tempSpeed);
 				break;
+				
+			case via:
+				viaRestriciton = generateViaTile();
+				break;
+				
 			case train:
 				//5 types ; hover bullet diesel electric steam
 				//must be in player's inventory, return train type
-				
 				Boolean hasTrain = false;
 				
 				while (!hasTrain){
@@ -192,7 +237,6 @@ public class Goal {
 				}
 						
 				trainTypeRestriction = trainType;
-
 				break;
 			}
 			

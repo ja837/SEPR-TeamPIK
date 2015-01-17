@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.math.Vector2;
 
 public class Inventory {
-	//Trains
+
 	ArrayList<Train> trains = new ArrayList<Train>();
 	Train selectedTrain = null;
 	
