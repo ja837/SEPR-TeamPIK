@@ -3,12 +3,16 @@ package com.teampik.game;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.math.Vector2;
+import com.teampik.game.Animal.Animals;
+
 /*TODO 
 	progress updater
 */
 
 public class Goal {
 	
+	GameMap map;
 	private final static int basic = 0;
 	private final static int easy = 1;
 	private final static int medium = 2;
@@ -29,27 +33,24 @@ public class Goal {
 	protected int goalTurnCount;
 	ArrayList<Restriction> restrictions = new ArrayList<Restriction>();
 
+	ZooTile originTile;
+	ZooTile viaTile;  
+	ZooTile destinationTile;
+	static Train.trainType trainType;
+	Train trainForGoal;
+	Player p;
 	
-	public Goal(int diff){
-		//generateOriginTile() //randomly select a city
-		//generateDestinationTile() //randomly select a city
-		//name = originTile.name + " to " + destinationTile.name;
+	public Goal(int diff, GameMap m){
+		generateOriginTile();
+		generateDestinationTile();
 		boolTrain = false;
 		boolVia = false;
 		this.goalTurnCount = 0;
-		
+		this.map = m;
 		this.diff = diff;
 		this.addRestrictions(diff);
 	}
 	
-	/*
-	ZooTile originTile;
-	ZooTile viaTile;   -- if on ZooTile -> train.getTile() = viaReq 
-	ZooTile destinationTile;
-	Train trainType;
-	Train train;
-	
-	*/
 	
 	public void addRestrictions(int diff){
 		int r1 = ranInt.nextInt(train+1);
@@ -59,11 +60,6 @@ public class Goal {
 		}
 		
 		switch (diff) {
-			/*TODO
-			 * pass random origin, dest and via ZooTiles to cases
-			 * Train Type
-			 * Animal type
-			 */
 			case basic:
 				
 				break;
@@ -82,26 +78,39 @@ public class Goal {
 				
 			}
 	}
-	
+
+//--------------------------------------------------	
+	private ZooTile generateOriginTile(){
+		int r = ranInt.nextInt(map.zooList.size());
+		originTile = map.zooList.get(r);
+		return originTile;
+	}
+	private ZooTile generateDestinationTile(){
+		int r = ranInt.nextInt(map.zooList.size());
+		destinationTile = map.zooList.get(r);
+		return destinationTile;
+	}
+	private ZooTile generateViaTile(){
+		int r = ranInt.nextInt(map.zooList.size());
+		viaTile = map.zooList.get(r);
+		return viaTile;
+	}
 	
 	
 //--------------------------------------------------
 	//checking if all restrictions are complete, plus train + cargo on right tile
-	/*
-	protected void checkGoalCompleted(Goal goal){
-		if (train.getTile() = destination {
+	
+	protected void checkGoalCompleted(Goal goal, Player p){
+		if (map.getTrainFromLocation(destinationTile.coords) != null)  {	
 			if (subGoalsComplete()){
-				Scoring.allocatePoints();	
+				//SCORING
+				p.discardGoal(goal);
 			}	
 		}
-		else {
-			return false;
-		}
 	}
-    */
+    
 //--------------------------------------------------
 	//checking individual restrictions - will say incomplete all time
-	/*
 	private Boolean hasViaBeenFullfilled() {
 		if (train.getTile == viaReq){
 			boolVia = true;
@@ -115,40 +124,48 @@ public class Goal {
 			boolTrain = true;
 		}
 		return boolTrain;
-	}*/
+	}
 //----------------------------------------------------
 	//checking train and via restrictions
-	/*
 	private Boolean subGoalsComplete(){
-		if (boolTrain && boolVia){
+		if (isRightTrain() && hasViaBeenFullfilled()){
 			return true;
 		}
 		else{
 			return false;
 		}
 	}
-	*/
 //-----------------------------------------------------	
-	/*
 	@Override
 	public String toString() {
 		Random ranInt2 = new Random();
-		int rannInt = ranInt2.nextInt(Animal.animals.size() +1);
+		int rannInt = ranInt2.nextInt(Animals.values().length +1);
+		String goalName;
 		
-		if (viaTile = true){
-			deliver + Animal.getAnimalName(rannInt) + " to " + DEST " + from " + ORIGIN " via " VIA
+		goalName = "Deliver " + Animal.getAnimalName(rannInt) + " to " + destinationTile.name + " from " + originTile.name;
+		if (viaTile != null){
+			goalName += " via " + viaTile.name;
 		}
-		deliver ANIMAL to DEST from ORIGIN
+		if (trainForGoal.type == trainType){
+			goalName += " with train " + trainType.toString();
+		}
+			
 		
 		return goalName;
 	}
-	*/
 
 //------------------------------------------------------
 	//randomly select a restriction for E,M,H goals
-	protected static class Restriction{
+	protected class Restriction{
+		
+		Train.trainType trainTypeRestriction = null;
+		int turnLimit = -1;
+		ZooTile viaRestriciton = null;
+		Boolean trainTypeCompleted = false;
+		Boolean turnLimitCompleted = false;
+		Boolean viaCompleted = false;
+		
 		protected Restriction(int randomInt){
-			
 			switch (randomInt){
 			case turn:
 				//depends on tiles from zoo->zoo + amount train can move per turn + via, return int
@@ -156,12 +173,29 @@ public class Goal {
 				break;
 			case via:
 				//need ZooTile somewhere - turn limit needs to take this into account, return zootile
+				viaRestriciton = generateViaTile();
+				
 				break;
 			case train:
 				//5 types ; hover bullet diesel electric steam
 				//must be in player's inventory, return train type
+				
+				Boolean hasTrain = false;
+				
+				while (!hasTrain){
+					trainType = Train.getRandomTrain();
+					for (Train t : p.inventory.trains){
+						if (t.type == trainType){
+							hasTrain = true;
+						}
+					}
+				}
+						
+				trainTypeRestriction = trainType;
+
 				break;
 			}
+			
 		}
 		
 	}

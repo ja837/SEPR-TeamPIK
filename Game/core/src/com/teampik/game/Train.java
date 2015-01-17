@@ -1,5 +1,7 @@
 package com.teampik.game;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
@@ -53,14 +55,19 @@ public class Train extends MapTile {
 		speed = tspeed;
 	}
 	
-	
 	public Vector2 getLocation(){
 	 	return this.location;
 	 }
 	 
-	
-	/*
+	public static trainType getRandomTrain(){
+		Random ran = new Random();
+		int rann = ran.nextInt(5);
+		trainType t = Train.trainType.values()[rann];
+
+		return t;
+	}
+
 	 
-	 */
+	
 }
 

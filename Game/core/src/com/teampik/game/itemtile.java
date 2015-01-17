@@ -11,7 +11,7 @@ public class itemtile extends TrackTile {
 	Vector2 coords;
 	int type;
 	
-	public itemtile(TextureRegion textureRegion, powerups params) {
+	public itemtile(TextureRegion textureRegion, Powerups params) {
 		
 		super(textureRegion, params.coordinates);
 		

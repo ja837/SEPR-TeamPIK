@@ -26,6 +26,8 @@ public class GameMap extends TiledMap{
 	MyGdxGame game;
 	MapLayout mapLayout;
 	
+	ArrayList<ZooTile> zooList;
+	
 	public static int tileRadius = 32;
 	public static int tileHeight  = 56; 						/*= (int) (((float) radius) * Math.sqrt(3)) This is correct mathematically, where a radius of 32 would get a height of just under 56. Since we are working with a texture, we can just take the hieght of that instead.*/
 	public static int tileWidth  = tileRadius * 2;
@@ -34,7 +36,7 @@ public class GameMap extends TiledMap{
 	
 	public GameMap(MyGdxGame g){		
 		game = g;
-		
+		zooList = new ArrayList<ZooTile>();
 	}
 	
 	public static GameMap createMap(MyGdxGame game, MapLayout mapLayout) {
@@ -87,13 +89,16 @@ public class GameMap extends TiledMap{
 			trackLayers[Direction.MIDDLE].setCell((int) coordinate.x,  (int) coordinate.y, cell);
 		}
 		
-		for (ZooParams params : mapLayout.zooParams){
+		for (ZooParam params : mapLayout.zooParams){
 			Cell cell = new Cell();
-			cell.setTile(new ZooTile(game.trZoo, params));
+			ZooTile z = new ZooTile(game.trZoo, params);
+			cell.setTile(z);
 			zooLayer.setCell((int) params.coordinates.x,  (int) params.coordinates.y, cell);
+			
+			map.zooList.add(z);
 		}
 			
-		for (powerups params : mapLayout.powerups){
+		for (Powerups params : mapLayout.powerups){
 			Cell cell = new Cell();
 			cell.setTile(new itemtile(game.trBomb, params));
 			itemLayer.setCell((int) params.coordinates.x,  (int) params.coordinates.y, cell);
@@ -222,7 +227,10 @@ public class GameMap extends TiledMap{
 		
 	}
 	
-	
+	public Train getTrainFromLocation(Vector2 v){
+		Train t = (Train) getTile((int) v.x, (int) v.y, trainLayerIndex);
+		return t;
+	}
 
 }
 

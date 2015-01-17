@@ -1,9 +1,11 @@
 package com.teampik.game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Player {
 	
+	GameMap map;
 	public String playerName = "default";
 	int playerNumber;
     
@@ -19,8 +21,10 @@ public class Player {
 	
 	public void addGoal(Goal goal){
 		//0 for basic; 1 for easy; 2 for med; 3 for hard
+		Random ranInt = new Random();
+		int r1 = ranInt.nextInt(4);
 		if (goals.size() < 3){
-			goals.add(new Goal(1));
+			goals.add(new Goal(r1, map));
 			
 		}
 	}

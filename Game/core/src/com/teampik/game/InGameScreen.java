@@ -164,7 +164,7 @@ public class InGameScreen implements Screen{
 		//Create and give a goal to the next player.
 		Random rdm = new Random();
 		int ranNumber = rdm.nextInt(4);
-		Goal g = new Goal(ranNumber);
+		Goal g = new Goal(ranNumber, game.map);
 		player.addGoal(g);
 		
 		int randomTrainInt = rdm.nextInt(5);
