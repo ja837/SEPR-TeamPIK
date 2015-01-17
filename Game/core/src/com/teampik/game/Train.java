@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 
-public class Train extends StaticTiledMapTile {
+public class Train extends MapTile {
 	
 	public enum trainType {
 		HOVER, BULLET, ELECTRIC, DIESEL, STEAM
@@ -14,6 +14,7 @@ public class Train extends StaticTiledMapTile {
 	public trainType type;
 	public int speed;
 	Vector2 location;
+	Player playerTrainBelongsTo;
 	
 	// Train constructor
 	public Train(TextureRegion textureRegion, trainType tType){
@@ -32,6 +33,10 @@ public class Train extends StaticTiledMapTile {
 		    case HOVER:
 		    	speed = 8;
 		}
+	}
+	
+	public void setPlayer(Player p){
+		playerTrainBelongsTo = p;
 	}
 	
 	//change train speed, will add duration (no of turns to change for) later

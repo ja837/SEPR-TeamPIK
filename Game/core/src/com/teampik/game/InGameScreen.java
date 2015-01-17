@@ -39,7 +39,6 @@ public class InGameScreen implements Screen{
 
 	InGameUI UI = new InGameUI();
 	
-	Train trainSelectedFromInventory;
 	
 
 
@@ -62,15 +61,6 @@ public class InGameScreen implements Screen{
 			}
 		});
 		
-		/*
-		for (final InventoryButton b : UI.inventoryItems){
-			b.addListener(new ClickListener(){
-				@Override 
-				public void clicked(InputEvent event, float x, float y){
-					currentPlayer.inventory.selectTrain(b.index);
-				}
-			});
-		}*/
 
 		
 
@@ -118,11 +108,11 @@ public class InGameScreen implements Screen{
 			
 
 			if (turnCount % 2 == 0){
-				ProcessEndOfTurn(game.player1);
+				ProcessEndOfTurn(game.player2);
 				currentState = player2Turn;
 			}
 			else{
-				ProcessEndOfTurn(game.player2);
+				ProcessEndOfTurn(game.player1);
 				currentState = player1Turn;
 			}
 			//EndRegion
@@ -152,7 +142,7 @@ public class InGameScreen implements Screen{
 	public void RefreshUI(){
 		
 		UI.lblPlayer.setText(currentPlayer.playerName + "'s (Player " + currentState + "'s) turn");
-
+		
 	}
 
 	public void ProcessEndOfTurn(Player player){ 
@@ -177,10 +167,10 @@ public class InGameScreen implements Screen{
 		Goal g = new Goal(ranNumber);
 		player.addGoal(g);
 		
-		player.inventory.addTrain(new Train(game.trDefault, Train.trainType.values()[rdm.nextInt(4)]));
+		player.inventory.addTrain(new Train(game.trDefault, Train.trainType.values()[rdm.nextInt(5)]));
 		
 		for (Train t : player.inventory.trains){
-			UI.addToInventory(t);
+			UI.addToInventory(player, t);
 		}
 		
 		
@@ -218,7 +208,7 @@ public class InGameScreen implements Screen{
 		game.currentlySelectedTile = tileCoords.cpy();
 
 
-
+		Train train = (Train) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trainLayerIndex);
 		MapTile tile = game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.baseLayerIndex);
 		ZooTile ztile = (ZooTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.zooLayerIndex);
 		TrackTile ttile = (TrackTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trackLayerIndex);
@@ -229,9 +219,23 @@ public class InGameScreen implements Screen{
 		System.out.println("Camera position : " + cameraPosition.toString());		
 
 		
-		
-		if (ztile != null){
-			System.out.println(ztile.toString());			
+		//Since there is lots of things on the same tile, checking what has been clicked on is cascaded down. Train then zoo then track then maptile.
+		if (train != null){
+			//Select train and move it when new tile is selected.
+		}
+		else if (ztile != null){
+			System.out.println(ztile.toString());	
+			
+			//Deploy Train if it has been selected
+			if (currentPlayer.inventory.selectedTrain != null){
+				
+				game.map.deployTraintoTile(tileCoords, currentPlayer.inventory.selectedTrain);
+				currentPlayer.inventory.trains.remove(currentPlayer.inventory.selectedTrain);
+				currentPlayer.inventory.selectedTrain = null;
+				
+				RefreshInventory();
+				System.out.println("Train deployed");	
+			}
 		}
 		else if (ttile != null){
 			System.out.println(ttile.toString());
@@ -248,6 +252,13 @@ public class InGameScreen implements Screen{
 
 
 
+	}
+	
+	public void RefreshInventory(){
+		UI.clearInventory();
+		for (Train t : currentPlayer.inventory.trains){
+			UI.addToInventory(currentPlayer, t);
+		}
 	}
 
 	@Override

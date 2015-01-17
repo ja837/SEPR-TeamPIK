@@ -47,17 +47,12 @@ public class InGameUI{
 		stage.addActor(lblInventory);
 	}
 
-	public void addToInventory(Train t){
-		InventoryButton btn = new InventoryButton(t.type.toString(), skin, inventoryItems.size());
+	public void addToInventory(Player p, Train t){
+		InventoryButton btn = new InventoryButton(t.type.toString(), skin, inventoryItems.size(), p.inventory);
 		btn.setPosition(Gdx.graphics.getWidth() - lblInventory.getPrefWidth(), Gdx.graphics.getHeight() - 150f - (inventoryItems.size() * 40f));
 		inventoryItems.add(btn);
 		
-		/*btn.addListener(new ClickListener(){
-			@Override 
-			public void clicked(InputEvent event, float x, float y){
-				p.inventory.selectTrain(btn.index);
-			}
-		});*/
+		
 
 		
 

@@ -48,6 +48,19 @@ public class MyGdxGame extends Game {
 	TextureRegion trBomb;
 	TextureRegion trSelected;
 	TextureRegion[] trBorders = new TextureRegion[6];
+	
+	//Train textures
+	TextureRegion trTrainHoverRed;
+	TextureRegion trTrainHoverBlue;
+	TextureRegion trTrainBulletRed;
+	TextureRegion trTrainBulletBlue;
+	TextureRegion trTrainElectricRed;
+	TextureRegion trTrainElectricBlue;
+	TextureRegion trTrainDieselRed;
+	TextureRegion trTrainDieselBlue;
+	TextureRegion trTrainSteamRed;
+	TextureRegion trTrainSteamBlue;
+	
 	Vector2 currentlySelectedTile = new Vector2(-1,-1);
 	
 	TiledMap tiledMap;

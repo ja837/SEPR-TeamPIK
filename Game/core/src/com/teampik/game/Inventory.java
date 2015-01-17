@@ -2,6 +2,8 @@ package com.teampik.game;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.math.Vector2;
+
 public class Inventory {
 	//Trains
 	ArrayList<Train> trains = new ArrayList<Train>();
@@ -25,9 +27,9 @@ public class Inventory {
 		
 	}
 	
-	public void deployTrain(GameMap map, ZooTile zoo){
+	public void deployTrain(GameMap map, Vector2 coords){
 		if (selectedTrain != null){
-			map.deployTraintoTile(zoo.coords,selectedTrain);
+			map.deployTraintoTile(coords,selectedTrain);
 			trains.remove(selectedTrain);
 		}
 	}
