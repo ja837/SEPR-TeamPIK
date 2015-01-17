@@ -44,6 +44,12 @@ public class MyGdxGame extends Game {
 	TextureRegion trMountain;
 	TextureRegion trDesert;
 	TextureRegion trTrack;
+	TextureRegion trTrackN;
+	TextureRegion trTrackNE;
+	TextureRegion trTrackSE;
+	TextureRegion trTrackS;
+	TextureRegion trTrackSW;
+	TextureRegion trTrackNW;
 	TextureRegion trZoo;
 	TextureRegion trBomb;
 	TextureRegion trSelected;
@@ -131,6 +137,12 @@ public class MyGdxGame extends Game {
         trMountain = new TextureRegion(new Texture("Tiles/mountain.png"));
         trForest = new TextureRegion(new Texture("Tiles/forest.png"));
         trTrack = new TextureRegion(new Texture("track.png"));
+        trTrackN = new TextureRegion(new Texture("Track/top.png"));
+    	trTrackNE = new TextureRegion(new Texture("Track/top_right.png"));
+    	trTrackSE = new TextureRegion(new Texture("Track/bottom_right.png"));
+    	trTrackS = new TextureRegion(new Texture("Track/bottom.png"));
+    	trTrackSW = new TextureRegion(new Texture("Track/bottom_left.png"));
+    	trTrackNW = new TextureRegion(new Texture("Track/top_left.png"));
 
         trZoo = new TextureRegion(new Texture("zoo.png"));
         
@@ -342,12 +354,20 @@ public class MyGdxGame extends Game {
 		setTrack(trackCoords,32,2,5,0);
 		setTrack(trackCoords,32,18,5,2);
 		setTrack(trackCoords,33,7,4,1);
+		setTrack(trackCoords,34,1,2,2);
+		setTrack(trackCoords,36,1,5,1);
 		setTrack(trackCoords,37,6,3,0);
 		setTrack(trackCoords,37,10,7,0);
 		setTrack(trackCoords,38,16,2,1);
 		setTrack(trackCoords,38,5,3,2);
 		setTrack(trackCoords,38,9,3,1);
 		setTrack(trackCoords,40,11,6,0);
+		
+		ArrayList<ZooParams> zooParams = getZooList();
+		for (ZooParams zoo : zooParams) {
+			trackCoords.add(new Vector2(zoo.coordinates.x,zoo.coordinates.y));
+		}
+		
 		return trackCoords;
 	}
 	

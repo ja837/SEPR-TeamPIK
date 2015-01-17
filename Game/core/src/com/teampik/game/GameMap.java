@@ -85,13 +85,68 @@ public class GameMap extends TiledMap{
 			Cell cell = new Cell();
 			cell.setTile(new TrackTile(game.trTrack, coordinate));
 			trackLayers[Direction.MIDDLE].setCell((int) coordinate.x,  (int) coordinate.y, cell);
+			
 		}
-		
+
 		for (ZooParams params : mapLayout.zooParams){
 			Cell cell = new Cell();
 			cell.setTile(new ZooTile(game.trZoo, params));
 			zooLayer.setCell((int) params.coordinates.x,  (int) params.coordinates.y, cell);
+			
 		}
+		
+		for (Vector2 coordinate: mapLayout.trackCoords){
+			for (int i=0; i < mapLayout.trackCoords.size(); i++) {
+				Vector2 next = mapLayout.trackCoords.get(i);
+				if (next.x == coordinate.x){
+					//if north tracktiles
+					if (next.y == coordinate.y+1){
+						Cell cell = new Cell();
+						cell.setTile(new TrackTile(game.trTrackN, coordinate));
+						trackLayers[Direction.NORTH].setCell((int) coordinate.x, (int) coordinate.y, cell);
+					}
+					//if south tracktiles
+					if (next.y == coordinate.y-1){
+						Cell cell = new Cell();
+						cell.setTile(new TrackTile(game.trTrackS, coordinate));
+						trackLayers[Direction.SOUTH].setCell((int) coordinate.x, (int) coordinate.y, cell);
+					}
+				}
+				if (next.x == coordinate.x+1){
+					// if northeast tracktiles
+					if (((coordinate.x % 2 == 0) && (next.y == coordinate.y+1)) 
+							|| ((coordinate.x % 2 != 0) && (next.y == coordinate.y))){
+						Cell cell = new Cell();
+						cell.setTile(new TrackTile(game.trTrackNE, coordinate));
+						trackLayers[Direction.NORTH_EAST].setCell((int) coordinate.x, (int) coordinate.y, cell);
+					}
+					//if southeast tracktiles
+					if (((coordinate.x % 2 == 0) && (next.y == coordinate.y)) 
+							|| ((coordinate.x % 2 != 0) && (next.y == coordinate.y-1))){
+						Cell cell = new Cell();
+						cell.setTile(new TrackTile(game.trTrackSE, coordinate));
+						trackLayers[Direction.SOUTH_EAST].setCell((int) coordinate.x, (int) coordinate.y, cell);
+					}
+				}
+				if (next.x == coordinate.x-1){
+					// if northwest tracktiles
+					if (((coordinate.x % 2 == 0) && (next.y == coordinate.y+1)) 
+							|| ((coordinate.x % 2 != 0) && (next.y == coordinate.y))){
+						Cell cell = new Cell();
+						cell.setTile(new TrackTile(game.trTrackNW, coordinate));
+						trackLayers[Direction.NORTH_WEST].setCell((int) coordinate.x, (int) coordinate.y, cell);
+					}
+					//if southwest tracktiles
+					if (((coordinate.x % 2 == 0) && (next.y == coordinate.y)) 
+							|| ((coordinate.x % 2 != 0) && (next.y == coordinate.y-1))){
+						Cell cell = new Cell();
+						cell.setTile(new TrackTile(game.trTrackSW, coordinate));
+						trackLayers[Direction.SOUTH_WEST].setCell((int) coordinate.x, (int) coordinate.y, cell);
+					}
+				}
+			}
+		}
+		
 			
 		for (powerups params : mapLayout.powerups){
 			Cell cell = new Cell();
@@ -118,9 +173,8 @@ public class GameMap extends TiledMap{
 		
 		
 		return map;
-		
-		
 	}
+		
 	
 	/**
 	 * 
