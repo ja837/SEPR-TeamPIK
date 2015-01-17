@@ -1,5 +1,6 @@
 package com.teampik.game;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -25,8 +26,11 @@ public class Train extends MapTile {
 	public trainType type;
 	public int speed;
 	Vector2 location;
+
 	Player playerTrainBelongsTo;
-	
+
+	ArrayList<Vector2> locationHistory;
+
 	// Train constructor
 	public Train(TextureRegion textureRegion, trainType tType){
 		super(textureRegion);
