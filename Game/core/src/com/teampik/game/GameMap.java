@@ -195,6 +195,20 @@ public class GameMap extends TiledMap{
 		return tile;
 	}
 	
+	public void deployTraintoTile (Vector2 coords, Train t){
+		
+		MapTile tile = null;
+		TiledMapTileLayer trainLayer = (TiledMapTileLayer) game.map.getLayers().get(trainLayerIndex);
+		Cell c = trainLayer.getCell((int) coords.x, (int) coords.y);
+		
+		c.setTile(tile);
+		
+		if (c != null){
+			tile = (MapTile) c.getTile();	
+		}
+		
+	}
+	
 	
 
 }
