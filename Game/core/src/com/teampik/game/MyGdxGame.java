@@ -125,7 +125,7 @@ public class MyGdxGame extends Game {
         trMountain = new TextureRegion(new Texture("Tiles/mountain.png"));
         trForest = new TextureRegion(new Texture("Tiles/forest.png"));
         trTrack = new TextureRegion(new Texture("track.png"));
-        trZoo = new TextureRegion(new Texture("Tiles/city.png"));
+        trZoo = new TextureRegion(new Texture("zoo.png"));
         trSelected = new TextureRegion(new Texture("perfectHexagonSelected.png"));
         trBorders[Direction.NORTH] = new TextureRegion(new Texture("Borders/borderNorth.png"));
         trBorders[Direction.NORTH_EAST] = new TextureRegion(new Texture("Borders/borderNorthEast.png"));
