@@ -36,9 +36,25 @@ public class InGameScreen implements Screen{
 	public int turnCount = 1;
 	public int turnLimit = 50;
 	
-	public Vector2 trainLoc = new Vector2(6,6);
-	public int trainState = 0;
-	public int movement = 8;
+	//Location of the player's trains
+	public ArrayList<Vector2> p1Trains = new ArrayList<Vector2>();
+	public ArrayList<Vector2> p2Trains = new ArrayList<Vector2>();
+	
+	public ArrayList<Integer> p1TrainType = new ArrayList<Integer>();
+	public ArrayList<Integer> p2TrainType = new ArrayList<Integer>();
+	
+	//maximum distance which can be moved each turn
+	public ArrayList<Integer> p1TrainsMaxMovement = new ArrayList<Integer>();
+	public ArrayList<Integer> p2TrainsMaxMovement = new ArrayList<Integer>();
+	
+	//distance which can be moved this turn; resets at the end of each go
+	public ArrayList<Integer> p1TrainsMovement = new ArrayList<Integer>();
+	public ArrayList<Integer> p2TrainsMovement = new ArrayList<Integer>();
+	
+	public Vector2 selectedTrain = new Vector2();
+	public int mode = 0;
+	public int whichTrain;
+	
 
 
 	InGameUI UI = new InGameUI();	
@@ -48,7 +64,7 @@ public class InGameScreen implements Screen{
 	public InGameScreen(MyGdxGame game){
 		this.game = game;
 		currentPlayer = game.player1;
-		
+		currentState = endOfTurnProcessing; 
 
 		UI = new InGameUI();
 		
@@ -77,8 +93,25 @@ public class InGameScreen implements Screen{
 		
 		game.player1.inventory.trains.clear();
 		game.player2.inventory.trains.clear();
-		
-		UI.clearInventory();
+		game.player1.goals.clear();
+		game.player2.goals.clear(); 
+
+		//Clear all trains off map 
+ 		for (Train t : game.map.deployedTrains){ 
+ 			TiledMapTileLayer trainLayer = (TiledMapTileLayer) game.map.getLayers().get(GameMap.trainLayerIndex); 
+ 			//Visibly select the tile. 
+ 			Cell toBeRemoved = trainLayer.getCell((int)t.location.x, (int) t.location.y); 
+
+ 			if (toBeRemoved != null) 
+ 			{ 
+ 				toBeRemoved.setTile(null); 
+ 			} 
+ 		} 
+ 				 
+ 		game.map.deployedTrains.clear(); 
+
+ 		RefreshInventory(); 
+ 		RefreshGoals(); 
 		
 	}
 
@@ -143,6 +176,7 @@ public class InGameScreen implements Screen{
 
 	public void ProcessEndOfTurn(Player player){ 
 		UI.clearInventory();
+		UI.clearGoal();
 		System.out.println("Turn " + (turnCount - 1) + " just ended. Turn " + turnCount + " is now starting.");
 		
 		if (turnCount == turnLimit){			
@@ -159,67 +193,83 @@ public class InGameScreen implements Screen{
 		
 		//Create and give a goal to the next player.
 		Random rdm = new Random();
-		int ranNumber = rdm.nextInt(5);
-		Goal g = new Goal(ranNumber);
-		player.addGoal(g);
+		
 		int randomTrainInt = rdm.nextInt(5);
 		
-		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt]));		
+		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt], player));
 		for (Train t : player.inventory.trains){
 			UI.addToInventory(player, t);
 		}	
 		
+		int ranNumber = rdm.nextInt(4);
+		Goal g = new Goal(ranNumber, game.map, player);
+		player.addGoal(g);
+		
+		for (Goal goal : player.goals){ 
+			UI.addToGoals(player, goal);
+			System.out.println(goal.toString()); 
+		}
 	}
 	
 	public void moveTrain(Vector2 tile){
-		System.out.println();
-		System.out.println("tile is " + tile);
-		System.out.println("trainloc is " + trainLoc);
-		ArrayList<Vector2> targets = new ArrayList<Vector2>();
-		if (trainState == 1){
-			//Because it's a hexagonal grid, there is no consistent formula for neighbouring tiles
-			if (trainLoc.x % 2 == 0){
-				targets.add(new Vector2(trainLoc.x, trainLoc.y+1));
-				targets.add(new Vector2(trainLoc.x, trainLoc.y-1));
-				targets.add(new Vector2(trainLoc.x+1, trainLoc.y+1));
-				targets.add(new Vector2(trainLoc.x-1, trainLoc.y+1));
-				targets.add(new Vector2(trainLoc.x+1, trainLoc.y));
-				targets.add(new Vector2(trainLoc.x-1, trainLoc.y));				
+		System.out.println("tile is" + tile);
+		//Throughout this method we interact with Vector2s using their two seperate dimensions. This is to avoid linking them.
+		if (mode == 0){
+			for (int i=0;i<p1Trains.size();i++){
+				if (tile.x == p1Trains.get(i).x && tile.y == p1Trains.get(i).y){
+					selectedTrain.x = tile.x;
+					selectedTrain.y = tile.y;
+					whichTrain = i;
+					mode = 1;
+				}
 			}
-			else{
-				targets.add(new Vector2(trainLoc.x, trainLoc.y+1));
-				targets.add(new Vector2(trainLoc.x, trainLoc.y-1));
-				targets.add(new Vector2(trainLoc.x+1, trainLoc.y-1));
-				targets.add(new Vector2(trainLoc.x-1, trainLoc.y-1));
-				targets.add(new Vector2(trainLoc.x+1, trainLoc.y));
-				targets.add(new Vector2(trainLoc.x-1, trainLoc.y));
-			}
-			System.out.println(targets);
-
-			if (targets.contains(tile)){
-				if (movement > 0){
-					System.out.println ("Moving train");
-					trainLoc.x = tile.x;		//We do this in two steps to avoid linking the variables
-					trainLoc.y = tile.y;
-					System.out.println("Train is now at" + trainLoc);
-					movement -=1;
+		
+		System.out.println("Selected train is" + selectedTrain);
+		}
+			
+		
+		else{
+			ArrayList<Vector2> targets = new ArrayList<Vector2>();	
+			if (p1Trains.size() > 0){
+				selectedTrain = p1Trains.get(whichTrain);
+				if (selectedTrain.x % 2 == 0){	//Find neihgbours
+					targets.add(new Vector2(selectedTrain.x, selectedTrain.y+1));
+					targets.add(new Vector2(selectedTrain.x, selectedTrain.y-1));
+					targets.add(new Vector2(selectedTrain.x+1, selectedTrain.y+1));
+					targets.add(new Vector2(selectedTrain.x-1, selectedTrain.y+1));
+					targets.add(new Vector2(selectedTrain.x+1, selectedTrain.y));
+					targets.add(new Vector2(selectedTrain.x-1, selectedTrain.y));
 				}
 				else{
-					System.out.println ("Train is out of energy");
+					targets.add(new Vector2(selectedTrain.x, selectedTrain.y+1));
+					targets.add(new Vector2(selectedTrain.x, selectedTrain.y-1));
+					targets.add(new Vector2(selectedTrain.x+1, selectedTrain.y-1));
+					targets.add(new Vector2(selectedTrain.x-1, selectedTrain.y-1));
+					targets.add(new Vector2(selectedTrain.x+1, selectedTrain.y));
+					targets.add(new Vector2(selectedTrain.x-1, selectedTrain.y));
+				}
+				
+				System.out.println("Player1s trains is at" + p1Trains.get(0));
+				System.out.println("The targets are" + targets);
+				for (int i=0; i<p1Trains.size();i++){
+					for (int j=0; j<targets.size();j++){					
+						if (tile.x == targets.get(j).x && tile.y == targets.get(j).y){
+							if (p1TrainsMovement.get(whichTrain) > 0){
+								System.out.println("Moving to" + tile);
+								 							
+								p1Trains.set(whichTrain, new Vector2(tile));	//Move train
+								//p1TrainsMovement.set(whichTrain, p1TrainsMovement.get(whichTrain)-1);
+								System.out.println("???????" + currentPlayer.inventory.selectedTrain.toString());
+								game.map.deployTraintoTile(tile, currentPlayer.inventory.selectedTrain);
+							}
+													
+						}
+					}
 				}
 			}
-			else if(1 == 0){
-				//Different train picked
-			}
-
 		}
-		else if (trainState == 0){
-			if (tile.x == trainLoc.x && tile.y == trainLoc.y){
-				System.out.println("train selected"); 
-				trainState = 1;
-			}
-		}
-		
+		System.out.println("At the end of the function, P1 has trains at" + p1Trains);
+		//System.out.println("do movement");
 	}
 
 
@@ -250,7 +300,7 @@ public class InGameScreen implements Screen{
 		Train train = (Train) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trainLayerIndex);
 		MapTile tile = game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.baseLayerIndex);
 		ZooTile ztile = (ZooTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.zooLayerIndex);
-		TrackTile ttile = (TrackTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trackLayerIndex);
+		TrackTile ttile = (TrackTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trackLayerIndex[Direction.MIDDLE]);
 
 		//Debug, outputs tile info to console.
 		
@@ -272,13 +322,47 @@ public class InGameScreen implements Screen{
 			
 			//Deploy Train if it has been selected
 			if (currentPlayer.inventory.selectedTrain != null){
+				int distance = 0;
 				
+				switch(currentPlayer.inventory.selectedTrain.type){	//Set movement distances
+					case HOVER:
+						distance = 10;
+						p1TrainType.add(10);
+						break;
+					case BULLET:
+						distance = 8;
+						break;
+					case ELECTRIC:
+						distance = 6;
+						break;
+					case DIESEL:
+						distance = 4;
+						break;
+					case STEAM:
+						distance = 2;
+						break;
+				}
+				System.out.println("!!!!!!!" + currentPlayer.inventory.selectedTrain.toString());
 				game.map.deployTraintoTile(tileCoords, currentPlayer.inventory.selectedTrain);
 				currentPlayer.inventory.trains.remove(currentPlayer.inventory.selectedTrain);
 				currentPlayer.inventory.selectedTrain = null;
+							
+				if (currentPlayer == game.player1){
+					p1Trains.add(new Vector2(tileCoords));
+					p1TrainsMovement.add(new Integer(distance));
+				}
+				else{
+					p2Trains.add(new Vector2(tileCoords));
+					p2TrainsMovement.add(new Integer(distance));
+				}
 				
 				RefreshInventory();
-				System.out.println("Train deployed");	
+				RefreshGoals();
+				System.out.println("Train deployed");
+				System.out.println("Player 1 has trains at" + p1Trains);
+				System.out.println("Player 1 has trains which go" + p1TrainsMovement);
+				System.out.println("Player 2 has trains at" + p2Trains);
+				System.out.println("Player 2 has trains which go" + p2TrainsMovement);
 			}
 		}
 		else if (ttile != null){
@@ -299,6 +383,12 @@ public class InGameScreen implements Screen{
 		UI.clearInventory();
 		for (Train t : currentPlayer.inventory.trains){
 			UI.addToInventory(currentPlayer, t);
+		}
+	}
+	public void RefreshGoals(){
+		UI.clearGoal();
+		for (Goal goal : currentPlayer.goals){
+			UI.addToGoals(currentPlayer,goal);
 		}
 	}
 	

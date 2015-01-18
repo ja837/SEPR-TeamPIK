@@ -25,6 +25,7 @@ import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.MathUtils;
 
 
 public class MyGdxGame extends Game {
@@ -47,6 +48,12 @@ public class MyGdxGame extends Game {
 	TextureRegion trMountain;
 	TextureRegion trDesert;
 	TextureRegion trTrack;
+	TextureRegion trTrackN;
+	TextureRegion trTrackNE;
+	TextureRegion trTrackSE;
+	TextureRegion trTrackS;
+	TextureRegion trTrackSW;
+	TextureRegion trTrackNW;	
 	TextureRegion trZoo;
 	TextureRegion trBomb;
 	TextureRegion trSelected;
@@ -118,6 +125,9 @@ public class MyGdxGame extends Game {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
+        camera.zoom += 1.2; 
+ 		camera.position.x += 460; 
+ 		camera.position.y += 490;
         cameraInitPos = camera.position;
                
         
@@ -132,8 +142,16 @@ public class MyGdxGame extends Game {
         trMountain = new TextureRegion(new Texture("Tiles/mountain.png"));
         trForest = new TextureRegion(new Texture("Tiles/forest.png"));
         trTrack = new TextureRegion(new Texture("track.png"));
-        trZoo = new TextureRegion(new Texture("zoo.png"));
         
+        trTrackN = new TextureRegion(new Texture("Track/top.png"));
+    	trTrackNE = new TextureRegion(new Texture("Track/top_right.png"));
+    	trTrackSE = new TextureRegion(new Texture("Track/bottom_right.png"));
+    	trTrackS = new TextureRegion(new Texture("Track/bottom.png"));
+    	trTrackSW = new TextureRegion(new Texture("Track/bottom_left.png"));
+    	trTrackNW = new TextureRegion(new Texture("Track/top_left.png"));
+        
+    	trZoo = new TextureRegion(new Texture("zoo.png")); 
+    	
         trTrains[Train.HOVER][Train.RED] = new TextureRegion(new Texture("Trains/hover_train_red.png"));
         trTrains[Train.HOVER][Train.BLUE] = new TextureRegion(new Texture("Trains/hover_train_blue.png"));
         trTrains[Train.BULLET][Train.RED] = new TextureRegion(new Texture("Trains/bullet_train_red.png"));
@@ -315,7 +333,7 @@ public class MyGdxGame extends Game {
 		setTrack(trackCoords,4,4,3,1);
 		setTrack(trackCoords,4,7,2,2);
 		setTrack(trackCoords,4,8,8,0);
-		setTrack(trackCoords,5,17,7,1);
+		setTrack(trackCoords,5,16,8,1);
 		setTrack(trackCoords,7,7,12,1);
 		setTrack(trackCoords,8,24,3,1);
 		setTrack(trackCoords,8,22,5,2);
@@ -343,47 +361,54 @@ public class MyGdxGame extends Game {
 		setTrack(trackCoords,32,2,5,0);
 		setTrack(trackCoords,32,18,5,2);
 		setTrack(trackCoords,33,7,4,1);
+		setTrack(trackCoords,34,1,2,2); 
+ 		setTrack(trackCoords,36,1,5,1);
 		setTrack(trackCoords,37,6,3,0);
 		setTrack(trackCoords,37,10,7,0);
 		setTrack(trackCoords,38,16,2,1);
 		setTrack(trackCoords,38,5,3,2);
 		setTrack(trackCoords,38,9,3,1);
 		setTrack(trackCoords,40,11,6,0);
-		return trackCoords;
+		ArrayList<ZooParam> zooParams = getZooList(); 
+ 		for (ZooParam zoo : zooParams) { 
+ 			trackCoords.add(new Vector2(zoo.coordinates.x,zoo.coordinates.y)); 
+ 		} 
+
+ 		return trackCoords;
 		
 	}
 	
-	private ArrayList<ZooParams> getZooList(){
-		ArrayList<ZooParams> zooParams = new ArrayList<ZooParams>();
+	private ArrayList<ZooParam> getZooList(){
+		ArrayList<ZooParam> ZooParam = new ArrayList<ZooParam>();
 				
-		zooParams.add(new ZooParams(new Vector2(0,5), "Lisbon"));
-		zooParams.add(new ZooParams(new Vector2(4,16), "Atlantis"));
-		zooParams.add(new ZooParams(new Vector2(6,6), "Madrid"));
-		zooParams.add(new ZooParams(new Vector2(8,23), "Dublin"));
-		zooParams.add(new ZooParams(new Vector2(11,26), "Edinburgh"));
-		zooParams.add(new ZooParams(new Vector2(13,20), "London"));
-		zooParams.add(new ZooParams(new Vector2(14,15), "Paris"));
-		zooParams.add(new ZooParams(new Vector2(19,12), "Zurich"));
-		zooParams.add(new ZooParams(new Vector2(22,27), "Oslo"));
-		zooParams.add(new ZooParams(new Vector2(24,19), "Berlin"));
-		zooParams.add(new ZooParams(new Vector2(25,5), "Rome"));
-		zooParams.add(new ZooParams(new Vector2(26,13), "Vienna"));
-		zooParams.add(new ZooParams(new Vector2(27,26), "Stockholm"));
-		zooParams.add(new ZooParams(new Vector2(30,8), "Belgrade"));
-		zooParams.add(new ZooParams(new Vector2(31,19), "Warsaw"));
-		zooParams.add(new ZooParams(new Vector2(33,2), "Athens"));
-		zooParams.add(new ZooParams(new Vector2(37,9), "Bucharest"));
-		zooParams.add(new ZooParams(new Vector2(40,17), "Kiev"));
-		zooParams.add(new ZooParams(new Vector2(41,4), "Istanbul"));
-		return zooParams;
+		ZooParam.add(new ZooParam(new Vector2(0,5), "Lisbon"));
+		ZooParam.add(new ZooParam(new Vector2(4,15), "Atlantis"));
+		ZooParam.add(new ZooParam(new Vector2(6,6), "Madrid"));
+		ZooParam.add(new ZooParam(new Vector2(8,23), "Dublin"));
+		ZooParam.add(new ZooParam(new Vector2(11,26), "Edinburgh"));
+		ZooParam.add(new ZooParam(new Vector2(13,20), "London"));
+		ZooParam.add(new ZooParam(new Vector2(14,15), "Paris"));
+		ZooParam.add(new ZooParam(new Vector2(19,12), "Zurich"));
+		ZooParam.add(new ZooParam(new Vector2(22,27), "Oslo"));
+		ZooParam.add(new ZooParam(new Vector2(24,19), "Berlin"));
+		ZooParam.add(new ZooParam(new Vector2(25,5), "Rome"));
+		ZooParam.add(new ZooParam(new Vector2(26,13), "Vienna"));
+		ZooParam.add(new ZooParam(new Vector2(27,26), "Stockholm"));
+		ZooParam.add(new ZooParam(new Vector2(30,8), "Belgrade"));
+		ZooParam.add(new ZooParam(new Vector2(31,19), "Warsaw"));
+		ZooParam.add(new ZooParam(new Vector2(33,2), "Athens"));
+		ZooParam.add(new ZooParam(new Vector2(37,9), "Bucharest"));
+		ZooParam.add(new ZooParam(new Vector2(40,17), "Kiev"));
+		ZooParam.add(new ZooParam(new Vector2(41,4), "Istanbul"));
+		return ZooParam;
 	}
-	private ArrayList<powerups> getPowerups(){
+	private ArrayList<Powerups> getPowerups(){
 		Random rand = new Random();		
-		ArrayList<powerups> Powerup = new ArrayList<powerups>();
+		ArrayList<Powerups> Powerup = new ArrayList<Powerups>();
 		ArrayList<Vector2> tracks = new ArrayList<Vector2>();
 		tracks = getTrackList();		
 		for (int i =0; i < maxPowerups;i++){
-			Powerup.add(new powerups(new Vector2(tracks.get(rand.nextInt(tracks.size()))),1));	//Generates a power-up on a random piece of track
+			Powerup.add(new Powerups(new Vector2(tracks.get(rand.nextInt(tracks.size()))),1));	//Generates a power-up on a random piece of track
 		}
 		return Powerup;
 	}

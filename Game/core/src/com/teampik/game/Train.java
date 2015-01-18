@@ -30,6 +30,7 @@ public class Train extends MapTile {
 	Player playerTrainBelongsTo;
 
 	ArrayList<Vector2> locationHistory;
+	
 
 	// Train constructor
 	public Train(TextureRegion textureRegion, trainType tType, Player p){

@@ -237,12 +237,10 @@ public class GameMap extends TiledMap{
 		for (int i = 0; i < trackLayers.length;i++){
 			layers.add(trackLayers[i]);
 		}
-		layers.add(zooLayer);
-		
+		layers.add(zooLayer);		
 		layers.add(itemLayer);
 		layers.add(trainLayer);
-		layers.add(selectedTileLayer);
-		
+		layers.add(selectedTileLayer);		
 		
 		return map;
 	}
@@ -263,9 +261,7 @@ public class GameMap extends TiledMap{
 		Vector2 coords = Vector2.Zero; // This is our final coordinate.
 		
 		int halfScreenWidth = Gdx.graphics.getWidth() / 2;		//Find middle of the screen. This is the default camera position.
-		int halfScreenHeight = Gdx.graphics.getHeight() / 2;
-		
-		
+		int halfScreenHeight = Gdx.graphics.getHeight() / 2;		
 		
 		int tileSideAdjusted = (int) ( tileSide / zoom);
 		int tileHeightAdjusted = (int) (tileHeight / zoom);		//Adjust the tile geometry values according to the zoom
@@ -317,7 +313,6 @@ public class GameMap extends TiledMap{
 
 		}
 
-
 		coords.x += extraI;
 		coords.y += extraJ;
 
@@ -338,7 +333,7 @@ public class GameMap extends TiledMap{
 	
 	public void deployTraintoTile (Vector2 coords, Train t){
 		
-		
+		System.out.println("Called draw");
 		TiledMapTileLayer trainLayer = (TiledMapTileLayer) game.map.getLayers().get(trainLayerIndex);
 		Cell c = new Cell();
 		
