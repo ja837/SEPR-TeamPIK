@@ -40,7 +40,6 @@ public class InGameUI{
 	public InGameUI(){
 		skin = new Skin(Gdx.files.internal("data/uiskin.json"));
 		stage = new Stage();
-
 		inventoryItems = new ArrayList<InventoryTrainButton>();
 		goalList = new ArrayList<Label>();
 		
@@ -122,42 +121,31 @@ public class InGameUI{
 	    table.setDebug(true);
 	    rootTable.setDebug(true);
 	    
-//		stage.addActor(btnEndTurn);
-		//stage.addActor(lblPlayer);
-		//stage.addActor(lblInventory);
 	}
 
 	public void addToInventory(Player currentPlayer){
 		
 		if (currentPlayer.inventory.trains.size() > 0){
-			btnTrain0 = new InventoryTrainButton(currentPlayer.inventory.trains.get(0).type.toString(), skin, 0, currentPlayer.inventory);
-			//rootTable.add(btnTrain0);
-			System.out.println(currentPlayer.inventory.trains.get(0).type.toString());
-			System.out.println(btnTrain0.getText());
+			btnTrain0.setText(currentPlayer.inventory.trains.get(0).type.toString());	
+			btnTrain0.inventory = currentPlayer.inventory;
+			if (currentPlayer.inventory.trains.size() > 1){
+				btnTrain1.setText(currentPlayer.inventory.trains.get(1).type.toString());
+				btnTrain1.inventory = currentPlayer.inventory;
+				if (currentPlayer.inventory.trains.size() > 2){
+					btnTrain2.setText(currentPlayer.inventory.trains.get(2).type.toString());
+					btnTrain2.inventory = currentPlayer.inventory;
+				}
+			}
 		}
-		if (currentPlayer.inventory.trains.size() > 1){
-			btnTrain1 = new InventoryTrainButton(currentPlayer.inventory.trains.get(1).type.toString(), skin, 1, currentPlayer.inventory);
-			System.out.println("inventory refreshed > 1");
-			System.out.println(currentPlayer.inventory.trains.get(1).type.toString());
-		}
-		if (currentPlayer.inventory.trains.size() > 2){
-			btnTrain2 = new InventoryTrainButton(currentPlayer.inventory.trains.get(2).type.toString(), skin, 2, currentPlayer.inventory);
-			System.out.println("inventory refreshed > 2");
-			System.out.println(currentPlayer.inventory.trains.get(2).type.toString());
-		}
-		/*
-		InventoryTrainButton btn = new InventoryTrainButton(t.type.toString(), skin, inventoryItems.size(), p.inventory);
-		btn.setPosition(Gdx.graphics.getWidth() - lblInventory.getPrefWidth(), Gdx.graphics.getHeight() - 150f - (inventoryItems.size() * 40f));
-		inventoryItems.add(btn);
-
-		stage.addActor(btn);*/
 	}
 
 	public void clearInventory(){
-		for (InventoryTrainButton l : inventoryItems){
-			l.remove();
-		}
-		inventoryItems.clear();
+		btnTrain0.setText("               ");	
+		btnTrain0.inventory = null;
+		btnTrain1.setText("               ");
+		btnTrain1.inventory = null;
+		btnTrain2.setText("               ");
+		btnTrain2.inventory = null;
 	}
 	
 	public void addToGoals(Player p, Goal g){

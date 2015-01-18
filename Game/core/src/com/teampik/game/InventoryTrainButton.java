@@ -23,9 +23,9 @@ public class InventoryTrainButton extends TextButton{
 	}
 	
 	public void onClick(){
-		
-		inventory.selectedTrain = inventory.trains.get(index);
-		
+		if (inventory != null) {
+			inventory.selectedTrain = inventory.trains.get(index);
+		}
 		System.out.println(index + " selected in inventory");
 	}
 
