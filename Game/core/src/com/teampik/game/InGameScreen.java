@@ -36,6 +36,7 @@ public class InGameScreen implements Screen{
 	public int turnCount = 1;
 	public int turnLimit = 50;
 	
+	
 	//Location of the player's trains
 	public ArrayList<Vector2> p1Trains = new ArrayList<Vector2>();
 	public ArrayList<Vector2> p2Trains = new ArrayList<Vector2>();
@@ -64,10 +65,10 @@ public class InGameScreen implements Screen{
 	public InGameScreen(MyGdxGame game){
 		this.game = game;
 		currentPlayer = game.player1;
+
 		currentState = endOfTurnProcessing; 
 
 		UI = new InGameUI();
-		
 		
 		//Button listener added here so we take change state easily.
 		UI.btnEndTurn.addListener(new ClickListener(){
@@ -112,6 +113,7 @@ public class InGameScreen implements Screen{
 
  		RefreshInventory(); 
  		RefreshGoals(); 
+		
 		
 	}
 
@@ -170,12 +172,17 @@ public class InGameScreen implements Screen{
 	//Refresh the UI
 	public void RefreshUI(){
 		
+
 		UI.lblPlayer.setText(currentPlayer.playerName + "'s (Player " + currentState + "'s) turn");
 
+
+		UI.lblPlayer.setText("Player " + currentState + "\n" + currentPlayer.playerName + "'s turn");
+		
 	}
 
 	public void ProcessEndOfTurn(Player player){ 
-		UI.clearInventory();
+		//UI.clearInventory();
+
 		UI.clearGoal();
 		System.out.println("Turn " + (turnCount - 1) + " just ended. Turn " + turnCount + " is now starting.");
 		
@@ -197,9 +204,12 @@ public class InGameScreen implements Screen{
 		int randomTrainInt = rdm.nextInt(5);
 		
 		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt], player));
+
+		RefreshInventory();
+		/*
 		for (Train t : player.inventory.trains){
 			UI.addToInventory(player, t);
-		}	
+		}*/
 		
 		int ranNumber = rdm.nextInt(4);
 		Goal g = new Goal(ranNumber, game.map, player);
@@ -343,8 +353,10 @@ public class InGameScreen implements Screen{
 						break;
 				}
 				System.out.println("!!!!!!!" + currentPlayer.inventory.selectedTrain.toString());
-				game.map.deployTraintoTile(tileCoords, currentPlayer.inventory.selectedTrain);
-				currentPlayer.inventory.trains.remove(currentPlayer.inventory.selectedTrain);
+				game.map.deployTraintoTile(tileCoords, currentPlayer.inventory.selectedTrain);				
+				currentPlayer.inventory.trains.remove(currentPlayer.inventory.selectedTrain);				
+				game.map.deployedTrains.add(currentPlayer.inventory.selectedTrain);
+				currentPlayer.inventory.selectedTrain.setLocation(tileCoords);
 				currentPlayer.inventory.selectedTrain = null;
 							
 				if (currentPlayer == game.player1){
@@ -381,9 +393,7 @@ public class InGameScreen implements Screen{
 	
 	public void RefreshInventory(){
 		UI.clearInventory();
-		for (Train t : currentPlayer.inventory.trains){
-			UI.addToInventory(currentPlayer, t);
-		}
+		UI.addToInventory(currentPlayer);
 	}
 	public void RefreshGoals(){
 		UI.clearGoal();
