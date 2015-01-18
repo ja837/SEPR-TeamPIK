@@ -1,6 +1,7 @@
 package com.teampik.game;
 
 import java.util.Random;
+import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -34,15 +35,14 @@ public class InGameScreen implements Screen{
 	public int currentState = endOfTurnProcessing;
 	public int turnCount = 1;
 	public int turnLimit = 50;
-
-
-
-	InGameUI UI = new InGameUI();
 	
+	public Vector2 trainLoc = new Vector2(6,6);
+	public int trainState = 0;
+	public int movement = 8;
+
+
+	InGameUI UI = new InGameUI();	
 	
-
-
-
 	MyGdxGame game;
 
 	public InGameScreen(MyGdxGame game){
@@ -60,10 +60,6 @@ public class InGameScreen implements Screen{
 				currentState = endOfTurnProcessing;
 			}
 		});
-		
-
-		
-
 
 		game.inputMultiplexer.addProcessor(UI.stage);
 
@@ -75,34 +71,14 @@ public class InGameScreen implements Screen{
 		turnCount = 1;
 		
 		currentPlayer = game.player1;
-		currentState = endOfTurnProcessing;
 		
 		game.player1.changeName(game.mainMenuScreen.UI.tfPlayer1Name.getText()); //Assigns Names from menu text boxes to Players 
 		game.player2.changeName(game.mainMenuScreen.UI.tfPlayer2Name.getText());
 		
 		game.player1.inventory.trains.clear();
 		game.player2.inventory.trains.clear();
-		game.player1.goals.clear();
-		game.player2.goals.clear();
 		
-		//Clear all trains off map
-		for (Train t : game.map.deployedTrains){
-			TiledMapTileLayer trainLayer = (TiledMapTileLayer) game.map.getLayers().get(GameMap.trainLayerIndex);
-
-			//Visibly select the tile.
-			Cell toBeRemoved = trainLayer.getCell((int)t.location.x, (int) t.location.y);
-
-			if (toBeRemoved != null)
-			{
-				toBeRemoved.setTile(null);
-			}
-		}
-		
-		game.map.deployedTrains.clear();
-		
-		
-		RefreshInventory();
-		RefreshGoals();
+		UI.clearInventory();
 		
 	}
 
@@ -141,28 +117,32 @@ public class InGameScreen implements Screen{
 			//game.batch.draw(game.labelBackgroundRed,Gdx.graphics.getWidth() - 260f, Gdx.graphics.getHeight() - 20f); //Player 1 is Red
 
 			currentPlayer = game.player1;
+			
+			
 
 			break;
 		case player2Turn:
 			currentPlayer = game.player2;
 			
+			
+
 			break;
 		}
 		game.batch.end();
 
 		RefreshUI();
+
 	}
 
 	//Refresh the UI
 	public void RefreshUI(){
 		
 		UI.lblPlayer.setText(currentPlayer.playerName + "'s (Player " + currentState + "'s) turn");
-		
+
 	}
 
 	public void ProcessEndOfTurn(Player player){ 
 		UI.clearInventory();
-		UI.clearGoal();
 		System.out.println("Turn " + (turnCount - 1) + " just ended. Turn " + turnCount + " is now starting.");
 		
 		if (turnCount == turnLimit){			
@@ -179,23 +159,66 @@ public class InGameScreen implements Screen{
 		
 		//Create and give a goal to the next player.
 		Random rdm = new Random();
+		int ranNumber = rdm.nextInt(5);
+		Goal g = new Goal(ranNumber);
+		player.addGoal(g);
 		int randomTrainInt = rdm.nextInt(5);
 		
-		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt], player));
-		
+		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt]));		
 		for (Train t : player.inventory.trains){
 			UI.addToInventory(player, t);
+		}	
+		
+	}
+	
+	public void moveTrain(Vector2 tile){
+		System.out.println();
+		System.out.println("tile is " + tile);
+		System.out.println("trainloc is " + trainLoc);
+		ArrayList<Vector2> targets = new ArrayList<Vector2>();
+		if (trainState == 1){
+			//Because it's a hexagonal grid, there is no consistent formula for neighbouring tiles
+			if (trainLoc.x % 2 == 0){
+				targets.add(new Vector2(trainLoc.x, trainLoc.y+1));
+				targets.add(new Vector2(trainLoc.x, trainLoc.y-1));
+				targets.add(new Vector2(trainLoc.x+1, trainLoc.y+1));
+				targets.add(new Vector2(trainLoc.x-1, trainLoc.y+1));
+				targets.add(new Vector2(trainLoc.x+1, trainLoc.y));
+				targets.add(new Vector2(trainLoc.x-1, trainLoc.y));				
+			}
+			else{
+				targets.add(new Vector2(trainLoc.x, trainLoc.y+1));
+				targets.add(new Vector2(trainLoc.x, trainLoc.y-1));
+				targets.add(new Vector2(trainLoc.x+1, trainLoc.y-1));
+				targets.add(new Vector2(trainLoc.x-1, trainLoc.y-1));
+				targets.add(new Vector2(trainLoc.x+1, trainLoc.y));
+				targets.add(new Vector2(trainLoc.x-1, trainLoc.y));
+			}
+			System.out.println(targets);
+
+			if (targets.contains(tile)){
+				if (movement > 0){
+					System.out.println ("Moving train");
+					trainLoc.x = tile.x;		//We do this in two steps to avoid linking the variables
+					trainLoc.y = tile.y;
+					System.out.println("Train is now at" + trainLoc);
+					movement -=1;
+				}
+				else{
+					System.out.println ("Train is out of energy");
+				}
+			}
+			else if(1 == 0){
+				//Different train picked
+			}
+
 		}
-		
-		int ranNumber = rdm.nextInt(4);
-		Goal g = new Goal(ranNumber, game.map, player);
-		player.addGoal(g);
-		
-		for (Goal goal : player.goals){
-			UI.addToGoals(player, goal);
-			System.out.println(goal.toString());
+		else if (trainState == 0){
+			if (tile.x == trainLoc.x && tile.y == trainLoc.y){
+				System.out.println("train selected"); 
+				trainState = 1;
+			}
 		}
-		
 		
 	}
 
@@ -203,7 +226,6 @@ public class InGameScreen implements Screen{
 	public void selectTile(int x, int y){
 
 		Vector3 cameraPosition = game.camera.position;
-
 
 		Vector2 tileCoords = GameMap.getCoordsFromPoint(x, y, game.camera);
 
@@ -218,25 +240,28 @@ public class InGameScreen implements Screen{
 			toBeRemoved.setTile(null);
 		}
 
-
-
 		Cell cell = new Cell();
 		cell.setTile(new MapTile(game.trSelected));		
 		selectedLayer.setCell((int) tileCoords.x,  (int) tileCoords.y, cell);
 
 		game.currentlySelectedTile = tileCoords.cpy();
-
-
+		
+		
 		Train train = (Train) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trainLayerIndex);
 		MapTile tile = game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.baseLayerIndex);
 		ZooTile ztile = (ZooTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.zooLayerIndex);
-		TrackTile ttile = (TrackTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trackLayerIndex[Direction.MIDDLE]);
+		TrackTile ttile = (TrackTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trackLayerIndex);
 
 		//Debug, outputs tile info to console.
+		
+		moveTrain(tileCoords);
+
+				
 		System.out.println("\n" + tileCoords.toString());
 		System.out.println("Mouse position : " + Integer.toString(x) + ", " + Integer.toString(y));
 		System.out.println("Camera position : " + cameraPosition.toString());		
 
+		
 		
 		//Since there is lots of things on the same tile, checking what has been clicked on is cascaded down. Train then zoo then track then maptile.
 		if (train != null){
@@ -250,15 +275,9 @@ public class InGameScreen implements Screen{
 				
 				game.map.deployTraintoTile(tileCoords, currentPlayer.inventory.selectedTrain);
 				currentPlayer.inventory.trains.remove(currentPlayer.inventory.selectedTrain);
-				
-				
-				game.map.deployedTrains.add(currentPlayer.inventory.selectedTrain);
-				currentPlayer.inventory.selectedTrain.setLocation(tileCoords);
-				
 				currentPlayer.inventory.selectedTrain = null;
 				
 				RefreshInventory();
-				RefreshGoals();
 				System.out.println("Train deployed");	
 			}
 		}
@@ -274,9 +293,6 @@ public class InGameScreen implements Screen{
 				}	
 			}
 		}
-
-
-
 	}
 	
 	public void RefreshInventory(){
@@ -286,13 +302,6 @@ public class InGameScreen implements Screen{
 		}
 	}
 	
-	public void RefreshGoals(){
-		UI.clearGoal();
-		for (Goal goal : currentPlayer.goals){
-			UI.addToGoals(currentPlayer, goal);
-		}
-	}
-
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
