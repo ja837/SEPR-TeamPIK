@@ -123,7 +123,7 @@ public class MyGdxGame extends Game {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
-        camera.zoom += 1.2;
+        camera.zoom = 1.2f;
         camera.position.x += 460;
         camera.position.y += 490;
         cameraInitPos = camera.position;
