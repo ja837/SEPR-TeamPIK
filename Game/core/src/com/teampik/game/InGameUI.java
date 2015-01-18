@@ -19,16 +19,16 @@ public class InGameUI{
 	Label lblInventory;
 	TextButton btnEndTurn;
 
-	ArrayList<InventoryButton> inventoryItems;
-
-
+	ArrayList<InventoryTrainButton> inventoryItems;
+	ArrayList<Label> goalList;
+ 
 	public InGameUI(){
 		skin = new Skin(Gdx.files.internal("data/uiskin.json"));
 		stage = new Stage();
 
-		inventoryItems = new ArrayList<InventoryButton>();
-
-
+		inventoryItems = new ArrayList<InventoryTrainButton>();
+		goalList = new ArrayList<Label>();
+		
 		lblPlayer = new Label("", skin);
 		lblPlayer.setPosition(Gdx.graphics.getWidth() - 300f, Gdx.graphics.getHeight() - 20f);
 		lblPlayer.setWidth(200f);
@@ -48,24 +48,34 @@ public class InGameUI{
 	}
 
 	public void addToInventory(Player p, Train t){
-		InventoryButton btn = new InventoryButton(t.type.toString(), skin, inventoryItems.size(), p.inventory);
+		InventoryTrainButton btn = new InventoryTrainButton(t.type.toString(), skin, inventoryItems.size(), p.inventory);
 		btn.setPosition(Gdx.graphics.getWidth() - lblInventory.getPrefWidth(), Gdx.graphics.getHeight() - 150f - (inventoryItems.size() * 40f));
 		inventoryItems.add(btn);
-		
-		
-
-		
 
 		stage.addActor(btn);
 	}
 
 	public void clearInventory(){
-		for (TextButton l : inventoryItems){
+		for (InventoryTrainButton l : inventoryItems){
 			l.remove();
 		}
 		inventoryItems.clear();
 	}
-
+	
+	public void addToGoals(Player p, Goal g){
+		Label label = new Label(g.toString(), skin);
+		label.setPosition(0, Gdx.graphics.getHeight() - 20f - (goalList.size()*40f));
+		goalList.add(label);
+		stage.addActor(label);
+		
+	}
+	
+	public void clearGoal(){
+		for (Label l : goalList){
+			l.remove();
+		}
+		goalList.clear();
+	}
 
 
 }

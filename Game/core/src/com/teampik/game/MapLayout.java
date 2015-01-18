@@ -16,11 +16,12 @@ public class MapLayout {
 	public final static int ZOO  = 8000;
 	public final static int ITEM = 9000;
 	
-	ArrayList<powerups> powerups;
+	ArrayList<Powerups> powerups;
 	ArrayList<Vector2>[] borders;
 	ArrayList<Vector2> trackCoords;
 	
-	ArrayList<ZooParams> zooParams;
+	ArrayList<ZooParam> zooParams;
+
 	int[][] baseTileLayout;
 	
 	MapTile[][] tiles;
@@ -29,7 +30,7 @@ public class MapLayout {
 	int tilesY;
 	
 	//This constructor takes a layout and border list and converts them into tiles for use when creating the map.
-	public MapLayout(MyGdxGame game, int[][] layout, ArrayList<Vector2>[] listOfCoordsWithBorders, ArrayList<Vector2> trackCoords, ArrayList<ZooParams> zooParams, ArrayList<powerups> powerups,int tilesX, int tilesY)
+	public MapLayout(MyGdxGame game, int[][] layout, ArrayList<Vector2>[] listOfCoordsWithBorders, ArrayList<Vector2> trackCoords, ArrayList<ZooParam> zooParams, ArrayList<Powerups> powerups,int tilesX, int tilesY)
 	{
 		this.borders = listOfCoordsWithBorders;
 		this.trackCoords = trackCoords;

@@ -75,14 +75,34 @@ public class InGameScreen implements Screen{
 		turnCount = 1;
 		
 		currentPlayer = game.player1;
+		currentState = endOfTurnProcessing;
 		
 		game.player1.changeName(game.mainMenuScreen.UI.tfPlayer1Name.getText()); //Assigns Names from menu text boxes to Players 
 		game.player2.changeName(game.mainMenuScreen.UI.tfPlayer2Name.getText());
 		
 		game.player1.inventory.trains.clear();
 		game.player2.inventory.trains.clear();
+		game.player1.goals.clear();
+		game.player2.goals.clear();
 		
-		UI.clearInventory();
+		//Clear all trains off map
+		for (Train t : game.map.deployedTrains){
+			TiledMapTileLayer trainLayer = (TiledMapTileLayer) game.map.getLayers().get(GameMap.trainLayerIndex);
+
+			//Visibly select the tile.
+			Cell toBeRemoved = trainLayer.getCell((int)t.location.x, (int) t.location.y);
+
+			if (toBeRemoved != null)
+			{
+				toBeRemoved.setTile(null);
+			}
+		}
+		
+		game.map.deployedTrains.clear();
+		
+		
+		RefreshInventory();
+		RefreshGoals();
 		
 	}
 
@@ -121,21 +141,16 @@ public class InGameScreen implements Screen{
 			//game.batch.draw(game.labelBackgroundRed,Gdx.graphics.getWidth() - 260f, Gdx.graphics.getHeight() - 20f); //Player 1 is Red
 
 			currentPlayer = game.player1;
-			
-			
 
 			break;
 		case player2Turn:
 			currentPlayer = game.player2;
 			
-			
-
 			break;
 		}
 		game.batch.end();
 
 		RefreshUI();
-
 	}
 
 	//Refresh the UI
@@ -147,6 +162,7 @@ public class InGameScreen implements Screen{
 
 	public void ProcessEndOfTurn(Player player){ 
 		UI.clearInventory();
+		UI.clearGoal();
 		System.out.println("Turn " + (turnCount - 1) + " just ended. Turn " + turnCount + " is now starting.");
 		
 		if (turnCount == turnLimit){			
@@ -163,21 +179,22 @@ public class InGameScreen implements Screen{
 		
 		//Create and give a goal to the next player.
 		Random rdm = new Random();
-		int ranNumber = rdm.nextInt(4);
-		Goal g = new Goal(ranNumber);
-		player.addGoal(g);
-		
 		int randomTrainInt = rdm.nextInt(5);
 		
-		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt]));
+		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt], player));
 		
 		for (Train t : player.inventory.trains){
 			UI.addToInventory(player, t);
 		}
 		
+		int ranNumber = rdm.nextInt(4);
+		Goal g = new Goal(ranNumber, game.map, player);
+		player.addGoal(g);
 		
-		
-
+		for (Goal goal : player.goals){
+			UI.addToGoals(player, goal);
+			System.out.println(goal.toString());
+		}
 		
 		
 	}
@@ -233,9 +250,15 @@ public class InGameScreen implements Screen{
 				
 				game.map.deployTraintoTile(tileCoords, currentPlayer.inventory.selectedTrain);
 				currentPlayer.inventory.trains.remove(currentPlayer.inventory.selectedTrain);
+				
+				
+				game.map.deployedTrains.add(currentPlayer.inventory.selectedTrain);
+				currentPlayer.inventory.selectedTrain.setLocation(tileCoords);
+				
 				currentPlayer.inventory.selectedTrain = null;
 				
 				RefreshInventory();
+				RefreshGoals();
 				System.out.println("Train deployed");	
 			}
 		}
@@ -260,6 +283,13 @@ public class InGameScreen implements Screen{
 		UI.clearInventory();
 		for (Train t : currentPlayer.inventory.trains){
 			UI.addToInventory(currentPlayer, t);
+		}
+	}
+	
+	public void RefreshGoals(){
+		UI.clearGoal();
+		for (Goal goal : currentPlayer.goals){
+			UI.addToGoals(currentPlayer, goal);
 		}
 	}
 

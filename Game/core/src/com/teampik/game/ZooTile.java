@@ -9,7 +9,7 @@ public class ZooTile extends TrackTile {
 	Vector2 coords;
 	String name;
 	
-	public ZooTile(TextureRegion textureRegion, ZooParams params) {
+	public ZooTile(TextureRegion textureRegion, ZooParam params) {
 		
 		super(textureRegion, params.coordinates);
 		

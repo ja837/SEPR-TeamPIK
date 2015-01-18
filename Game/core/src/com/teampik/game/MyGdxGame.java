@@ -363,12 +363,45 @@ public class MyGdxGame extends Game {
 		setTrack(trackCoords,38,9,3,1);
 		setTrack(trackCoords,40,11,6,0);
 		
-		ArrayList<ZooParams> zooParams = getZooList();
-		for (ZooParams zoo : zooParams) {
+
+		ArrayList<ZooParam> zooParams = getZooList();
+		for (ZooParam zoo : zooParams) {
 			trackCoords.add(new Vector2(zoo.coordinates.x,zoo.coordinates.y));
 		}
 		
 		return trackCoords;
+
+	}
+	
+	private ArrayList<ZooParam> getZooList(){
+		ArrayList<ZooParam> zooParams = new ArrayList<ZooParam>();
+				
+		zooParams.add(new ZooParam(new Vector2(0,5), "Lisbon"));
+		zooParams.add(new ZooParam(new Vector2(4,16), "Atlantis"));
+		zooParams.add(new ZooParam(new Vector2(6,6), "Madrid"));
+		zooParams.add(new ZooParam(new Vector2(8,23), "Dublin"));
+		zooParams.add(new ZooParam(new Vector2(11,26), "Edinburgh"));
+		zooParams.add(new ZooParam(new Vector2(13,20), "London"));
+		zooParams.add(new ZooParam(new Vector2(14,15), "Paris"));
+		zooParams.add(new ZooParam(new Vector2(19,12), "Zurich"));
+		zooParams.add(new ZooParam(new Vector2(22,27), "Oslo"));
+		zooParams.add(new ZooParam(new Vector2(24,19), "Berlin"));
+		zooParams.add(new ZooParam(new Vector2(25,5), "Rome"));
+		zooParams.add(new ZooParam(new Vector2(26,13), "Vienna"));
+		zooParams.add(new ZooParam(new Vector2(27,26), "Stockholm"));
+		zooParams.add(new ZooParam(new Vector2(30,8), "Belgrade"));
+		zooParams.add(new ZooParam(new Vector2(31,19), "Warsaw"));
+		zooParams.add(new ZooParam(new Vector2(33,2), "Athens"));
+		zooParams.add(new ZooParam(new Vector2(37,9), "Bucharest"));
+		zooParams.add(new ZooParam(new Vector2(40,17), "Kiev"));
+		zooParams.add(new ZooParam(new Vector2(41,4), "Istanbul"));
+		return zooParams;
+	}
+	private ArrayList<Powerups> getPowerups(){
+		ArrayList<Powerups> Powerup = new ArrayList<Powerups>();
+		Powerup.add(new Powerups(new Vector2(8,22),1));
+		Powerup.add(new Powerups(new Vector2(4,7),1));
+		return Powerup;
 	}
 	
 	private ArrayList<Vector2> setTrack(ArrayList<Vector2> coords, int x,int y,int numtiles, int direction){
@@ -404,36 +437,7 @@ public class MyGdxGame extends Game {
 		
 		return coords;
 	}
-	private ArrayList<ZooParams> getZooList(){
-		ArrayList<ZooParams> zooParams = new ArrayList<ZooParams>();
-				
-		zooParams.add(new ZooParams(new Vector2(0,5), "Lisbon"));
-		zooParams.add(new ZooParams(new Vector2(4,16), "Atlantis"));
-		zooParams.add(new ZooParams(new Vector2(6,6), "Madrid"));
-		zooParams.add(new ZooParams(new Vector2(8,23), "Dublin"));
-		zooParams.add(new ZooParams(new Vector2(11,26), "Edinburgh"));
-		zooParams.add(new ZooParams(new Vector2(13,20), "London"));
-		zooParams.add(new ZooParams(new Vector2(14,15), "Paris"));
-		zooParams.add(new ZooParams(new Vector2(19,12), "Zurich"));
-		zooParams.add(new ZooParams(new Vector2(22,27), "Oslo"));
-		zooParams.add(new ZooParams(new Vector2(24,19), "Berlin"));
-		zooParams.add(new ZooParams(new Vector2(25,5), "Rome"));
-		zooParams.add(new ZooParams(new Vector2(26,13), "Vienna"));
-		zooParams.add(new ZooParams(new Vector2(27,26), "Stockholm"));
-		zooParams.add(new ZooParams(new Vector2(30,8), "Belgrade"));
-		zooParams.add(new ZooParams(new Vector2(31,19), "Warsaw"));
-		zooParams.add(new ZooParams(new Vector2(33,2), "Athens"));
-		zooParams.add(new ZooParams(new Vector2(37,9), "Bucharest"));
-		zooParams.add(new ZooParams(new Vector2(40,17), "Kiev"));
-		zooParams.add(new ZooParams(new Vector2(41,4), "Istanbul"));
-		return zooParams;
-	}
-	private ArrayList<powerups> getPowerups(){
-		ArrayList<powerups> Powerup = new ArrayList<powerups>();
-		Powerup.add(new powerups(new Vector2(8,22),1));
-		Powerup.add(new powerups(new Vector2(4,7),1));
-		return Powerup;
-	}
+
 	
 	
 }
