@@ -162,8 +162,10 @@ public class InputChecker implements InputProcessor
 		case Gamestate.MAIN_MENU:
 			break;
 		case Gamestate.IN_GAME:
+			
 			// Have to disable this because its not working.
 			if (amount > 0 && game.camera.zoom < 1.5) {
+
 				game.camera.zoom += 0.1f;
 			}
 	        //Zoom in

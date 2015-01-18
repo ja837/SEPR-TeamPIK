@@ -22,6 +22,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -122,6 +123,9 @@ public class MyGdxGame extends Game {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
+        camera.zoom += 1.2;
+        camera.position.x += 460;
+        camera.position.y += 490;
         cameraInitPos = camera.position;
         
         
@@ -326,7 +330,7 @@ public class MyGdxGame extends Game {
 		setTrack(trackCoords,4,4,3,1);
 		setTrack(trackCoords,4,7,2,2);
 		setTrack(trackCoords,4,8,8,0);
-		setTrack(trackCoords,5,17,7,1);
+		setTrack(trackCoords,5,16,8,1);
 		setTrack(trackCoords,7,7,12,1);
 		setTrack(trackCoords,8,24,3,1);
 		setTrack(trackCoords,8,22,5,2);
@@ -378,7 +382,7 @@ public class MyGdxGame extends Game {
 		ArrayList<ZooParam> zooParams = new ArrayList<ZooParam>();
 				
 		zooParams.add(new ZooParam(new Vector2(0,5), "Lisbon"));
-		zooParams.add(new ZooParam(new Vector2(4,16), "Atlantis"));
+		zooParams.add(new ZooParam(new Vector2(4,15), "Atlantis"));
 		zooParams.add(new ZooParam(new Vector2(6,6), "Madrid"));
 		zooParams.add(new ZooParam(new Vector2(8,23), "Dublin"));
 		zooParams.add(new ZooParam(new Vector2(11,26), "Edinburgh"));

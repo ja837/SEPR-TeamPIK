@@ -155,6 +155,70 @@ public class GameMap extends TiledMap{
 			}
 		}
 		
+		//remove single 1 hex width track pieces
+		for (int i = 0; i < mapLayout.tiles.length; i++){
+			for (int j = 0; j < mapLayout.tiles[i].length; j++){
+				if((trackLayers[Direction.NORTH_EAST].getCell(i, j) != null) && (trackLayers[Direction.SOUTH_EAST].getCell(i, j) != null)){
+					if (i%2 == 0 ){
+						if ((trackLayers[Direction.NORTH].getCell(i+1, j) != null) && (trackLayers[Direction.SOUTH].getCell(i+1, j+1) != null)){
+							if ((trackLayers[Direction.SOUTH].getCell(i+1, j) == null) && ( trackLayers[Direction.NORTH].getCell(i+1, j+1) == null)){
+								trackLayers[Direction.NORTH].setCell(i+1, j, null);
+								trackLayers[Direction.SOUTH].setCell(i+1, j+1, null);
+							} else if ((trackLayers[Direction.SOUTH_WEST].getCell(i, j) == null) && ( trackLayers[Direction.NORTH_EAST].getCell(i+1, j+1) == null)){
+								trackLayers[Direction.NORTH_EAST].setCell(i, j, null);
+								trackLayers[Direction.SOUTH_WEST].setCell(i+1, j+1, null);
+							} else if ((trackLayers[Direction.NORTH_WEST].getCell(i, j) == null) && ( trackLayers[Direction.SOUTH_EAST].getCell(i+1, j) == null)){
+								trackLayers[Direction.SOUTH_EAST].setCell(i, j, null);
+								trackLayers[Direction.NORTH_WEST].setCell(i+1, j, null);
+							}
+						}
+					} else {
+						if ((trackLayers[Direction.NORTH].getCell(i+1, j-1) != null) && (trackLayers[Direction.SOUTH].getCell(i+1, j) != null)){
+							if ((trackLayers[Direction.SOUTH].getCell(i+1, j-1) == null) && ( trackLayers[Direction.NORTH].getCell(i+1, j) == null)){
+								trackLayers[Direction.NORTH].setCell(i+1, j-1, null);
+								trackLayers[Direction.SOUTH].setCell(i+1, j, null);
+							} else if ((trackLayers[Direction.SOUTH_WEST].getCell(i, j) == null) && ( trackLayers[Direction.NORTH_EAST].getCell(i+1, j) == null)){
+								trackLayers[Direction.NORTH_EAST].setCell(i, j, null);
+								trackLayers[Direction.SOUTH_WEST].setCell(i+1, j, null);
+							} else if ((trackLayers[Direction.NORTH_WEST].getCell(i, j-1) == null) && ( trackLayers[Direction.SOUTH_EAST].getCell(i+1, j-1) == null)){
+								trackLayers[Direction.SOUTH_EAST].setCell(i, j, null);
+								trackLayers[Direction.NORTH_WEST].setCell(i+1, j-1, null);
+							}
+						}
+					}
+				}
+				if((trackLayers[Direction.NORTH_WEST].getCell(i, j) != null) && (trackLayers[Direction.SOUTH_WEST].getCell(i, j) != null)){
+					if (i%2 == 0 ){
+						if ((trackLayers[Direction.NORTH].getCell(i-1, j) != null) && (trackLayers[Direction.SOUTH].getCell(i-1, j+1) != null)){
+							if ((trackLayers[Direction.SOUTH].getCell(i-1, j) == null) && ( trackLayers[Direction.NORTH].getCell(i-1, j+1) == null)){
+								trackLayers[Direction.NORTH].setCell(i-1, j, null);
+								trackLayers[Direction.SOUTH].setCell(i-1, j+1, null);
+							} else if ((trackLayers[Direction.SOUTH_WEST].getCell(i-1, j) == null) && ( trackLayers[Direction.NORTH_EAST].getCell(i, j) == null)){
+								trackLayers[Direction.NORTH_EAST].setCell(i-1, j, null);
+								trackLayers[Direction.SOUTH_WEST].setCell(i, j, null);
+							} else if ((trackLayers[Direction.NORTH_WEST].getCell(i-1, j+1) == null) && ( trackLayers[Direction.SOUTH_EAST].getCell(i, j) == null)){
+								trackLayers[Direction.SOUTH_EAST].setCell(i-1, j+1, null);
+								trackLayers[Direction.NORTH_WEST].setCell(i, j, null);
+							}
+						}
+					} else {
+						if ((trackLayers[Direction.NORTH].getCell(i-1, j-1) != null) && (trackLayers[Direction.SOUTH].getCell(i-1, j) != null)){
+							if ((trackLayers[Direction.SOUTH].getCell(i-1, j-1) == null) && ( trackLayers[Direction.NORTH].getCell(i-1, j) == null)){
+								trackLayers[Direction.NORTH].setCell(i-1, j-1, null);
+								trackLayers[Direction.SOUTH].setCell(i-1, j, null);
+							} else if ((trackLayers[Direction.SOUTH_WEST].getCell(i-1, j-1) == null) && ( trackLayers[Direction.NORTH_EAST].getCell(i, j) == null)){
+								trackLayers[Direction.NORTH_EAST].setCell(i-1, j-1, null);
+								trackLayers[Direction.SOUTH_WEST].setCell(i, j, null);
+							} else if ((trackLayers[Direction.NORTH_WEST].getCell(i-1, j) == null) && ( trackLayers[Direction.SOUTH_EAST].getCell(i, j) == null)){
+								trackLayers[Direction.SOUTH_EAST].setCell(i-1, j, null);
+								trackLayers[Direction.NORTH_WEST].setCell(i, j, null);
+							}
+						}
+					}
+				}
+			}	
+		}
+		
 			
 		for (Powerups params : mapLayout.powerups){
 			Cell cell = new Cell();
