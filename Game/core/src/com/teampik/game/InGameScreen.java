@@ -49,9 +49,7 @@ public class InGameScreen implements Screen{
 		this.game = game;
 		currentPlayer = game.player1;
 		
-
 		UI = new InGameUI();
-		
 		
 		//Button listener added here so we take change state easily.
 		UI.btnEndTurn.addListener(new ClickListener(){
@@ -60,10 +58,6 @@ public class InGameScreen implements Screen{
 				currentState = endOfTurnProcessing;
 			}
 		});
-		
-
-		
-
 
 		game.inputMultiplexer.addProcessor(UI.stage);
 
@@ -161,7 +155,8 @@ public class InGameScreen implements Screen{
 	}
 
 	public void ProcessEndOfTurn(Player player){ 
-		UI.clearInventory();
+		//UI.clearInventory();
+
 		UI.clearGoal();
 		System.out.println("Turn " + (turnCount - 1) + " just ended. Turn " + turnCount + " is now starting.");
 		
@@ -182,10 +177,12 @@ public class InGameScreen implements Screen{
 		int randomTrainInt = rdm.nextInt(5);
 		
 		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt], player));
-		
+
+		RefreshInventory();
+		/*
 		for (Train t : player.inventory.trains){
 			UI.addToInventory(player, t);
-		}
+		}*/
 		
 		int ranNumber = rdm.nextInt(4);
 		Goal g = new Goal(ranNumber, game.map, player);
@@ -281,9 +278,27 @@ public class InGameScreen implements Screen{
 	
 	public void RefreshInventory(){
 		UI.clearInventory();
+		if (currentPlayer.inventory.trains.size() > 0){
+			UI.btnTrain0 = new InventoryTrainButton(currentPlayer.inventory.trains.get(0).type.toString(), UI.skin, 0, currentPlayer.inventory);
+			System.out.println("inventory refreshed > 0");
+			System.out.println(currentPlayer.inventory.trains.get(0).type.toString());
+		}
+		if (currentPlayer.inventory.trains.size() > 1){
+			UI.btnTrain1 = new InventoryTrainButton(currentPlayer.inventory.trains.get(1).type.toString(), UI.skin, 1, currentPlayer.inventory);
+			System.out.println("inventory refreshed > 1");
+			System.out.println(currentPlayer.inventory.trains.get(1).type.toString());
+		}
+		if (currentPlayer.inventory.trains.size() > 2){
+			UI.btnTrain2 = new InventoryTrainButton(currentPlayer.inventory.trains.get(2).type.toString(), UI.skin, 2, currentPlayer.inventory);
+			System.out.println("inventory refreshed > 2");
+			System.out.println(currentPlayer.inventory.trains.get(2).type.toString());
+		}
+		
+			/*
 		for (Train t : currentPlayer.inventory.trains){
 			UI.addToInventory(currentPlayer, t);
-		}
+			UI.btnTrain1.setText(t.type.toString());
+		}*/
 	}
 	
 	public void RefreshGoals(){

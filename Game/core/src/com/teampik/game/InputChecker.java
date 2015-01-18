@@ -163,12 +163,12 @@ public class InputChecker implements InputProcessor
 			break;
 		case Gamestate.IN_GAME:
 			
-			// Have to disable this because its not working.
-			if (amount > 0 && game.camera.zoom < 1.5) {
+			// Zoom out
+			if (amount > 0 && game.camera.zoom < 2) {
 
 				game.camera.zoom += 0.1f;
 			}
-	        //Zoom in
+	        // Zoom in
 			if (amount < 0 && game.camera.zoom > 0.5) {
 				game.camera.zoom -= 0.1f;
 			}
@@ -188,7 +188,7 @@ public class InputChecker implements InputProcessor
         int mapHeight = game.map.mapLayout.tilesY * GameMap.tileHeight;
         int mapWidth = game.map.mapLayout.tilesX * GameMap.tileSide;
 
-        game.camera.zoom = MathUtils.clamp(game.camera.zoom, 0.5f, 1.5f);
+        game.camera.zoom = MathUtils.clamp(game.camera.zoom, 0.5f, 2f);
         game.camera.position.x = MathUtils.clamp(game.camera.position.x, effectiveViewportWidth / 2, mapWidth + 11f - effectiveViewportWidth / 2);
         game.camera.position.y = MathUtils.clamp(game.camera.position.y, effectiveViewportHeight / 2, mapHeight + (GameMap.tileHeight/2) - effectiveViewportHeight / 2);
 	}
