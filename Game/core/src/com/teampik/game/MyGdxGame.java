@@ -369,6 +369,7 @@ public class MyGdxGame extends Game {
 			trackCoords.add(new Vector2(zoo.coordinates.x,zoo.coordinates.y));
 		}
 		
+		
 		return trackCoords;
 
 	}

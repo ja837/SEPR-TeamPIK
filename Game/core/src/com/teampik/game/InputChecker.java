@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -141,6 +142,7 @@ public class InputChecker implements InputProcessor
 			    }
 			    last.set(screenX, screenY, 0);
 			    
+			    clampCamera();
 			break;
 		}
 		return false;
@@ -161,16 +163,32 @@ public class InputChecker implements InputProcessor
 			break;
 		case Gamestate.IN_GAME:
 			// Have to disable this because its not working.
-			if (amount > 0 && game.camera.zoom < 2.5) {
+			if (amount > 0 && game.camera.zoom < 1.5) {
 				game.camera.zoom += 0.1f;
 			}
 	        //Zoom in
 			if (amount < 0 && game.camera.zoom > 0.5) {
 				game.camera.zoom -= 0.1f;
 			}
+			
+			clampCamera();
+	        
+	        
 			break;
 		}
 		return false;
+	}
+	
+	private void clampCamera(){
+		float effectiveViewportWidth = game.camera.viewportWidth * game.camera.zoom;
+        float effectiveViewportHeight = game.camera.viewportHeight * game.camera.zoom;
+        
+        int mapHeight = game.map.mapLayout.tilesY * GameMap.tileHeight;
+        int mapWidth = game.map.mapLayout.tilesX * GameMap.tileSide;
+
+        game.camera.zoom = MathUtils.clamp(game.camera.zoom, 0.5f, 1.5f);
+        game.camera.position.x = MathUtils.clamp(game.camera.position.x, effectiveViewportWidth / 2, mapWidth + 11f - effectiveViewportWidth / 2);
+        game.camera.position.y = MathUtils.clamp(game.camera.position.y, effectiveViewportHeight / 2, mapHeight + (GameMap.tileHeight/2) - effectiveViewportHeight / 2);
 	}
 
 

@@ -35,8 +35,9 @@ public class GameMap extends TiledMap{
 	public static int tileSide= tileRadius * 3 / 2;
 	
 	
-	public GameMap(MyGdxGame g){		
+	public GameMap(MyGdxGame g, MapLayout mapLayout){		
 		game = g;
+		this.mapLayout = mapLayout;
 		zooList = new ArrayList<ZooTile>();
 		
 		deployedTrains = new ArrayList<Train>();
@@ -44,7 +45,7 @@ public class GameMap extends TiledMap{
 	
 	public static GameMap createMap(MyGdxGame game, MapLayout mapLayout) {
 		
-		GameMap map = new GameMap(game);
+		GameMap map = new GameMap(game, mapLayout);
 		MapLayers layers = map.getLayers();
 
 		TiledMapTileLayer itemLayer = new TiledMapTileLayer( mapLayout.tilesX, mapLayout.tilesY, tileWidth, tileHeight);
