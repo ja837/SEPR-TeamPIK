@@ -24,6 +24,7 @@ public class InGameUI{
 	Stage stage;
 
 	Table table;
+	Table rootTable;
 	Label lblPlayer;
 	Label lblInventory;
 	Label lblPowerUp;
@@ -31,6 +32,7 @@ public class InGameUI{
 	InventoryTrainButton btnTrain0;
 	InventoryTrainButton btnTrain1;
 	InventoryTrainButton btnTrain2;
+	TextButton btnPowerup1;
 
 	ArrayList<InventoryTrainButton> inventoryItems;
 	ArrayList<Label> goalList;
@@ -64,7 +66,9 @@ public class InGameUI{
 	    pm1.fill();
 		
 	    TextButton tmp = new TextButton("End Turn", skin, "default"); 
-	    
+	    btnTrain0 = new InventoryTrainButton("               ", skin, 0, null);  
+		btnTrain1 = new InventoryTrainButton("               ", skin, 1, null); 
+		btnTrain2 = new InventoryTrainButton("               ", skin, 2, null); 
 	    TextButton btnPowerup1 = new TextButton("p1", skin, "default");  
 	    TextButton btnPowerup2 = new TextButton("p2", skin, "default");  
 	    TextButton btnPowerup3 = new TextButton("p3", skin, "default");  
@@ -74,44 +78,44 @@ public class InGameUI{
 	    Label lblGoal3 = new Label("g3",skin);
 	    
 	    Table table = new Table();
-	    table.add(lblPlayer).height(30);
+	    table.row().height(40);
+	    table.add(lblPlayer).height(60);
 	    table.row();
-	    table.add(lblGoals).height(30);
+	    table.add(lblGoals);
 	    table.row();    
-	    table.add(lblGoal1).height(30);    
+	    table.add(lblGoal1);    
 	    table.row();
-	    table.add(lblGoal2).height(30);    
+	    table.add(lblGoal2);    
 	    table.row();
-	    table.add(lblGoal3).height(30);    
+	    table.add(lblGoal3);    
 	    table.row();
-	    table.add(lblInventory).height(30);
+	    table.add(lblInventory);
 	    table.row();            
-	    table.add(lblTrains).height(30);
+	    table.add(lblTrains);
 	    table.row();   
-	    table.add(btnTrain0).height(30);    
+	    table.add(btnTrain0);    
 	    table.row();
-	    table.add(btnTrain1).height(30);
+	    table.add(btnTrain1);
 	    table.row();
-	    table.add(btnTrain2).height(30); 
+	    table.add(btnTrain2); 
 	    table.row();                      
-	    table.add(lblPowerUp).height(30);   
+	    table.add(lblPowerUp);   
 	    table.row();        
-	    table.add(btnPowerup1).height(30); 
+	    table.add(btnPowerup1); 
 	    table.row();
-	    table.add(btnPowerup2).height(30); 
+	    table.add(btnPowerup2); 
 	    table.row();
-	    table.add(btnPowerup3).height(30); 
+	    table.add(btnPowerup3); 
 	    table.row();
-	    table.add(btnPowerup4).height(30); 
+	    table.add(btnPowerup4); 
 	    table.row();
-	    table.add(btnEndTurn).height(30);
+	    table.add(btnEndTurn);
 	    table.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm1))));
 	    
 		table.setColor(35, 200, 250, 50);
-		table.setWidth(30);
-	    table.right().top();
+	    table.center().top();
 	    Table rootTable = new Table();
-	    rootTable.add(table).width(100);
+	    rootTable.add(table).width(200);
 	    rootTable.right().top();
 	    rootTable.setFillParent(true);
 	    stage.addActor(rootTable);
@@ -119,17 +123,35 @@ public class InGameUI{
 	    rootTable.setDebug(true);
 	    
 //		stage.addActor(btnEndTurn);
-		stage.addActor(lblPlayer);
+		//stage.addActor(lblPlayer);
 		//stage.addActor(lblInventory);
 	}
-/*
-	public void addToInventory(Player p, Train t){
+
+	public void addToInventory(Player currentPlayer){
+		
+		if (currentPlayer.inventory.trains.size() > 0){
+			btnTrain0 = new InventoryTrainButton(currentPlayer.inventory.trains.get(0).type.toString(), skin, 0, currentPlayer.inventory);
+			//rootTable.add(btnTrain0);
+			System.out.println(currentPlayer.inventory.trains.get(0).type.toString());
+			System.out.println(btnTrain0.getText());
+		}
+		if (currentPlayer.inventory.trains.size() > 1){
+			btnTrain1 = new InventoryTrainButton(currentPlayer.inventory.trains.get(1).type.toString(), skin, 1, currentPlayer.inventory);
+			System.out.println("inventory refreshed > 1");
+			System.out.println(currentPlayer.inventory.trains.get(1).type.toString());
+		}
+		if (currentPlayer.inventory.trains.size() > 2){
+			btnTrain2 = new InventoryTrainButton(currentPlayer.inventory.trains.get(2).type.toString(), skin, 2, currentPlayer.inventory);
+			System.out.println("inventory refreshed > 2");
+			System.out.println(currentPlayer.inventory.trains.get(2).type.toString());
+		}
+		/*
 		InventoryTrainButton btn = new InventoryTrainButton(t.type.toString(), skin, inventoryItems.size(), p.inventory);
 		btn.setPosition(Gdx.graphics.getWidth() - lblInventory.getPrefWidth(), Gdx.graphics.getHeight() - 150f - (inventoryItems.size() * 40f));
 		inventoryItems.add(btn);
 
-		stage.addActor(btn);
-	}*/
+		stage.addActor(btn);*/
+	}
 
 	public void clearInventory(){
 		for (InventoryTrainButton l : inventoryItems){
