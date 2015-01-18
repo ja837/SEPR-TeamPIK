@@ -1,25 +1,17 @@
 package com.teampik.game;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 public class Animal {
 	
-	ArrayList<String> animals = new ArrayList<String>();
-	
-	public Animal(){
-		animals.add("Python Snake");
-		animals.add("African Oliphont");
-		animals.add("Panda Bear");
-		animals.add("Squirrel Monkey");
-		animals.add("Rothschild Giraffe");
-		animals.add("Emperor Penguin");
-		animals.add("Arabian Horse");
-		animals.add("Mountain Chicken Frog");
-		
+	public enum Animals{
+		PYHTON, OLIPHONT, BEAR, MONKEY, GIRAFFE, PENGUIN, HORSE, FROG
 	}
 	
-	
-	public String getAnimalName(int x){
-		return animals.get(x);
+	public Animal(){	
 	}
+
+	public static String getAnimalName(int x){
+		return Animals.values()[x].toString();
+	}	
 }

@@ -7,12 +7,12 @@ import com.badlogic.gdx.math.Vector2;
  * @author Jamie
  *
  */
-public class ZooParams{
+public class ZooParam{
 	
 	Vector2 coordinates;
 	String name;
 	
-	public ZooParams(Vector2 coords, String name){
+	public ZooParam(Vector2 coords, String name){
 		
 		this.coordinates = coords;
 		this.name = name;

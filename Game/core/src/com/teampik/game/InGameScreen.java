@@ -39,7 +39,6 @@ public class InGameScreen implements Screen{
 
 	InGameUI UI = new InGameUI();
 	
-	Train trainSelectedFromInventory;
 	
 
 
@@ -50,9 +49,7 @@ public class InGameScreen implements Screen{
 		this.game = game;
 		currentPlayer = game.player1;
 		
-
 		UI = new InGameUI();
-		
 		
 		//Button listener added here so we take change state easily.
 		UI.btnEndTurn.addListener(new ClickListener(){
@@ -61,19 +58,6 @@ public class InGameScreen implements Screen{
 				currentState = endOfTurnProcessing;
 			}
 		});
-		
-		/*
-		for (final InventoryButton b : UI.inventoryItems){
-			b.addListener(new ClickListener(){
-				@Override 
-				public void clicked(InputEvent event, float x, float y){
-					currentPlayer.inventory.selectTrain(b.index);
-				}
-			});
-		}*/
-
-		
-
 
 		game.inputMultiplexer.addProcessor(UI.stage);
 
@@ -85,14 +69,34 @@ public class InGameScreen implements Screen{
 		turnCount = 1;
 		
 		currentPlayer = game.player1;
+		currentState = endOfTurnProcessing;
 		
 		game.player1.changeName(game.mainMenuScreen.UI.tfPlayer1Name.getText()); //Assigns Names from menu text boxes to Players 
 		game.player2.changeName(game.mainMenuScreen.UI.tfPlayer2Name.getText());
 		
 		game.player1.inventory.trains.clear();
 		game.player2.inventory.trains.clear();
+		game.player1.goals.clear();
+		game.player2.goals.clear();
 		
-		UI.clearInventory();
+		//Clear all trains off map
+		for (Train t : game.map.deployedTrains){
+			TiledMapTileLayer trainLayer = (TiledMapTileLayer) game.map.getLayers().get(GameMap.trainLayerIndex);
+
+			//Visibly select the tile.
+			Cell toBeRemoved = trainLayer.getCell((int)t.location.x, (int) t.location.y);
+
+			if (toBeRemoved != null)
+			{
+				toBeRemoved.setTile(null);
+			}
+		}
+		
+		game.map.deployedTrains.clear();
+		
+		
+		RefreshInventory();
+		RefreshGoals();
 		
 	}
 
@@ -118,11 +122,11 @@ public class InGameScreen implements Screen{
 			
 
 			if (turnCount % 2 == 0){
-				ProcessEndOfTurn(game.player1);
+				ProcessEndOfTurn(game.player2);
 				currentState = player2Turn;
 			}
 			else{
-				ProcessEndOfTurn(game.player2);
+				ProcessEndOfTurn(game.player1);
 				currentState = player1Turn;
 			}
 			//EndRegion
@@ -131,32 +135,29 @@ public class InGameScreen implements Screen{
 			//game.batch.draw(game.labelBackgroundRed,Gdx.graphics.getWidth() - 260f, Gdx.graphics.getHeight() - 20f); //Player 1 is Red
 
 			currentPlayer = game.player1;
-			
-			
 
 			break;
 		case player2Turn:
 			currentPlayer = game.player2;
 			
-			
-
 			break;
 		}
 		game.batch.end();
 
 		RefreshUI();
-
 	}
 
 	//Refresh the UI
 	public void RefreshUI(){
 		
 		UI.lblPlayer.setText(currentPlayer.playerName + "'s (Player " + currentState + "'s) turn");
-
+		
 	}
 
 	public void ProcessEndOfTurn(Player player){ 
-		UI.clearInventory();
+		//UI.clearInventory();
+
+		UI.clearGoal();
 		System.out.println("Turn " + (turnCount - 1) + " just ended. Turn " + turnCount + " is now starting.");
 		
 		if (turnCount == turnLimit){			
@@ -173,19 +174,27 @@ public class InGameScreen implements Screen{
 		
 		//Create and give a goal to the next player.
 		Random rdm = new Random();
-		int ranNumber = rdm.nextInt(4);
-		Goal g = new Goal(ranNumber);
-		player.addGoal(g);
+		int randomTrainInt = rdm.nextInt(5);
 		
-		player.inventory.addTrain(new Train(game.trDefault, Train.trainType.values()[rdm.nextInt(4)]));
-		
+		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt], player));
+
+		RefreshInventory();
+		/*
 		for (Train t : player.inventory.trains){
+
 			UI.addToInventory(player,t);
-		}
-		
-		
+		} */
 		
 
+		
+		int ranNumber = rdm.nextInt(4);
+		Goal g = new Goal(ranNumber, game.map, player);
+		player.addGoal(g);
+		
+		for (Goal goal : player.goals){
+			UI.addToGoals(player, goal);
+			System.out.println(goal.toString());
+		}
 		
 		
 	}
@@ -218,10 +227,10 @@ public class InGameScreen implements Screen{
 		game.currentlySelectedTile = tileCoords.cpy();
 
 
-
+		Train train = (Train) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trainLayerIndex);
 		MapTile tile = game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.baseLayerIndex);
 		ZooTile ztile = (ZooTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.zooLayerIndex);
-		TrackTile ttile = (TrackTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trackLayerIndex);
+		TrackTile ttile = (TrackTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trackLayerIndex[Direction.MIDDLE]);
 
 		//Debug, outputs tile info to console.
 		System.out.println("\n" + tileCoords.toString());
@@ -229,9 +238,29 @@ public class InGameScreen implements Screen{
 		System.out.println("Camera position : " + cameraPosition.toString());		
 
 		
-		
-		if (ztile != null){
-			System.out.println(ztile.toString());			
+		//Since there is lots of things on the same tile, checking what has been clicked on is cascaded down. Train then zoo then track then maptile.
+		if (train != null){
+			//Select train and move it when new tile is selected.
+		}
+		else if (ztile != null){
+			System.out.println(ztile.toString());	
+			
+			//Deploy Train if it has been selected
+			if (currentPlayer.inventory.selectedTrain != null){
+				
+				game.map.deployTraintoTile(tileCoords, currentPlayer.inventory.selectedTrain);
+				currentPlayer.inventory.trains.remove(currentPlayer.inventory.selectedTrain);
+				
+				
+				game.map.deployedTrains.add(currentPlayer.inventory.selectedTrain);
+				currentPlayer.inventory.selectedTrain.setLocation(tileCoords);
+				
+				currentPlayer.inventory.selectedTrain = null;
+				
+				RefreshInventory();
+				RefreshGoals();
+				System.out.println("Train deployed");	
+			}
 		}
 		else if (ttile != null){
 			System.out.println(ttile.toString());
@@ -248,6 +277,38 @@ public class InGameScreen implements Screen{
 
 
 
+	}
+	
+	public void RefreshInventory(){
+		UI.clearInventory();
+		if (currentPlayer.inventory.trains.size() > 0){
+			UI.btnTrain0 = new InventoryTrainButton(currentPlayer.inventory.trains.get(0).type.toString(), UI.skin, 0, currentPlayer.inventory);
+			System.out.println("inventory refreshed > 0");
+			System.out.println(currentPlayer.inventory.trains.get(0).type.toString());
+		}
+		if (currentPlayer.inventory.trains.size() > 1){
+			UI.btnTrain1 = new InventoryTrainButton(currentPlayer.inventory.trains.get(1).type.toString(), UI.skin, 1, currentPlayer.inventory);
+			System.out.println("inventory refreshed > 1");
+			System.out.println(currentPlayer.inventory.trains.get(1).type.toString());
+		}
+		if (currentPlayer.inventory.trains.size() > 2){
+			UI.btnTrain2 = new InventoryTrainButton(currentPlayer.inventory.trains.get(2).type.toString(), UI.skin, 2, currentPlayer.inventory);
+			System.out.println("inventory refreshed > 2");
+			System.out.println(currentPlayer.inventory.trains.get(2).type.toString());
+		}
+		
+			/*
+		for (Train t : currentPlayer.inventory.trains){
+			UI.addToInventory(currentPlayer, t);
+			UI.btnTrain1.setText(t.type.toString());
+		}*/
+	}
+	
+	public void RefreshGoals(){
+		UI.clearGoal();
+		for (Goal goal : currentPlayer.goals){
+			UI.addToGoals(currentPlayer, goal);
+		}
 	}
 
 	@Override

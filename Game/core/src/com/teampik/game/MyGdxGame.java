@@ -22,6 +22,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -46,10 +47,21 @@ public class MyGdxGame extends Game {
 	TextureRegion trMountain;
 	TextureRegion trDesert;
 	TextureRegion trTrack;
+	TextureRegion trTrackN;
+	TextureRegion trTrackNE;
+	TextureRegion trTrackSE;
+	TextureRegion trTrackS;
+	TextureRegion trTrackSW;
+	TextureRegion trTrackNW;
 	TextureRegion trZoo;
 	TextureRegion trBomb;
 	TextureRegion trSelected;
 	TextureRegion[] trBorders = new TextureRegion[6];
+	
+	//Train textures
+	TextureRegion[][] trTrains = new TextureRegion[6][3];
+	
+	
 	Vector2 currentlySelectedTile = new Vector2(-1,-1);
 	
 	TiledMap tiledMap;
@@ -113,6 +125,9 @@ public class MyGdxGame extends Game {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
+        camera.zoom += 1;
+        camera.position.x += 700;
+        camera.position.y += 490;
         cameraInitPos = camera.position;
         
         
@@ -128,7 +143,26 @@ public class MyGdxGame extends Game {
         trMountain = new TextureRegion(new Texture("Tiles/mountain.png"));
         trForest = new TextureRegion(new Texture("Tiles/forest.png"));
         trTrack = new TextureRegion(new Texture("track.png"));
+        trTrackN = new TextureRegion(new Texture("Track/top.png"));
+    	trTrackNE = new TextureRegion(new Texture("Track/top_right.png"));
+    	trTrackSE = new TextureRegion(new Texture("Track/bottom_right.png"));
+    	trTrackS = new TextureRegion(new Texture("Track/bottom.png"));
+    	trTrackSW = new TextureRegion(new Texture("Track/bottom_left.png"));
+    	trTrackNW = new TextureRegion(new Texture("Track/top_left.png"));
+
         trZoo = new TextureRegion(new Texture("zoo.png"));
+        
+        trTrains[Train.HOVER][Train.RED] = new TextureRegion(new Texture("Trains/hover_train_red.png"));
+        trTrains[Train.HOVER][Train.BLUE] = new TextureRegion(new Texture("Trains/hover_train_blue.png"));
+        trTrains[Train.BULLET][Train.RED] = new TextureRegion(new Texture("Trains/bullet_train_red.png"));
+        trTrains[Train.BULLET][Train.BLUE] = new TextureRegion(new Texture("Trains/bullet_train_blue.png"));
+        trTrains[Train.ELECTRIC][Train.RED] = new TextureRegion(new Texture("Trains/electric_train_red.png"));
+        trTrains[Train.ELECTRIC][Train.BLUE] = new TextureRegion(new Texture("Trains/electric_train_blue.png"));
+        trTrains[Train.DIESEL][Train.RED] = new TextureRegion(new Texture("Trains/diesel_train_red.png"));
+        trTrains[Train.DIESEL][Train.BLUE] = new TextureRegion(new Texture("Trains/diesel_train_blue.png"));
+        trTrains[Train.STEAM][Train.RED] = new TextureRegion(new Texture("Trains/steam_train_red.png"));
+        trTrains[Train.STEAM][Train.BLUE]= new TextureRegion(new Texture("Trains/steam_train_blue.png"));
+
         trBomb = new TextureRegion(new Texture("bomb.png"));
         trSelected = new TextureRegion(new Texture("perfectHexagonSelected.png"));
         trBorders[Direction.NORTH] = new TextureRegion(new Texture("Borders/borderNorth.png"));
@@ -143,13 +177,13 @@ public class MyGdxGame extends Game {
         
         trainSteamB = new Texture("Trains/steam_train_blue.png")    ;    
         
-        MapLayout m = new MapLayout(this, getTileLayout(), getBorderList(), getTrackList(), getZooList(), getPowerups(), 45, 30);
+        MapLayout m = new MapLayout(this, getTileLayout(), getBorderList(), getTrackList(), getZooList(), getPowerups(), 55, 30);
         
         map = GameMap.createMap(this, m);
         tiledMapRenderer = new HexagonalTiledMapRenderer(map);
         
-        player1 = new Player();
-        player2 = new Player();
+        player1 = new Player(1);
+        player2 = new Player(2);
 	}
 	
 
@@ -256,36 +290,36 @@ public class MyGdxGame extends Game {
 		int m = MapLayout.MOUNTAIN;
 		
 		return new int [] [] {
-				{w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,w,w,w,l,l,l,w,l,l,s,s,s,s,s,s,s},
-				{w,w,w,w,w,w,w,w,w,w,w,l,l,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,l,w,l,s,s,s,s,s,s,s},
-				{w,w,w,w,w,w,w,w,w,w,w,m,m,m,w,w,w,w,w,w,l,l,l,w,l,l,l,l,l,w,w,w,w,l,l,l,l,s,s,s,s,s,s,s,s},
-				{w,w,w,w,w,w,w,w,w,w,w,l,l,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,w,w,w,w,l,w,l,l,l,l,s,s,s,s,s,s,s},
-				{w,w,w,w,w,w,w,w,w,l,w,l,l,l,w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,w,w,l,l,l,l,s,s,s,s,s,l,l},
-				{w,w,w,w,w,w,w,l,l,l,w,w,l,l,w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l},
-				{w,w,w,w,w,w,l,l,l,w,w,w,l,l,w,w,w,w,w,w,w,w,w,w,w,l,l,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l},
-				{w,w,w,w,w,w,l,l,l,w,w,l,l,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
-				{w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,w,w,w,l,l,s,w,s,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
-				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,w,w,w,w,l,l,l,l,s,s,s,s,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
-				{w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,w,w,l,l,l,l,l,l,l,s,s,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
-				{w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,f,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
-				{w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,f,f,f,f,f,f,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
-				{w,w,w,w,w,w,w,w,w,l,w,l,l,l,l,l,l,l,l,l,f,f,f,f,f,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
-				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
-				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
-				{w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,m,l,m,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
-				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,m,l,m,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,f,l,f,l,l,l,w,l,w,l},
-				{w,w,l,l,w,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,f,f,f,f,l,l,l,w,w,w,l},
-				{w,w,l,l,l,l,l,l,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,l,l,l,l,l,l,l,f,f,f,f,f,l,l,w,w,w,w},
-				{w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,l,l,w,w,l,l,l,l,l,l,l,l,l,l,f,l,l,l,w,w,w,w,w},
-				{w,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,w,w,w,w,w,l,l,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w},
-				{w,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w,w,w,l,l,l,w,w,w,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w},
-				{l,l,l,l,l,l,l,l,l,l,l,w,l,w,w,w,w,w,w,l,l,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,w,w,w,l,l},
-				{l,l,l,l,d,d,d,d,l,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,w,l,l,l,l,l,l,l},
-				{l,l,l,d,d,d,d,d,l,l,w,w,w,l,w,w,w,w,w,l,w,w,w,w,w,w,l,l,l,l,w,l,l,l,l,l,w,w,l,l,l,l,l,l,l},
-				{w,w,l,l,d,l,l,l,l,w,w,w,w,w,w,w,w,w,w,l,w,w,w,w,w,w,l,l,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,l},
-				{w,w,l,w,l,w,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,w,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l},
-				{w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,w,w,w,l,l,l,l,l,l},
-				{w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,w,w,w,w,w,l,l,l,l,l}
+				{w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,w,w,w,l,l,l,w,l,l,s,s,s,s,s,s,s,l,l,l,l,l,l,l,w,w,w},
+				{w,w,w,w,w,w,w,w,w,w,w,l,l,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,l,w,l,s,s,s,s,s,s,s,l,l,l,l,l,l,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,w,w,m,m,m,w,w,w,w,w,w,l,l,l,w,l,l,l,l,l,w,w,w,w,l,l,l,l,s,s,s,s,s,s,s,s,l,l,l,l,l,l,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,w,w,l,l,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,w,w,w,w,l,w,l,l,l,l,s,s,s,s,s,s,s,l,l,l,l,l,w,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,l,w,l,l,l,w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,w,w,l,l,l,l,s,s,s,s,s,l,l,l,l,l,l,l,l,w,w,w,w},
+				{w,w,w,w,w,w,w,l,l,l,w,w,l,l,w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w},
+				{w,w,w,w,w,w,l,l,l,w,w,w,l,l,w,w,w,w,w,w,w,w,w,w,w,l,l,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w},
+				{w,w,w,w,w,w,l,l,l,w,w,l,l,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,w,w,w,l,l,s,w,s,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,w,w,w,w,l,l,l,l,s,s,s,s,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,w,w,l,l,l,l,l,l,l,s,s,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,f,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,l,w,w,w,w,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,f,f,f,f,f,f,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,l,w,l,l,l,l,l,l,l,l,l,f,f,f,f,f,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w,w,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,m,l,m,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w,w,w,w,w,w,w},
+				{w,w,w,w,w,w,w,w,w,w,l,l,l,l,l,l,m,l,m,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,f,l,f,l,l,l,w,l,w,w,w,w,w,w,w,w,w,w,w,w},
+				{w,w,l,l,w,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,f,f,f,f,l,l,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w},
+				{w,w,l,l,l,l,l,l,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,l,l,l,l,l,l,l,f,f,f,f,f,l,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w},
+				{w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,l,l,w,w,l,l,l,l,l,l,l,l,l,l,f,l,l,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w},
+				{w,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,l,w,w,w,w,w,l,l,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w},
+				{w,l,l,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w,w,w,l,l,l,w,w,w,l,l,l,l,l,l,l,l,l,l,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w},
+				{l,l,l,l,l,l,l,l,l,l,l,w,l,w,w,w,w,w,w,l,l,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,w,w,w,l,w,w,w,w,w,w,w,w,l,l,l},
+				{l,l,l,l,d,d,d,d,l,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,w,l,l,l,l,l,l,l,w,w,l,w,l,l,l,l,l,l},
+				{l,l,l,d,d,d,d,d,l,l,w,w,w,l,w,w,w,w,w,l,w,w,w,w,w,w,l,l,l,l,w,l,l,l,l,l,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,l,l,d,l,l,l,l,w,w,w,w,w,w,w,w,w,w,l,w,w,w,w,w,w,l,l,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,l,w,l,w,l,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,w,w,w,w,l,l,l,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,l,l,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l},
+				{w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,l,l,w,w,w,w,w,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l}
 		};
 	}
 		
@@ -293,13 +327,12 @@ public class MyGdxGame extends Game {
 	
 	private ArrayList<Vector2> getTrackList(){
 		ArrayList<Vector2> trackCoords = new ArrayList<Vector2>();
-		
 		setTrack(trackCoords,1,5,3,2);
 		setTrack(trackCoords,1,6,3,1);
 		setTrack(trackCoords,4,4,3,1);
 		setTrack(trackCoords,4,7,2,2);
 		setTrack(trackCoords,4,8,8,0);
-		setTrack(trackCoords,5,17,7,1);
+		setTrack(trackCoords,5,16,8,1);
 		setTrack(trackCoords,7,7,12,1);
 		setTrack(trackCoords,8,24,3,1);
 		setTrack(trackCoords,8,22,5,2);
@@ -327,49 +360,61 @@ public class MyGdxGame extends Game {
 		setTrack(trackCoords,32,2,5,0);
 		setTrack(trackCoords,32,18,5,2);
 		setTrack(trackCoords,33,7,4,1);
+		setTrack(trackCoords,34,1,2,2);
+		setTrack(trackCoords,36,1,5,1);
 		setTrack(trackCoords,37,6,3,0);
 		setTrack(trackCoords,37,10,7,0);
 		setTrack(trackCoords,38,16,2,1);
 		setTrack(trackCoords,38,5,3,2);
 		setTrack(trackCoords,38,9,3,1);
 		setTrack(trackCoords,40,11,6,0);
-		return trackCoords;
 		
+
+		ArrayList<ZooParam> zooParams = getZooList();
+		for (ZooParam zoo : zooParams) {
+			trackCoords.add(new Vector2(zoo.coordinates.x,zoo.coordinates.y));
+		}
+		
+		
+		return trackCoords;
+
 	}
 	
-	private ArrayList<ZooParams> getZooList(){
-		ArrayList<ZooParams> zooParams = new ArrayList<ZooParams>();
+	private ArrayList<ZooParam> getZooList(){
+		ArrayList<ZooParam> zooParams = new ArrayList<ZooParam>();
 				
-		zooParams.add(new ZooParams(new Vector2(0,5), "Lisbon"));
-		zooParams.add(new ZooParams(new Vector2(4,16), "Atlantis"));
-		zooParams.add(new ZooParams(new Vector2(6,6), "Madrid"));
-		zooParams.add(new ZooParams(new Vector2(8,23), "Dublin"));
-		zooParams.add(new ZooParams(new Vector2(11,26), "Edinburgh"));
-		zooParams.add(new ZooParams(new Vector2(13,20), "London"));
-		zooParams.add(new ZooParams(new Vector2(14,15), "Paris"));
-		zooParams.add(new ZooParams(new Vector2(19,12), "Zurich"));
-		zooParams.add(new ZooParams(new Vector2(22,27), "Oslo"));
-		zooParams.add(new ZooParams(new Vector2(24,19), "Berlin"));
-		zooParams.add(new ZooParams(new Vector2(25,5), "Rome"));
-		zooParams.add(new ZooParams(new Vector2(26,13), "Vienna"));
-		zooParams.add(new ZooParams(new Vector2(27,26), "Stockholm"));
-		zooParams.add(new ZooParams(new Vector2(30,8), "Belgrade"));
-		zooParams.add(new ZooParams(new Vector2(31,19), "Warsaw"));
-		zooParams.add(new ZooParams(new Vector2(33,2), "Athens"));
-		zooParams.add(new ZooParams(new Vector2(37,9), "Bucharest"));
-		zooParams.add(new ZooParams(new Vector2(40,17), "Kiev"));
-		zooParams.add(new ZooParams(new Vector2(41,4), "Istanbul"));
+		zooParams.add(new ZooParam(new Vector2(0,5), "Lisbon"));
+		zooParams.add(new ZooParam(new Vector2(4,15), "Atlantis"));
+		zooParams.add(new ZooParam(new Vector2(6,6), "Madrid"));
+		zooParams.add(new ZooParam(new Vector2(8,23), "Dublin"));
+		zooParams.add(new ZooParam(new Vector2(11,26), "Edinburgh"));
+		zooParams.add(new ZooParam(new Vector2(13,20), "London"));
+		zooParams.add(new ZooParam(new Vector2(14,15), "Paris"));
+		zooParams.add(new ZooParam(new Vector2(19,12), "Zurich"));
+		zooParams.add(new ZooParam(new Vector2(22,27), "Oslo"));
+		zooParams.add(new ZooParam(new Vector2(24,19), "Berlin"));
+		zooParams.add(new ZooParam(new Vector2(25,5), "Rome"));
+		zooParams.add(new ZooParam(new Vector2(26,13), "Vienna"));
+		zooParams.add(new ZooParam(new Vector2(27,26), "Stockholm"));
+		zooParams.add(new ZooParam(new Vector2(30,8), "Belgrade"));
+		zooParams.add(new ZooParam(new Vector2(31,19), "Warsaw"));
+		zooParams.add(new ZooParam(new Vector2(33,2), "Athens"));
+		zooParams.add(new ZooParam(new Vector2(37,9), "Bucharest"));
+		zooParams.add(new ZooParam(new Vector2(40,17), "Kiev"));
+		zooParams.add(new ZooParam(new Vector2(41,4), "Istanbul"));
 		return zooParams;
 	}
+
 	private ArrayList<Powerup> getPowerups(){
 		ArrayList<Powerup> Powerup = new ArrayList<Powerup>();
 		Powerup.add(new Powerup(new Vector2(8,22),1));
 		Powerup.add(new Powerup(new Vector2(4,7),1));
+
 		return Powerup;
 	}
 	
 	private ArrayList<Vector2> setTrack(ArrayList<Vector2> coords, int x,int y,int numtiles, int direction){
-		switch (direction) {
+	 	switch (direction) {
 		case 0: //NORTH
 			for (int i = 0; i < numtiles; i++) {
 				coords.add(new Vector2(x,y+i));
@@ -401,6 +446,9 @@ public class MyGdxGame extends Game {
 		
 		return coords;
 	}
+
+	
+	
 }
 	
 
