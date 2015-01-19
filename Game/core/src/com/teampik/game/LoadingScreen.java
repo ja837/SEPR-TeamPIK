@@ -10,10 +10,10 @@ public class LoadingScreen implements Screen{
 	
 	
 	
-	MyGdxGame context;
+	MyGdxGame game;
 	
 	public LoadingScreen(MyGdxGame game){
-        this.context = game;
+        this.game = game;
         
 }
 
@@ -24,9 +24,9 @@ public class LoadingScreen implements Screen{
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		context.batch.begin();
-		context.batch.draw(context.imgLoading, 0, 0);
-		context.batch.end();
+		game.batch.begin();
+		game.batch.draw(game.imgLoading, 0, 0);
+		game.batch.end();
 		
 	}
 

@@ -34,6 +34,17 @@ public class MainMenuScreen implements Screen{
 			}
 		});
 
+		UI.btnInstruction.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				
+				if(game.mainMenuScreen.UI.btnInstruction.isPressed());{
+					game.instructionScreen.SwitchToInstructionScreen();
+				}
+			}
+		});	
+		
+		
 		game.inputMultiplexer.addProcessor(UI.stage);
 
 
@@ -42,9 +53,9 @@ public class MainMenuScreen implements Screen{
 	public void SwitchToMainMenuScreen(){
 		Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
 		game.setScreen(game.mainMenuScreen);
-		
-
 	}
+	
+	
 
 
 	@Override

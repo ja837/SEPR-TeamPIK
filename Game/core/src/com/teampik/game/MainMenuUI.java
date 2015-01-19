@@ -23,18 +23,24 @@ public class MainMenuUI{
 	Label lblPlayer1Name;
 	Label lblPlayer2Name;
 	Label lblNameError;
+	Label lblInstruction;
 	
 	TextButton btnStartGame;
+	TextButton btnInstruction;
 	
 	public MainMenuUI(){
 		skin = new Skin(Gdx.files.internal("data/uiskin.json"));
 		stage = new Stage();
 
+		lblInstruction = new Label("Instructions", skin);
 		lblPlayer1Name = new Label("Player 1 name", skin);
 		lblPlayer2Name = new Label("Player 2 name", skin);
 		lblNameError = new Label("Please enter a name for both players", skin);
 		tfPlayer1Name = new TextField("", skin);
 		tfPlayer2Name = new TextField("", skin);
+
+		
+		lblInstruction.setPosition((Gdx.graphics.getWidth() / 2) - lblInstruction.getPrefWidth() - 20, Gdx.graphics.getHeight() / 4 + 40);
 		
 		lblPlayer1Name.setPosition((Gdx.graphics.getWidth() / 2) - lblPlayer1Name.getPrefWidth() - 20, Gdx.graphics.getHeight() / 4 + 20);	
 		lblPlayer1Name.setColor(Color.MAROON);
@@ -68,9 +74,10 @@ public class MainMenuUI{
 		});
 		
 		btnStartGame = new TextButton("Start Game", skin);
-		btnStartGame.setPosition((Gdx.graphics.getWidth() / 2) - btnStartGame.getPrefWidth(), Gdx.graphics.getHeight() / 4 - 60);
+		btnStartGame.setPosition((Gdx.graphics.getWidth() / 2) - btnStartGame.getPrefWidth() + 100, Gdx.graphics.getHeight() / 4 - 60);
 		
-		
+		btnInstruction = new TextButton("Instructions", skin);
+		btnInstruction.setPosition((Gdx.graphics.getWidth() / 2) - btnInstruction.getPrefWidth(), Gdx.graphics.getHeight() / 4 - 60);
 		
 
 		stage.addActor(lblPlayer1Name);
@@ -79,6 +86,7 @@ public class MainMenuUI{
 		stage.addActor(tfPlayer1Name);
 		stage.addActor(tfPlayer2Name);
 		stage.addActor(btnStartGame);
+		stage.addActor(btnInstruction);
 	
 	}
 

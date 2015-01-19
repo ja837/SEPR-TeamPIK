@@ -35,6 +35,7 @@ public class MyGdxGame extends Game {
 	Texture imgLoading;
 	Texture imgMainMenu;
 	Texture imgInGame;
+	Texture imgInstructions;
 	
 	Texture labelBackgroundRed;
 	Texture labelBackgroundBlue;
@@ -71,6 +72,7 @@ public class MyGdxGame extends Game {
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
     
+    InstructionScreen instructionScreen;
     LoadingScreen loadingScreen;
     MainMenuScreen mainMenuScreen;
     InGameScreen inGameScreen;
@@ -93,6 +95,7 @@ public class MyGdxGame extends Game {
 		imgLoading = new Texture("tempSplashscreenLoading.png");
 		imgMainMenu = new Texture("GUI/MainMenu/background.png");
 		imgInGame = new Texture("tempInGame.png");
+		imgInstructions = new Texture("GUI/Instructions/instructions_screen.png");
 		
 		InputChecker inputProcessor = new InputChecker(this);		
         inputMultiplexer.addProcessor(inputProcessor);
@@ -100,6 +103,7 @@ public class MyGdxGame extends Game {
 		loadingScreen = new LoadingScreen(this);
 		mainMenuScreen = new MainMenuScreen(this);
         inGameScreen = new InGameScreen(this);
+        instructionScreen = new InstructionScreen(this);
         
         Gamestate.MoveToGamestate(Gamestate.LOADING);
         setScreen(loadingScreen);
@@ -108,6 +112,11 @@ public class MyGdxGame extends Game {
         
         Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
         setScreen(mainMenuScreen);
+        
+        //LoadAssets();
+        
+        //Gamestate.MoveToGamestate(Gamestate.INSTRUCTIONS);
+        //setScreen(instructionScreen);
        
             
 	}
