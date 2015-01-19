@@ -98,6 +98,7 @@ public class InGameScreen implements Screen{
 		RefreshInventory();
 		RefreshGoals();
 		
+		
 	}
 
 	@Override
@@ -150,7 +151,7 @@ public class InGameScreen implements Screen{
 	//Refresh the UI
 	public void RefreshUI(){
 		
-		UI.lblPlayer.setText(currentPlayer.playerName + "'s (Player " + currentState + "'s) turn");
+		UI.lblPlayer.setText("Player " + currentState + "\n" + currentPlayer.playerName + "'s turn");
 		
 	}
 
@@ -281,27 +282,7 @@ public class InGameScreen implements Screen{
 	
 	public void RefreshInventory(){
 		UI.clearInventory();
-		if (currentPlayer.inventory.trains.size() > 0){
-			UI.btnTrain0 = new InventoryTrainButton(currentPlayer.inventory.trains.get(0).type.toString(), UI.skin, 0, currentPlayer.inventory);
-			System.out.println("inventory refreshed > 0");
-			System.out.println(currentPlayer.inventory.trains.get(0).type.toString());
-		}
-		if (currentPlayer.inventory.trains.size() > 1){
-			UI.btnTrain1 = new InventoryTrainButton(currentPlayer.inventory.trains.get(1).type.toString(), UI.skin, 1, currentPlayer.inventory);
-			System.out.println("inventory refreshed > 1");
-			System.out.println(currentPlayer.inventory.trains.get(1).type.toString());
-		}
-		if (currentPlayer.inventory.trains.size() > 2){
-			UI.btnTrain2 = new InventoryTrainButton(currentPlayer.inventory.trains.get(2).type.toString(), UI.skin, 2, currentPlayer.inventory);
-			System.out.println("inventory refreshed > 2");
-			System.out.println(currentPlayer.inventory.trains.get(2).type.toString());
-		}
-		
-			/*
-		for (Train t : currentPlayer.inventory.trains){
-			UI.addToInventory(currentPlayer, t);
-			UI.btnTrain1.setText(t.type.toString());
-		}*/
+		UI.addToInventory(currentPlayer);
 	}
 	
 	public void RefreshGoals(){
