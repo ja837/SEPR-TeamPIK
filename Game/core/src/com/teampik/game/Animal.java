@@ -5,7 +5,7 @@ package com.teampik.game;
 public class Animal {
 	
 	public enum Animals{
-		PYHTON, OLIPHONT, BEAR, MONKEY, GIRAFFE, PENGUIN, HORSE, FROG
+		PYHTON, BEAR, MONKEY, GIRAFFE, PENGUIN, HORSE, FROG, COCKROACH, ZEBRA, LION, TOUCAN, PANDA
 	}
 	
 	public Animal(){	

@@ -159,14 +159,15 @@ public class Goal {
 
 		@Override
 		public String toString() {
-			String goalName = "Deliver a " + animal + " to " + destinationTile.name + " from " + originTile.name;
+			
+			String goalName = "Deliver a " + animal.toLowerCase() + " to " + destinationTile.name + " from " + originTile.name;
 			
 			for (Restriction r : restrictions){
 				if (r.viaRestriciton != null){
 					goalName += " via " + r.viaRestriciton.name;
 				}
 				if (r.trainTypeRestriction != null){
-					goalName += " with train " + r.trainTypeRestriction.toString();
+					goalName += " with a " + r.trainTypeRestriction.toString().toLowerCase() + " train";
 				}		
 			
 				//turn limit
