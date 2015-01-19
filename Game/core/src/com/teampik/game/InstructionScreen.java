@@ -18,9 +18,9 @@ public class InstructionScreen implements Screen{
 		UI.btnBack.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
-				if(game.instructionScreen.UI.btnBack.isPressed());{
+				//if(game.instructionScreen.UI.btnBack.isPressed());{
 					game.mainMenuScreen.SwitchToMainMenuScreen();
-				}
+				//}
 			}		
 		});
 		
