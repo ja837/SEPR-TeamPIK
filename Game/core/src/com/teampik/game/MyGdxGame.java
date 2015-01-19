@@ -328,7 +328,7 @@ public class MyGdxGame extends Game {
 		
 	
 	
-	private ArrayList<Vector2> getTrackList(){
+	public ArrayList<Vector2> getTrackList(){
 		ArrayList<Vector2> trackCoords = new ArrayList<Vector2>();
 		
 		setTrack(trackCoords,1,5,3,2);

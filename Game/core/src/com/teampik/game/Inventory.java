@@ -22,7 +22,9 @@ public class Inventory {
 		
 		else{
 			return 0;	//otherwise return 0
-		}		
+		}
+
+		
 	}
 	
 	public void deployTrain(GameMap map, Vector2 coords){
