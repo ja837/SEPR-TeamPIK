@@ -123,6 +123,31 @@ public class InGameUI{
 	    
 	}
 
+
+	/* public void addToInventory(final Player player,Train t){
+		final InventoryButton btn = new InventoryButton(t.type.toString(), skin, inventoryItems.size());
+		btn.setPosition(Gdx.graphics.getWidth() - lblInventory.getPrefWidth(), Gdx.graphics.getHeight() - 150f - (inventoryItems.size() * 40f));
+		inventoryItems.add(btn);
+		
+		btn.addListener(new ClickListener(){
+			@Override 
+			public void clicked(InputEvent event, float x, float y){
+				player.inventory.selectTrain(btn.index);
+			}
+		});
+	 */
+		
+/*
+	public void addToInventory(Player p, Train t){
+		InventoryTrainButton btn = new InventoryTrainButton(t.type.toString(), skin, inventoryItems.size(), p.inventory);
+		btn.setPosition(Gdx.graphics.getWidth() - lblInventory.getPrefWidth(), Gdx.graphics.getHeight() - 150f - (inventoryItems.size() * 40f));
+		inventoryItems.add(btn);
+
+
+		stage.addActor(btn);
+	}*/
+
+
 	public void addToInventory(Player currentPlayer){
 		
 		if (currentPlayer.inventory.trains.size() > 0){
@@ -138,6 +163,7 @@ public class InGameUI{
 			}
 		}
 	}
+
 
 	public void clearInventory(){
 		btnTrain0.setText("               ");	

@@ -39,7 +39,9 @@ public class MyGdxGame extends Game {
 	Texture labelBackgroundRed;
 	Texture labelBackgroundBlue;
 	
-	
+	//TRAIN TEXTURES{
+	Texture trainSteamB;
+	//}
 	TextureRegion trDefault;
 	TextureRegion trWater;
 	TextureRegion trLand;
@@ -178,7 +180,7 @@ public class MyGdxGame extends Game {
         labelBackgroundRed = new Texture("RED.png");
         labelBackgroundBlue = new Texture("BLUE.png");
         
-                
+        trainSteamB = new Texture("Trains/steam_train_blue.png")    ;    
         
         MapLayout m = new MapLayout(this, getTileLayout(), getBorderList(), getTrackList(), getZooList(), getPowerups(), 55, 30);
         
@@ -405,16 +407,19 @@ public class MyGdxGame extends Game {
 		ZooParam.add(new ZooParam(new Vector2(41,4), "Istanbul"));
 		return ZooParam;
 	}
-	private ArrayList<Powerups> getPowerups(){
+
+	private ArrayList<Powerup> getPowerups(){
 		Random rand = new Random();		
-		ArrayList<Powerups> Powerup = new ArrayList<Powerups>();
+		ArrayList<Powerup> Powerup = new ArrayList<Powerup>();
 		ArrayList<Vector2> tracks = new ArrayList<Vector2>();
 		tracks = getTrackList();		
 		for (int i =0; i < maxPowerups;i++){
-			Powerup.add(new Powerups(new Vector2(tracks.get(rand.nextInt(tracks.size()))),1));	//Generates a power-up on a random piece of track
+			Powerup.add(new Powerup(new Vector2(tracks.get(rand.nextInt(tracks.size()))),1));	//Generates a power-up on a random piece of track
 		}
 		return Powerup;
 	}
+
+
 	
 	private ArrayList<Vector2> setTrack(ArrayList<Vector2> coords, int x,int y,int numtiles, int direction){
 		switch (direction) {

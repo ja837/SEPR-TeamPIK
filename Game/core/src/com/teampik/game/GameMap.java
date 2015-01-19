@@ -220,7 +220,9 @@ public class GameMap extends TiledMap{
 		}
 		
 			
-		for (Powerups params : mapLayout.powerups){
+
+		for (Powerup params : mapLayout.powerups){
+
 			Cell cell = new Cell();
 			cell.setTile(new itemtile(game.trBomb, params));
 			itemLayer.setCell((int) params.coordinates.x,  (int) params.coordinates.y, cell);

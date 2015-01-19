@@ -205,8 +205,11 @@ public class InGameScreen implements Screen{
 		RefreshInventory();
 		/*
 		for (Train t : player.inventory.trains){
-			UI.addToInventory(player, t);
-		}*/
+
+			UI.addToInventory(player,t);
+		} */
+		
+
 		
 		int ranNumber = rdm.nextInt(4);
 		Goal g = new Goal(ranNumber, game.map, player);

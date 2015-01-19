@@ -28,9 +28,4 @@ public class ZooTile extends TrackTile {
 	
 	
 
-	
-	
-
-
-
 }
