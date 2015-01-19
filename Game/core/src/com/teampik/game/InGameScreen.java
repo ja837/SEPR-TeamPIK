@@ -238,6 +238,8 @@ public class InGameScreen implements Screen{
 			UI.addToGoals(player, goal);
 			System.out.println(goal.toString()); 
 		}
+		
+		RefreshInventory();
 	}
 	
 	public void refreshMovement(){

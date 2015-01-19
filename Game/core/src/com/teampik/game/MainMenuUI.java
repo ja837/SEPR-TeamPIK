@@ -74,10 +74,16 @@ public class MainMenuUI{
 		});
 		
 		btnStartGame = new TextButton("Start Game", skin);
-		btnStartGame.setPosition((Gdx.graphics.getWidth() / 2) - btnStartGame.getPrefWidth(), Gdx.graphics.getHeight() / 2 - 100);
+		btnStartGame.setHeight(40);
+		btnStartGame.setWidth(100);
+		btnStartGame.setColor(Color.MAROON);
+		btnStartGame.setPosition((Gdx.graphics.getWidth() / 2) - btnStartGame.getPrefWidth(), Gdx.graphics.getHeight() / 2 - 140);
 		
 		btnInstruction = new TextButton("Instructions", skin);
-		btnInstruction.setPosition((Gdx.graphics.getWidth() / 2) - btnInstruction.getPrefWidth(), Gdx.graphics.getHeight() / 2 - 100);
+		btnInstruction.setHeight(40);
+		btnInstruction.setWidth(100);
+		btnInstruction.setColor(Color.MAROON);
+		btnInstruction.setPosition((Gdx.graphics.getWidth() / 2 + 150) - btnInstruction.getPrefWidth(), Gdx.graphics.getHeight() / 2 - 140);
 		
 
 		stage.addActor(lblPlayer1Name);

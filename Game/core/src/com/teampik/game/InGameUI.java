@@ -68,10 +68,10 @@ public class InGameUI{
 	    btnTrain0 = new InventoryTrainButton("               ", skin, 0, null);  
 		btnTrain1 = new InventoryTrainButton("               ", skin, 1, null); 
 		btnTrain2 = new InventoryTrainButton("               ", skin, 2, null); 
-	    TextButton btnPowerup1 = new TextButton("p1", skin, "default");  
-	    TextButton btnPowerup2 = new TextButton("p2", skin, "default");  
-	    TextButton btnPowerup3 = new TextButton("p3", skin, "default");  
-	    TextButton btnPowerup4 = new TextButton("p4", skin, "default");  
+	    TextButton btnPowerup1 = new TextButton("               ", skin, "default");  
+	    TextButton btnPowerup2 = new TextButton("               ", skin, "default");  
+	    TextButton btnPowerup3 = new TextButton("               ", skin, "default");  
+	    TextButton btnPowerup4 = new TextButton("               ", skin, "default");  
 	    Label lblGoal1 = new Label("g1",skin);
 	    Label lblGoal2 = new Label("g2",skin);
 	    Label lblGoal3 = new Label("g3",skin);
