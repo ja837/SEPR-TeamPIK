@@ -42,18 +42,18 @@ public class MainMenuUI{
 		
 		lblInstruction.setPosition((Gdx.graphics.getWidth() / 2) - lblInstruction.getPrefWidth() - 20, Gdx.graphics.getHeight() / 4 + 40);
 		
-		lblPlayer1Name.setPosition((Gdx.graphics.getWidth() / 2) - lblPlayer1Name.getPrefWidth() - 20, Gdx.graphics.getHeight() / 4 + 20);	
+		lblPlayer1Name.setPosition((Gdx.graphics.getWidth() / 2) - lblPlayer1Name.getPrefWidth() - 20, Gdx.graphics.getHeight() / 2);	
 		lblPlayer1Name.setColor(Color.MAROON);
-		lblPlayer2Name.setPosition((Gdx.graphics.getWidth() / 2) - lblPlayer2Name.getPrefWidth() - 20, Gdx.graphics.getHeight() / 4 - 20);
+		lblPlayer2Name.setPosition((Gdx.graphics.getWidth() / 2) - lblPlayer2Name.getPrefWidth() - 20, Gdx.graphics.getHeight() / 2 - 40);
 		lblPlayer2Name.setColor(Color.MAROON);
-		lblNameError.setPosition((Gdx.graphics.getWidth() / 2) - lblNameError.getPrefWidth() + 100, Gdx.graphics.getHeight() / 4 + 80);
+		lblNameError.setPosition((Gdx.graphics.getWidth() / 2) - lblNameError.getPrefWidth() + 100, Gdx.graphics.getHeight() / 2 + 60);
 		lblNameError.setVisible(false);
 		lblNameError.setColor(Color.RED);
-		tfPlayer1Name.setPosition((Gdx.graphics.getWidth() / 2), Gdx.graphics.getHeight() / 4 + 20);
+		tfPlayer1Name.setPosition((Gdx.graphics.getWidth() / 2), Gdx.graphics.getHeight() / 2);
 		tfPlayer1Name.setWidth(200f);
 		tfPlayer1Name.setHeight(20f);
 		
-		tfPlayer2Name.setPosition((Gdx.graphics.getWidth() / 2), Gdx.graphics.getHeight() / 4 - 20);
+		tfPlayer2Name.setPosition((Gdx.graphics.getWidth() / 2), Gdx.graphics.getHeight() / 2 - 40);
 		tfPlayer2Name.setWidth(200f);
 		tfPlayer2Name.setHeight(20f);
 
@@ -74,10 +74,10 @@ public class MainMenuUI{
 		});
 		
 		btnStartGame = new TextButton("Start Game", skin);
-		btnStartGame.setPosition((Gdx.graphics.getWidth() / 2) - btnStartGame.getPrefWidth() + 100, Gdx.graphics.getHeight() / 4 - 60);
+		btnStartGame.setPosition((Gdx.graphics.getWidth() / 2) - btnStartGame.getPrefWidth(), Gdx.graphics.getHeight() / 2 - 100);
 		
 		btnInstruction = new TextButton("Instructions", skin);
-		btnInstruction.setPosition((Gdx.graphics.getWidth() / 2) - btnInstruction.getPrefWidth(), Gdx.graphics.getHeight() / 4 - 60);
+		btnInstruction.setPosition((Gdx.graphics.getWidth() / 2) - btnInstruction.getPrefWidth(), Gdx.graphics.getHeight() / 2 - 100);
 		
 
 		stage.addActor(lblPlayer1Name);
