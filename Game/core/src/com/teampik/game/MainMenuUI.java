@@ -1,6 +1,7 @@
 package com.teampik.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -35,10 +36,13 @@ public class MainMenuUI{
 		tfPlayer1Name = new TextField("", skin);
 		tfPlayer2Name = new TextField("", skin);
 		
-		lblPlayer1Name.setPosition((Gdx.graphics.getWidth() / 2) - lblPlayer1Name.getPrefWidth() - 20, Gdx.graphics.getHeight() / 4 + 20);		
+		lblPlayer1Name.setPosition((Gdx.graphics.getWidth() / 2) - lblPlayer1Name.getPrefWidth() - 20, Gdx.graphics.getHeight() / 4 + 20);	
+		lblPlayer1Name.setColor(Color.MAROON);
 		lblPlayer2Name.setPosition((Gdx.graphics.getWidth() / 2) - lblPlayer2Name.getPrefWidth() - 20, Gdx.graphics.getHeight() / 4 - 20);
+		lblPlayer2Name.setColor(Color.MAROON);
 		lblNameError.setPosition((Gdx.graphics.getWidth() / 2) - lblNameError.getPrefWidth() + 100, Gdx.graphics.getHeight() / 4 + 80);
 		lblNameError.setVisible(false);
+		lblNameError.setColor(Color.RED);
 		tfPlayer1Name.setPosition((Gdx.graphics.getWidth() / 2), Gdx.graphics.getHeight() / 4 + 20);
 		tfPlayer1Name.setWidth(200f);
 		tfPlayer1Name.setHeight(20f);

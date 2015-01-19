@@ -80,14 +80,6 @@ public class InGameUI{
 	    table.row().height(40);
 	    table.add(lblPlayer).height(60);
 	    table.row();
-	    table.add(lblGoals);
-	    table.row();    
-	    table.add(lblGoal1);    
-	    table.row();
-	    table.add(lblGoal2);    
-	    table.row();
-	    table.add(lblGoal3);    
-	    table.row();
 	    table.add(lblInventory);
 	    table.row();            
 	    table.add(lblTrains);
@@ -118,8 +110,6 @@ public class InGameUI{
 	    rootTable.right().top();
 	    rootTable.setFillParent(true);
 	    stage.addActor(rootTable);
-	    table.setDebug(true);
-	    rootTable.setDebug(true);
 	    
 	}
 
@@ -177,6 +167,7 @@ public class InGameUI{
 	public void addToGoals(Player p, Goal g){
 		Label label = new Label(g.toString(), skin);
 		label.setPosition(0, Gdx.graphics.getHeight() - 20f - (goalList.size()*40f));
+		label.setColor(Color.LIGHT_GRAY);
 		goalList.add(label);
 		stage.addActor(label);
 		
