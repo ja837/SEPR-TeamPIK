@@ -32,8 +32,8 @@ public class InGameScreen implements Screen{
 	final static int player1Turn = 1;
 	final static int player2Turn = 2;
 
-	public int currentState = endOfTurnProcessing;
-	public int turnCount = 1;
+	public int currentState = player1Turn;
+	public int turnCount = 0;
 	public int turnLimit = 50;
 	
 	
@@ -63,8 +63,12 @@ public class InGameScreen implements Screen{
 		this.game = game;
 		currentPlayer = game.player1;
 
+
 		currentState = endOfTurnProcessing; 
 
+
+		currentState = player1Turn;
+		
 		UI = new InGameUI();
 		
 		//Button listener added here so we take change state easily.
@@ -80,11 +84,14 @@ public class InGameScreen implements Screen{
 	}
 	
 	public void SwitchToInGameScreen(){ //Called whenever this state is entered. Effectively a reset.
-		Gamestate.MoveToGamestate(Gamestate.IN_GAME);
-		game.setScreen(game.inGameScreen);
+		
+		
 		turnCount = 1;
 		
 		currentPlayer = game.player1;
+
+		currentState = player1Turn;
+
 		
 		game.player1.changeName(game.mainMenuScreen.UI.tfPlayer1Name.getText()); //Assigns Names from menu text boxes to Players 
 		game.player2.changeName(game.mainMenuScreen.UI.tfPlayer2Name.getText());
@@ -92,25 +99,33 @@ public class InGameScreen implements Screen{
 		game.player1.inventory.trains.clear();
 		game.player2.inventory.trains.clear();
 		game.player1.goals.clear();
-		game.player2.goals.clear(); 
 
-		//Clear all trains off map 
- 		for (Train t : game.map.deployedTrains){ 
- 			TiledMapTileLayer trainLayer = (TiledMapTileLayer) game.map.getLayers().get(GameMap.trainLayerIndex); 
- 			//Visibly select the tile. 
- 			Cell toBeRemoved = trainLayer.getCell((int)t.location.x, (int) t.location.y); 
-
- 			if (toBeRemoved != null) 
- 			{ 
- 				toBeRemoved.setTile(null); 
- 			} 
- 		} 
- 				 
- 		game.map.deployedTrains.clear(); 
-
- 		RefreshInventory(); 
- 		RefreshGoals(); 
+		game.player2.goals.clear();
 		
+		//Clear all trains off map
+		for (Train t : game.map.deployedTrains){
+			TiledMapTileLayer trainLayer = (TiledMapTileLayer) game.map.getLayers().get(GameMap.trainLayerIndex);
+
+			//Visibly select the tile.
+			Cell toBeRemoved = trainLayer.getCell((int)t.location.x, (int) t.location.y);
+
+			if (toBeRemoved != null)
+			{
+				toBeRemoved.setTile(null);
+			}
+		}
+		
+		game.map.deployedTrains.clear();
+		
+		ProcessEndOfTurn(currentPlayer);
+		
+		
+		RefreshInventory();
+		RefreshGoals();
+		
+		
+		Gamestate.MoveToGamestate(Gamestate.IN_GAME);
+		game.setScreen(game.inGameScreen);
 		
 	}
 
@@ -136,12 +151,16 @@ public class InGameScreen implements Screen{
 			
 
 			if (turnCount % 2 == 0){
-				ProcessEndOfTurn(game.player2);
 				currentState = player2Turn;
+				currentPlayer = game.player2;
+				ProcessEndOfTurn(game.player2);
+				
 			}
 			else{
-				ProcessEndOfTurn(game.player1);
 				currentState = player1Turn;
+				currentPlayer = game.player1;
+				ProcessEndOfTurn(game.player1);
+				
 			}
 			//EndRegion
 			break;
@@ -181,7 +200,7 @@ public class InGameScreen implements Screen{
 		//UI.clearInventory();
 
 		UI.clearGoal();
-		System.out.println("Turn " + (turnCount - 1) + " just ended. Turn " + turnCount + " is now starting.");
+		System.out.println("Turn " + (turnCount) + " just ended. Turn " + (turnCount+1) + " is now starting.");
 		
 		if (turnCount == turnLimit){			
 			game.mainMenuScreen.SwitchToMainMenuScreen();
@@ -202,7 +221,7 @@ public class InGameScreen implements Screen{
 		
 		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt], player));
 
-		RefreshInventory();
+		//RefreshInventory();
 		/*
 		for (Train t : player.inventory.trains){
 
@@ -293,6 +312,11 @@ public class InGameScreen implements Screen{
 			}
 		}		
 		//System.out.println("do movement");
+
+		RefreshInventory();
+		
+		
+
 	}
 
 
@@ -412,6 +436,7 @@ public class InGameScreen implements Screen{
 	public void RefreshInventory(){
 		UI.clearInventory();
 		UI.addToInventory(currentPlayer);
+		System.out.println(currentPlayer.playerNumber+" player number after inventory refresh");
 	}
 	public void RefreshGoals(){
 		UI.clearGoal();
