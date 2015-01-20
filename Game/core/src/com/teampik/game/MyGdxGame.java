@@ -110,8 +110,7 @@ public class MyGdxGame extends Game {
 				
 		LoadAssets();       
         
-        Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
-        setScreen(mainMenuScreen);
+        mainMenuScreen.SwitchToMainMenuScreen();
         
         //LoadAssets();
         

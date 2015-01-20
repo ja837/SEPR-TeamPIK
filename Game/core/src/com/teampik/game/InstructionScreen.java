@@ -24,13 +24,16 @@ public class InstructionScreen implements Screen{
 			}		
 		});
 		
-		game.inputMultiplexer.addProcessor(UI.stage);		
+			
 	}
 
 	
 	public void SwitchToInstructionScreen(){
 		Gamestate.MoveToGamestate(Gamestate.INSTRUCTIONS);
 		game.setScreen(game.instructionScreen);
+		game.inputMultiplexer.addProcessor(UI.stage);	
+		game.inputMultiplexer.removeProcessor(game.mainMenuScreen.UI.stage);
+		game.inputMultiplexer.removeProcessor(game.inGameScreen.UI.stage);
 	}
 	
 	

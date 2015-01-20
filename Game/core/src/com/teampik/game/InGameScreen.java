@@ -85,7 +85,7 @@ public class InGameScreen implements Screen{
 			}
 		});
 
-		game.inputMultiplexer.addProcessor(UI.stage);
+		
 
 	}
 	
@@ -132,6 +132,9 @@ public class InGameScreen implements Screen{
 		
 		Gamestate.MoveToGamestate(Gamestate.IN_GAME);
 		game.setScreen(game.inGameScreen);
+		game.inputMultiplexer.addProcessor(UI.stage);
+		game.inputMultiplexer.removeProcessor(game.mainMenuScreen.UI.stage);
+		game.inputMultiplexer.removeProcessor(game.instructionScreen.UI.stage);
 		
 	}
 

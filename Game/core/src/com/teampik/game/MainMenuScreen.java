@@ -45,7 +45,7 @@ public class MainMenuScreen implements Screen{
 		});	
 		
 		
-		game.inputMultiplexer.addProcessor(UI.stage);
+		
 
 
 	}
@@ -53,6 +53,9 @@ public class MainMenuScreen implements Screen{
 	public void SwitchToMainMenuScreen(){
 		Gamestate.MoveToGamestate(Gamestate.MAIN_MENU);
 		game.setScreen(game.mainMenuScreen);
+		game.inputMultiplexer.addProcessor(UI.stage);
+		game.inputMultiplexer.removeProcessor(game.inGameScreen.UI.stage);
+		game.inputMultiplexer.removeProcessor(game.instructionScreen.UI.stage);
 	}
 	
 	
