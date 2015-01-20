@@ -350,5 +350,11 @@ public class GameMap extends TiledMap{
 		return t;
 	}
 
+	public void removeTrainTile(Vector2 coords) {		
+		TiledMapTileLayer trainLayer = (TiledMapTileLayer) game.map.getLayers().get(trainLayerIndex);			
+		trainLayer.setCell((int) coords.x, (int) coords.y, null);
+		
+	}
+
 }
 
