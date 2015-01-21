@@ -84,13 +84,10 @@ public class MapLayout {
 				
 				
 			}
-		}
-		
-		
-		//This is obviously inefficient (looping through twice). Will sort out later.
+		}		
+	
 		for (int i = 0; i < layout.length;i++){
-			for (int j = 0; j < layout[i].length; j++)
-			{
+			for (int j = 0; j < layout[i].length; j++){
 				//Add borders to MapTile instance. Tell the tiles that they have borders.
 				for (int direction = Direction.NORTH; direction <= Direction.NORTH_WEST; direction++){
 					for (Vector2 v : listOfCoordsWithBorders[direction]){
@@ -100,11 +97,10 @@ public class MapLayout {
 					}
 				}
 			}
-		}
-
-		
+		}		
 	}
 	
+	//Rotates a 2D array clockwise
 	private static int[][] rotateCW(int[][] mat) {
 	    final int M = mat.length;
 	    final int N = mat[0].length;
@@ -116,7 +112,5 @@ public class MapLayout {
 	    }
 	    return ret;
 	}
-	
-
 }
 

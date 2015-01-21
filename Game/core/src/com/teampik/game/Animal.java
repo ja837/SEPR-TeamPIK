@@ -1,7 +1,5 @@
 package com.teampik.game;
 
-//import java.util.ArrayList;
-
 public class Animal {
 	
 	public enum Animals{

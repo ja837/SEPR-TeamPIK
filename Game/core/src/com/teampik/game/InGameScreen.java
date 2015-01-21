@@ -3,26 +3,13 @@ package com.teampik.game;
 import java.util.Random;
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 
 public class InGameScreen implements Screen{
 	
@@ -34,13 +21,11 @@ public class InGameScreen implements Screen{
 
 	public int currentState = player1Turn;
 	public int turnCount = 0;
-	public int turnLimit = 20;
-	
+	public int turnLimit = 20;	
 	
 	//Location of the player's trains
 	public ArrayList<Vector2> p1Trains = new ArrayList<Vector2>();
-	public ArrayList<Vector2> p2Trains = new ArrayList<Vector2>();
-	
+	public ArrayList<Vector2> p2Trains = new ArrayList<Vector2>();	
 	
 	//Store the actual train objects used
 	public ArrayList<Train> p1TrainsObjects = new ArrayList<Train>();
@@ -74,10 +59,7 @@ public class InGameScreen implements Screen{
 	public InGameScreen(MyGdxGame game){
 		this.game = game;
 		currentPlayer = game.player1;
-
-
 		currentState = endOfTurnProcessing;
-
 		currentState = player1Turn;
 		
 		UI = new InGameUI();
@@ -89,20 +71,13 @@ public class InGameScreen implements Screen{
 				currentState = endOfTurnProcessing;
 			}
 		});
-
-		
-
 	}
 	
-	public void SwitchToInGameScreen(){ //Called whenever this state is entered. Effectively a reset.
+	public void SwitchToInGameScreen(){ //Called whenever this state is entered. Effectively a reset.		
 		
-		
-		turnCount = 1;
-		
+		turnCount = 1;		
 		currentPlayer = game.player1;
-
 		currentState = player1Turn;
-
 		
 		game.player1.changeName(game.mainMenuScreen.UI.tfPlayer1Name.getText()); //Assigns Names from menu text boxes to Players 
 		game.player2.changeName(game.mainMenuScreen.UI.tfPlayer2Name.getText());
@@ -126,87 +101,69 @@ public class InGameScreen implements Screen{
 			}
 		}
 		
-		game.map.deployedTrains.clear();
-		
-		ProcessEndOfTurn(currentPlayer);
-		
+		game.map.deployedTrains.clear();		
+		ProcessEndOfTurn(currentPlayer);		
 		
 		RefreshInventory();
-		RefreshGoals();
-		
+		RefreshGoals();		
 		
 		Gamestate.MoveToGamestate(Gamestate.IN_GAME);
 		game.setScreen(game.inGameScreen);
 		game.inputMultiplexer.addProcessor(UI.stage);
 		game.inputMultiplexer.removeProcessor(game.mainMenuScreen.UI.stage);
-		game.inputMultiplexer.removeProcessor(game.instructionScreen.UI.stage);
-		
+		game.inputMultiplexer.removeProcessor(game.instructionScreen.UI.stage);		
 	}
 
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
-
 		game.batch.begin();
 		game.batch.draw(game.imgInGame, 0, 0);
-		//context.font.draw(context.batch, coords.toString(), 200, 200);
 		game.batch.end();
 
 		game.camera.update();
 		game.tiledMapRenderer.setView(game.camera);
 		game.tiledMapRenderer.render();
-
 		
 		game.batch.begin();
 		UI.stage.draw();
 		switch (currentState){
+		
 		case endOfTurnProcessing:			
-			//End of turn processing to be done here.
-			
-
+			//End of turn processing to be done here.	
 			if (turnCount % 2 == 0){
 				currentState = player2Turn;
 				currentPlayer = game.player2;
-				ProcessEndOfTurn(game.player2);
-				
+				ProcessEndOfTurn(game.player2);				
 			}
 			else{
 				currentState = player1Turn;
 				currentPlayer = game.player1;
-				ProcessEndOfTurn(game.player1);
-				
+				ProcessEndOfTurn(game.player1);				
 			}
 			//EndRegion
 			break;
+			
 		case player1Turn:
 			//game.batch.draw(game.labelBackgroundRed,Gdx.graphics.getWidth() - 260f, Gdx.graphics.getHeight() - 20f); //Player 1 is Red
 			currentPlayer = game.player1;
-			break;
+			break;	
 			
 		case player2Turn:
 			currentPlayer = game.player2;
 			break;
 		}
 		game.batch.end();
-
 		RefreshUI();
-
 	}
 
-	//Refresh the UI
-	public void RefreshUI(){
-		
+	//Update the UI
+	public void RefreshUI(){		
 
 		UI.lblPlayer.setText(currentPlayer.playerName + "'s (Player " + currentState + "'s) turn");
-
-
-		UI.lblPlayer.setText("Player " + currentState + "\n" + currentPlayer.playerName + "'s turn");
-		
+		UI.lblPlayer.setText("Player " + currentState + "\n" + currentPlayer.playerName + "'s turn");		
 	}
 
-	public void ProcessEndOfTurn(Player player){ 
-		//UI.clearInventory();
-		
+	public void ProcessEndOfTurn(Player player){ 		
 		UI.clearGoal();
 		System.out.println("Turn " + (turnCount) + " just ended. Turn " + (turnCount+1) + " is now starting.");
 		
@@ -214,28 +171,16 @@ public class InGameScreen implements Screen{
 			game.mainMenuScreen.SwitchToMainMenuScreen();
 		}
 		else {
-			turnCount++;
-			
+			turnCount++;			
 			for (Goal g : player.getAllGoals()){
 				g.goalTurnCount++;
-			}
-			
-		}
-		
+			}			
+		}		
 		//Create and give a goal to the next player.
 		Random rdm = new Random();		
 		int randomTrainInt = rdm.nextInt(5);		
 		player.inventory.addTrain(new Train(game.trTrains[randomTrainInt][player.playerNumber], Train.trainType.values()[randomTrainInt], player));
 		refreshMovement();
-		
-		//RefreshInventory();
-		/*
-		for (Train t : player.inventory.trains){
-
-			UI.addToInventory(player,t);
-		} */
-		
-
 		
 		int ranNumber = rdm.nextInt(4);
 		Goal g = new Goal(ranNumber, game.map, player);
@@ -244,8 +189,7 @@ public class InGameScreen implements Screen{
 		for (Goal goal : player.goals){ 
 			UI.addToGoals(player, goal);
 			System.out.println(goal.toString()); 
-		}
-		
+		}		
 		RefreshInventory();
 	}
 	
@@ -253,7 +197,7 @@ public class InGameScreen implements Screen{
 		//Gives the neighbouring cells of the input cell which have track on them
 		ArrayList<Vector2> targets = new ArrayList<Vector2>();
 		ArrayList<Vector2> track = new ArrayList<Vector2>();
-		if (tile.x % 2 == 0){	//Find neighbours
+		if (tile.x % 2 == 0){	//Find neighbours of a particular tile on the hexagonal grid
 			targets.add(new Vector2(tile.x, tile.y+1));
 			targets.add(new Vector2(tile.x, tile.y-1));
 			targets.add(new Vector2(tile.x+1, tile.y+1));
@@ -284,7 +228,7 @@ public class InGameScreen implements Screen{
 		found = false;
 		int player = 0;
 		int which = 0;
-		if (currentPlayer == game.player1){
+		if (currentPlayer == game.player1){	//This stops players from controlling each other's trains
 			for (int i=0;i<p1Trains.size();i++){
 				if (tile.x == p1Trains.get(i).x && tile.y == p1Trains.get(i).y){
 					which = i;				
@@ -312,7 +256,6 @@ public class InGameScreen implements Screen{
 	public void doMovement(ArrayList<Vector2> trainList, ArrayList<Train> trainObjects, ArrayList<Integer> movement, Vector2 tile){
 		// This method moves the train and renders it on the map
 		int whichTrain = 0;
-
 		ArrayList<Vector2> targets = new ArrayList<Vector2>();
 		
 		if (trainList.size() > 0){	
@@ -321,37 +264,32 @@ public class InGameScreen implements Screen{
 					whichTrain = i;
 				}
 			}
-
-			targets = findNeighbours(searchTrain);				
-			System.out.println("Train is at" + searchTrain);
-			System.out.println("The targets are" + targets);
+			targets = findNeighbours(searchTrain);	
 			
-				for (int j=0; j<targets.size();j++){					
-					if (tile.x == targets.get(j).x && tile.y == targets.get(j).y){
-						if (movement.get(whichTrain) > 0){
-							System.out.println("Moving to" + tile);	
-							game.map.removeTrainTile(searchTrain);
-							trainList.set(whichTrain, new Vector2(tile));	//Move train							
-							game.map.deployTraintoTile(new Vector2(tile),trainObjects.get(whichTrain));
-							movement.set(whichTrain, movement.get(whichTrain)-1);
-						}
-						else{
-							System.out.println("Train out of movement");
-						}													
+			for (int j=0; j<targets.size();j++){					
+				if (tile.x == targets.get(j).x && tile.y == targets.get(j).y){
+					if (movement.get(whichTrain) > 0){							
+						game.map.removeTrainTile(searchTrain);
+						trainList.set(whichTrain, new Vector2(tile));	//Move train in the array							
+						game.map.deployTraintoTile(new Vector2(tile),trainObjects.get(whichTrain));	//Move train on the map
+						movement.set(whichTrain, movement.get(whichTrain)-1);	//Decrease the train's movement allowance this turn
 					}
-				}					
+					else{
+						System.out.println("Train out of movement");
+					}													
+				}
+			}					
 		}
 	}
 	
 	public void refreshMovement(){
 		//Gives trains movement distance again at the end of the turn
-		p1TrainsMovement = new ArrayList<Integer>(p1TrainsMaxMovement);
+		p1TrainsMovement = new ArrayList<Integer>(p1TrainsMaxMovement);		//Since we're using Vector2s, we can't just use the equality operator
 		p2TrainsMovement = new ArrayList<Integer>(p2TrainsMaxMovement);
 	}
 	
 	public void moveTrain(Vector2 tile){
-		//This method handles the movement of the trains
-		
+		//This method handles the movement of the trains		
 		System.out.println(allTrains.size());	
 		System.out.println("tile is" + tile);		
 
@@ -365,16 +303,12 @@ public class InGameScreen implements Screen{
 			doMovement(p2Trains,p2TrainsObjects,p2TrainsMovement,tile);
 		}
 	}
-
-
+	
 	public void selectTile(int x, int y){
 
 		Vector3 cameraPosition = game.camera.position;
-
 		Vector2 tileCoords = GameMap.getCoordsFromPoint(x, y, game.camera);
-
 		TiledMapTileLayer selectedLayer = (TiledMapTileLayer) game.map.getLayers().get(GameMap.selectedTileLayerIndex);
-
 
 		//Visibly select the tile.
 		Cell toBeRemoved = selectedLayer.getCell((int)game.currentlySelectedTile.x, (int) game.currentlySelectedTile.y);
@@ -388,10 +322,9 @@ public class InGameScreen implements Screen{
 		cell.setTile(new MapTile(game.trSelected));		
 		selectedLayer.setCell((int) tileCoords.x,  (int) tileCoords.y, cell);
 
-		game.currentlySelectedTile = tileCoords.cpy();
+		game.currentlySelectedTile = tileCoords.cpy();		
 		
-		
-		Train train = (Train) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trainLayerIndex);
+		//Sets up the various layers for rendering
 		MapTile tile = game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.baseLayerIndex);
 		ZooTile ztile = (ZooTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.zooLayerIndex);
 		TrackTile ttile = (TrackTile) game.map.getTile((int)tileCoords.x, (int)tileCoords.y, GameMap.trackLayerIndex[Direction.MIDDLE]);
@@ -399,22 +332,15 @@ public class InGameScreen implements Screen{
 		//Debug, outputs tile info to console.
 		
 		moveTrain(tileCoords);
-
 				
 		System.out.println("\n" + tileCoords.toString());
 		System.out.println("Mouse position : " + Integer.toString(x) + ", " + Integer.toString(y));
 		System.out.println("Camera position : " + cameraPosition.toString());		
-
 		
+		//Since there is lots of things on the same tile, checking what has been clicked on is cascaded down. Zoo then track then maptile.
+		//Train is rendered elsewhere, in the doMovement function
 		
-		//Since there is lots of things on the same tile, checking what has been clicked on is cascaded down. Train then zoo then track then maptile.
-		if (train != null){
-			//Select train and move it when new tile is selected.
-					
-			
-		}
-		
-		else if (ztile != null){
+		if (ztile != null){
 			System.out.println(ztile.toString());	
 			
 			//Deploy Train if it has been selected
@@ -461,16 +387,12 @@ public class InGameScreen implements Screen{
 				else{
 					p2Trains.add(new Vector2(tileCoords));
 					p2TrainsMovement.add(new Integer(distance));
-					p2TrainsMovement.add(new Integer(distance));
+					p2TrainsMaxMovement.add(new Integer(distance));
 				}
 				
 				RefreshInventory();
 				RefreshGoals();
 				System.out.println("Train deployed");
-				System.out.println("Player 1 has trains at" + p1Trains);
-				System.out.println("Player 1 has trains which go" + p1TrainsMovement);
-				System.out.println("Player 2 has trains at" + p2Trains);
-				System.out.println("Player 2 has trains which go" + p2TrainsMovement);
 			}
 		}
 		else if (ttile != null){

@@ -1,6 +1,5 @@
 package com.teampik.game;
 
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,28 +7,18 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.MathUtils;
 
-
-public class MyGdxGame extends Game {
-	
+public class MyGdxGame extends Game {	
 	
 	SpriteBatch batch;
 	Texture imgLoading;
@@ -40,9 +29,9 @@ public class MyGdxGame extends Game {
 	Texture labelBackgroundRed;
 	Texture labelBackgroundBlue;
 	
-	//TRAIN TEXTURES{
+	
 	Texture trainSteamB;
-	//}
+	
 	TextureRegion trDefault;
 	TextureRegion trWater;
 	TextureRegion trLand;
@@ -64,7 +53,6 @@ public class MyGdxGame extends Game {
 	
 	//Train textures
 	TextureRegion[][] trTrains = new TextureRegion[6][3];
-
 	
 	Vector2 currentlySelectedTile = new Vector2(-1,-1);
 	
@@ -82,12 +70,11 @@ public class MyGdxGame extends Game {
     Vector3 cameraInitPos;
     
     Player player1;
-    Player player2;
- 
+    Player player2; 
     
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 	
-    public static int maxPowerups = 00;	//most power-ups allowed on the map at once, not counting inventory
+    public static int maxPowerups = 00;	//most power-ups allowed on the map at once, not counting inventory. Increase above 0 to draw powerups
 	
 	@Override
 	public void create () {
@@ -110,17 +97,10 @@ public class MyGdxGame extends Game {
 				
 		LoadAssets();       
         
-        mainMenuScreen.SwitchToMainMenuScreen();
-        
-        //LoadAssets();
-        
-        //Gamestate.MoveToGamestate(Gamestate.INSTRUCTIONS);
-        //setScreen(instructionScreen);
-       
-            
+        mainMenuScreen.SwitchToMainMenuScreen();    
 	}
-	private void LoadAssets() {
-		
+	
+	private void LoadAssets() {		
 						
 		font = new BitmapFont();
         font.setColor(Color.RED);
@@ -137,12 +117,10 @@ public class MyGdxGame extends Game {
         camera.position.x += 700;
         camera.position.y += 490;
 
-        cameraInitPos = camera.position;
-               
+        cameraInitPos = camera.position;             
         
-        camera.update();
-         
-        
+        camera.update();         
+        //Sets up texture regions
         trDefault = new TextureRegion(new Texture("Tiles/lava1.png"));
         trWater = new TextureRegion(new Texture("Tiles/water1.png"));
         trLand = new TextureRegion(new Texture("Tiles/land.png"));
@@ -288,7 +266,7 @@ public class MyGdxGame extends Game {
 		
 	}
 	
-	//Europe map layout.
+	//Europe map layout. 
 	private int[][] getTileLayout(){
 		
 		int w = MapLayout.WATER;
@@ -335,6 +313,7 @@ public class MyGdxGame extends Game {
 	
 	
 	public ArrayList<Vector2> getTrackList(){
+		//List of all tracks drawn on the map
 		ArrayList<Vector2> trackCoords = new ArrayList<Vector2>();
 		
 		setTrack(trackCoords,1,5,3,2);
@@ -388,6 +367,7 @@ public class MyGdxGame extends Game {
 	}
 	
 	private ArrayList<ZooParam> getZooList(){
+		//List of all zoos which are drawn on the map. 
 		ArrayList<ZooParam> ZooParam = new ArrayList<ZooParam>();
 				
 		ZooParam.add(new ZooParam(new Vector2(0,5), "Lisbon"));
@@ -413,6 +393,7 @@ public class MyGdxGame extends Game {
 	}
 
 	private ArrayList<Powerup> getPowerups(){
+		//Randomly generate powerups on the track
 		Random rand = new Random();		
 		ArrayList<Powerup> Powerup = new ArrayList<Powerup>();
 		ArrayList<Vector2> tracks = new ArrayList<Vector2>();
@@ -422,8 +403,6 @@ public class MyGdxGame extends Game {
 		}
 		return Powerup;
 	}
-
-
 	
 	private ArrayList<Vector2> setTrack(ArrayList<Vector2> coords, int x,int y,int numtiles, int direction){
 		switch (direction) {
