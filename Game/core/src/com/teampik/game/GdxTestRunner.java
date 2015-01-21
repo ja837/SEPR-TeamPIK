@@ -15,6 +15,7 @@ import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 
+//GAME WILL STILL RUN EVEN IF THERE IS AN ERROR IN THIS CLASS
 public class GdxTestRunner extends BlockJUnit4ClassRunner implements ApplicationListener {
 
     private Map<FrameworkMethod, RunNotifier> invokeInRender = new HashMap<FrameworkMethod, RunNotifier>();

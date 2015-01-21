@@ -87,7 +87,7 @@ public class MyGdxGame extends Game {
     
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 	
-    public static int maxPowerups = 10;	//most power-ups allowed on the map at once, not counting inventory
+    public static int maxPowerups = 00;	//most power-ups allowed on the map at once, not counting inventory
 	
 	@Override
 	public void create () {
