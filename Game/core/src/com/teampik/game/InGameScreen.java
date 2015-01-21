@@ -34,7 +34,7 @@ public class InGameScreen implements Screen{
 
 	public int currentState = player1Turn;
 	public int turnCount = 0;
-	public int turnLimit = 50;
+	public int turnLimit = 20;
 	
 	
 	//Location of the player's trains
