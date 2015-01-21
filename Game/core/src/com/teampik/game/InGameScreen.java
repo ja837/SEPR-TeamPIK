@@ -58,9 +58,14 @@ public class InGameScreen implements Screen{
 	public ArrayList<Integer> p1Powerups = new ArrayList<Integer>();
 	public ArrayList<Integer> p2Powerups = new ArrayList<Integer>(); 	
 	
+	public Vector2 playerTrain = new Vector2();
 	public Vector2 selectTrain = new Vector2();
+	public Vector2 searchTrain = new Vector2();
+	
 	public int mode = 0;
 	public int whichTrain;
+	
+	boolean found = false;
 
 	InGameUI UI = new InGameUI();	
 	
@@ -273,42 +278,60 @@ public class InGameScreen implements Screen{
 		return targets;
 	}
 	
-	public Vector2 findSelected(Vector2 tile){
+	public void findSelected(Vector2 tile){
 		//Looks if the tile selected has a train on it
 		//Returns id of train in array and the player who owns it
+		found = false;
 		int player = 0;
 		int which = 0;
-		for (int i=0;i<p1Trains.size();i++){
-			if (tile.x == p1Trains.get(i).x && tile.y == p1Trains.get(i).y){
-				which = i;				
-				player = 1;
+		if (currentPlayer == game.player1){
+			for (int i=0;i<p1Trains.size();i++){
+				if (tile.x == p1Trains.get(i).x && tile.y == p1Trains.get(i).y){
+					which = i;				
+					player = 1;
+					found = true;
+					searchTrain = p1Trains.get(i);
+				}
 			}
 		}
-		for (int i=0;i<p2Trains.size();i++){
-			if (tile.x == p2Trains.get(i).x && tile.y == p2Trains.get(i).y){
-				which = i;
-				player = 2;
+		else{
+			for (int i=0;i<p2Trains.size();i++){
+				if (tile.x == p2Trains.get(i).x && tile.y == p2Trains.get(i).y){
+					which = i;
+					player = 2;
+					found = true;
+					searchTrain = p2Trains.get(i);
+				}
 			}
-		}		
-		return new Vector2(which,player);
+		}
+		if (found == true){
+			playerTrain = new Vector2(which,player);
+		}
 	}
 	
-	public void doMovement(ArrayList<Vector2> trainList, ArrayList<Train> trainObjects, ArrayList<Integer> movement, Vector2 tile, int whichTrain){
+	public void doMovement(ArrayList<Vector2> trainList, ArrayList<Train> trainObjects, ArrayList<Integer> movement, Vector2 tile){
 		// This method moves the train and renders it on the map
+		int whichTrain = 0;
+
 		ArrayList<Vector2> targets = new ArrayList<Vector2>();
-		targets = findNeighbours(tile);
-		if (trainList.size() > 0){				
-			targets = findNeighbours(trainList.get(whichTrain));				
-			System.out.println("Train is at" + trainList.get(whichTrain));
+		
+		if (trainList.size() > 0){	
+			for (int i=0; i<trainObjects.size(); i++){
+				if (searchTrain.x == trainList.get(i).x && searchTrain.y == trainList.get(i).y){
+					whichTrain = i;
+				}
+			}
+
+			targets = findNeighbours(searchTrain);				
+			System.out.println("Train is at" + searchTrain);
 			System.out.println("The targets are" + targets);
-			for (int i=0; i<trainList.size();i++){
+			
 				for (int j=0; j<targets.size();j++){					
 					if (tile.x == targets.get(j).x && tile.y == targets.get(j).y){
 						if (movement.get(whichTrain) > 0){
 							System.out.println("Moving to" + tile);	
-							game.map.removeTrainTile(trainList.get(whichTrain));
+							game.map.removeTrainTile(searchTrain);
 							trainList.set(whichTrain, new Vector2(tile));	//Move train							
-							//game.map.deployTraintoTile(new Vector2(tile),allTrains.get(whichTrain));
 							game.map.deployTraintoTile(new Vector2(tile),trainObjects.get(whichTrain));
 							movement.set(whichTrain, movement.get(whichTrain)-1);
 						}
@@ -316,8 +339,7 @@ public class InGameScreen implements Screen{
 							System.out.println("Train out of movement");
 						}													
 					}
-				}			
-			}			
+				}					
 		}
 	}
 	
@@ -330,18 +352,17 @@ public class InGameScreen implements Screen{
 	public void moveTrain(Vector2 tile){
 		//This method handles the movement of the trains
 		
-		System.out.println(allTrains.size());		
-		Vector2 playerTrain = new Vector2();
+		System.out.println(allTrains.size());	
 		System.out.println("tile is" + tile);		
 
-		playerTrain = findSelected(tile);		//which = x, player = y
+		findSelected(tile);		//which = x, player = y
 			
 		if (currentPlayer == game.player1){	//Player 1's turn
-			doMovement(p1Trains,p1TrainsObjects,p1TrainsMovement,tile,(int) playerTrain.x);
+			doMovement(p1Trains,p1TrainsObjects,p1TrainsMovement,tile);
 		}
 		else{
 			System.out.println("player 2 has trains??");
-			doMovement(p2Trains,p2TrainsObjects,p2TrainsMovement,tile,(int) playerTrain.x);
+			doMovement(p2Trains,p2TrainsObjects,p2TrainsMovement,tile);
 		}
 	}
 
@@ -389,9 +410,7 @@ public class InGameScreen implements Screen{
 		//Since there is lots of things on the same tile, checking what has been clicked on is cascaded down. Train then zoo then track then maptile.
 		if (train != null){
 			//Select train and move it when new tile is selected.
-			
-			Vector2 newTile = p1Trains.get(0);
-			System.out.println("We want a train at" + newTile);			
+					
 			
 		}
 		
